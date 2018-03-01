@@ -29,22 +29,10 @@ dependencies {
 
     compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging'
 
     compile group: 'org.springframework', name: 'spring-orm'
-
-    compile group: 'com.orientechnologies', name: 'orientdb-client', version: '3.0.0RC1'
-    compile group: 'com.orientechnologies', name: 'orientdb-lucene', version: '3.0.0RC1'
-
-    // нужно для работы тестов в докере
-    compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.5.1'
-    compile group: 'net.java.dev.jna', name: 'jna', version: '4.5.1'
-
-    compile group: 'ch.qos.logback', name: 'logback-classic'
-
-    compile group: 'io.jsonwebtoken', name: 'jjwt', version: "$jjwt_version"
 
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4"
 
