@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-table": "^6.7.6"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.6",
+    "npm-run": "^4.1.2",
+    "npm-run-all": "4.1.1",
+    "style-loader": "^0.19.1",
+    "webpack-dev-server": "2.8.2",
+    "webpack": "3.4.1",
+    "webpack-merge": "4.1.0",
+    "websocket": "1.0.24",
+    "node-watch": "0.5.5",
+    "source-map-loader": "0.2.1"
+  },
+  "scripts": {
+    "devServer": "webpack-dev-server --open --config webpack.dev.js",
+    "gradleBuild": "npm-run ../gradlew devBuild --continuous",
+    "serve": "npm-run ../gradlew buildBundle && run-p gradleBuild devServer",
+    "dist": "webpack"
+  }
+}

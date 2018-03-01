@@ -1,0 +1,9 @@
+.idea/
+build/
+classes/
+.gradle/
+backend/out/
+com.infowings.catalog/out/
+logs
+.DS_Store
+.run
