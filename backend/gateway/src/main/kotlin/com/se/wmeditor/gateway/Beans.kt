@@ -1,4 +1,4 @@
-package com.se.wmeditor
+package com.se.wmeditor.gateway
 
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator
 import org.springframework.cloud.gateway.route.RouteLocator

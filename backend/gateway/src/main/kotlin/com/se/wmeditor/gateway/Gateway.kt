@@ -1,4 +1,4 @@
-package com.se.wmeditor
+package com.se.wmeditor.gateway
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
