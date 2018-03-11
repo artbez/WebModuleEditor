@@ -5,7 +5,7 @@ buildscript {
 
     ext {
         kotlin_coroutine_version = '0.22.1'
-        kotlin_version = '1.2.21'
+        kotlin_version = '1.2.30'
         serialization_version = '0.4'
         spring_boot_version = "2.0.0.RELEASE"
         postgresql_version = "9.1-901.jdbc4"
@@ -16,6 +16,7 @@ buildscript {
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url 'https://maven.google.com' }
+        maven { url 'http://repo.spring.io/milestone'}
         jcenter()
         mavenCentral()
     }
