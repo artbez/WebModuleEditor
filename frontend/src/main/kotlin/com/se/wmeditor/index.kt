@@ -1,11 +1,12 @@
-import com.infowings.catalog.wrappers.reactRouter
 import com.se.wmeditor.home.HomeComponent
-import kotlinext.js.requireAll
+import com.se.wmeditor.wrappers.reactRouter
+import kotlinext.js.invoke
 import react.dom.render
 import kotlin.browser.document
 
 fun main(args: Array<String>) {
-    requireAll(kotlinext.js.require.context("", true, js("/\\.css$/")))
+    kotlinext.js.require.invoke("storm-react-diagrams/dist/style.min.css")
+    kotlinext.js.require.invoke("css/com/se/wmeditor/home/home-diagram-styles.css")
     render(document.getElementById("root")) {
         reactRouter.BrowserRouter {
             reactRouter.Route {

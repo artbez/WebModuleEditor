@@ -1,34 +1,52 @@
 package com.se.wmeditor.home
 
-import com.se.wmeditor.utils.post
-import kotlinx.coroutines.experimental.launch
-import react.*
-import react.dom.h1
-import kotlin.browser.window
+import com.se.wmeditor.wrappers.DefaultNodeModel
+import com.se.wmeditor.wrappers.DiagramEngine
+import com.se.wmeditor.wrappers.DiagramModel
+import com.se.wmeditor.wrappers.DiagramWidget
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
 
 class HomeComponent : RComponent<RProps, HomeState>() {
 
-    private var timer: Int = 0
+    private val engine: DiagramEngine = DiagramEngine()
 
-    override fun componentDidMount() {
-        setState {
-            message = "Try to ping..."
-        }
-        window.clearTimeout(timer)
-        timer = window.setTimeout({
-            launch {
-                val answer = post("/api/echo", "ping successful")
-                setState {
-                    message = answer
-                }
-            }
-        }, 5000)
+    init {
+        engine.installDefaultFactories()
+
+        val model = DiagramModel()
+
+        val node1 = DefaultNodeModel("Node 1", "rgb(0,192,255)")
+        val node2 = DefaultNodeModel("Node 2", "rgb(192,255,0)")
+        val port1 = node1.addOutPort("Out")
+        val port2 = node2.addInPort("In")
+
+        node1.setPosition(100, 100)
+        val link1 = port1.link(port2)
+        link1.addLabel("Hello World!")
+        model.addNode(node1)
+        model.addNode(node2)
+        model.addLink(link1)
+        engine.setDiagramModel(model)
+        console.log(engine)
     }
+
+    override fun componentDidMount() {}
 
     override fun RBuilder.render() {
-        h1 { +state.message }
+
+        DiagramWidget {
+            attrs {
+                className = "srd-demo-canvas"
+                diagramEngine = engine
+            }
+        }
+
     }
 }
+
 
 interface HomeState : RState {
     var message: String

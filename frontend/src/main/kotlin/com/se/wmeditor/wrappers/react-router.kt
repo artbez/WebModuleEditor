@@ -1,4 +1,4 @@
-package com.infowings.catalog.wrappers
+package com.se.wmeditor.wrappers
 
 import react.*
 
@@ -59,23 +59,8 @@ class RouteProps(var path: String? = null,
 
 class IndexRouteProps(var component: dynamic) : RProps
 
-//class RouterComponent(props: RouterProps) : RComponent<RouterProps, RState>(props) {
-//    override fun RBuilder.render() {
-//        reactRouter.Router {
-//            attrs {
-//                this.history = props.history
-//            }
-//        }
-//    }
-//}
-//
-//fun RBuilder.router(browserHistory: dynamic) = child(RouterComponent::class) {
-//    attrs {
-//        this.history = browserHistory
-//    }
-//}
 
-class RouteComponent(props: RouteProps, handler: RBuilder.() -> Unit) : RComponent<RouteProps, RState>(props) {
+class RouteComponent(props: RouteProps) : RComponent<RouteProps, RState>(props) {
     override fun RBuilder.render() {
         reactRouter.Route {
             attrs {
@@ -93,19 +78,3 @@ fun RBuilder.route(component: RClass<dynamic>, path: String) = child(RouteCompon
         this.component = component
     }
 }
-
-//class IndexRouteComponent(props: IndexRouteProps) : RComponent<IndexRouteProps, RState>(props) {
-//    override fun RBuilder.render() {
-//        reactRouter.IndexRoute {
-//            attrs {
-//                this.component = props.component
-//            }
-//        }
-//    }
-//}
-//
-//fun RBuilder.indexRoute(component: RClass<dynamic>) = child(IndexRouteComponent::class) {
-//    attrs {
-//        this.component = component
-//    }
-//}
