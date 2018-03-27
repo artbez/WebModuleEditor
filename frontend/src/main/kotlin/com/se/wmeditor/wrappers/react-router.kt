@@ -49,7 +49,7 @@ external class History {
 
 
 class RedirectProps(var to: String) : RProps
-class LinkProps(var to: String, var onClick: dynamic = {}) : RProps
+class LinkProps(var to: String, var className: String, var onClick: dynamic = {}) : RProps
 class RouterProps(var history: dynamic) : RProps
 
 class RouteProps(var path: String? = null,

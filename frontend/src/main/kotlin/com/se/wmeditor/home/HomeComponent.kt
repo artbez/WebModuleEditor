@@ -1,5 +1,6 @@
 package com.se.wmeditor.home
 
+import com.se.wmeditor.header.header
 import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.DiagramModel
@@ -37,14 +38,13 @@ class HomeComponent : RComponent<RProps, HomeState>() {
     override fun componentDidMount() {}
 
     override fun RBuilder.render() {
-
+        header
         diagramWidget {
             attrs {
                 className = "srd-demo-canvas"
                 diagramEngine = engine
             }
         }
-
     }
 }
 
