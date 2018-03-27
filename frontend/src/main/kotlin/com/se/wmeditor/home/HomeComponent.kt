@@ -1,9 +1,9 @@
 package com.se.wmeditor.home
 
-import com.se.wmeditor.wrappers.DefaultNodeModel
-import com.se.wmeditor.wrappers.DiagramEngine
-import com.se.wmeditor.wrappers.DiagramModel
-import com.se.wmeditor.wrappers.DiagramWidget
+import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
+import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
+import com.se.wmeditor.wrappers.react.diagrams.DiagramModel
+import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -11,13 +11,14 @@ import react.RState
 
 class HomeComponent : RComponent<RProps, HomeState>() {
 
-    private val engine: DiagramEngine = DiagramEngine()
+    private val engine: DiagramEngine =
+        DiagramEngine()
 
     init {
         engine.installDefaultFactories()
 
         val model = DiagramModel()
-
+        model.setGridSize(50);
         val node1 = DefaultNodeModel("Node 1", "rgb(0,192,255)")
         val node2 = DefaultNodeModel("Node 2", "rgb(192,255,0)")
         val port1 = node1.addOutPort("Out")
@@ -37,7 +38,7 @@ class HomeComponent : RComponent<RProps, HomeState>() {
 
     override fun RBuilder.render() {
 
-        DiagramWidget {
+        diagramWidget {
             attrs {
                 className = "srd-demo-canvas"
                 diagramEngine = engine

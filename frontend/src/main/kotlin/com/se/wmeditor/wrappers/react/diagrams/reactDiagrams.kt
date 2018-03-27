@@ -1,9 +1,11 @@
 @file:JsModule("storm-react-diagrams")
 
-package com.se.wmeditor.wrappers
+package com.se.wmeditor.wrappers.react.diagrams
 
-import react.RClass
 import react.RProps
+import react.RState
+import react.React
+import react.ReactElement
 
 @JsName("DiagramEngine")
 external class DiagramEngine {
@@ -15,6 +17,7 @@ external class DiagramEngine {
 external class DiagramModel {
     fun addLink(link: LinkModel)
     fun addNode(node: DefaultNodeModel)
+    fun setGridSize(size: Int)
 }
 
 @JsName("DefaultNodeModel")
@@ -33,7 +36,9 @@ external class DefaultLinkModel : LinkModel {
 }
 
 @JsName("DiagramWidget")
-external val DiagramWidget: RClass<DiagramWidgetProps> = definedExternally
+external class DiagramWidget : React.Component<DiagramWidgetProps, RState> {
+    override fun render(): ReactElement
+}
 
 external interface DiagramWidgetProps : RProps {
     var className: String
