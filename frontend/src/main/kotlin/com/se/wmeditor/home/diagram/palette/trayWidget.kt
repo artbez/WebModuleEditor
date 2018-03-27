@@ -1,4 +1,4 @@
-package com.se.wmeditor.home.diagram.pallete
+package com.se.wmeditor.home.diagram.palette
 
 import react.*
 import react.dom.div

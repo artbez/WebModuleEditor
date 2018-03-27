@@ -1,8 +1,8 @@
 package com.se.wmeditor.home
 
 import com.se.wmeditor.header.header
-import com.se.wmeditor.home.diagram.pallete.trayItemWidget
-import com.se.wmeditor.home.diagram.pallete.trayWidget
+import com.se.wmeditor.home.diagram.palette.trayItemWidget
+import com.se.wmeditor.home.diagram.palette.trayWidget
 import com.se.wmeditor.home.diagram.scene
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import react.RBuilder

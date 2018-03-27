@@ -1,4 +1,4 @@
-package com.se.wmeditor.home.diagram.pallete
+package com.se.wmeditor.home.diagram.palette
 
 import kotlinx.html.Draggable
 import kotlinx.html.draggable
