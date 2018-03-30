@@ -15,7 +15,7 @@ class HeaderComponent : RComponent<RProps, RState>() {
 
     companion object {
         init {
-            kotlinext.js.require("css/com/se/wmeditor/header/header.css")
+            kotlinext.js.require("styles/header.scss")
         }
     }
 

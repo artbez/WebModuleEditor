@@ -8,8 +8,7 @@ import react.*
 
 class Scene : RComponent<RProps, RState>() {
 
-    private val engine: DiagramEngine =
-        DiagramEngine()
+    private val engine: DiagramEngine = DiagramEngine()
 
     init {
         engine.installDefaultFactories()

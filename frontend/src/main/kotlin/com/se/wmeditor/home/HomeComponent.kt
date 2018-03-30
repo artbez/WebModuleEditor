@@ -29,13 +29,6 @@ class HomeComponent : RComponent<RProps, HomeState>() {
                             name = "heh"
                         }
                     }
-//                    trayItemWidget {
-//                        attrs {
-//                            model = js("{ type: \"in\" }")
-//                            name="In Node"
-//                            color="rgb(192,255,0)"
-//                        }
-//                    }
                 }
             }
         }
