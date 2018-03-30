@@ -2,6 +2,7 @@
 
 package com.se.wmeditor.wrappers.react.diagrams
 
+import org.w3c.dom.events.Event
 import react.RProps
 import react.RState
 import react.React
@@ -11,6 +12,14 @@ import react.ReactElement
 external class DiagramEngine {
     fun installDefaultFactories()
     fun setDiagramModel(model: DiagramModel)
+    fun getRelativeMousePoint(event: Event): Point
+    fun getDiagramModel(): DiagramModel
+    //fun getNodes(): Array<NodeModel>
+}
+
+external class Point {
+    val x: Int
+    val y: Int
 }
 
 @JsName("DiagramModel")
@@ -20,10 +29,15 @@ external class DiagramModel {
     fun setGridSize(size: Int)
 }
 
+//@JsName("NodeModel")
+//external class NodeModel {
+//
+//}
+
 @JsName("DefaultNodeModel")
 external class DefaultNodeModel(name: String, color: String) {
-    fun addOutPort(port: String): DefaultPortModel
-    fun addInPort(port: String): DefaultPortModel
+    fun addOutPort(label: String): DefaultPortModel
+    fun addInPort(label: String): DefaultPortModel
     fun setPosition(xPosition: Int, yPosition: Int)
 }
 

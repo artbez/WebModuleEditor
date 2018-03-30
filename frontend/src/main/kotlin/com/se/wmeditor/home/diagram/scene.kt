@@ -1,43 +1,44 @@
 package com.se.wmeditor.home.diagram
 
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.DiagramModel
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
+import kotlinx.html.js.onDragOverFunction
+import kotlinx.html.js.onDropFunction
+import org.w3c.dom.events.Event
 import react.*
+import react.dom.div
 
-class Scene : RComponent<RProps, RState>() {
-
-    private val engine: DiagramEngine = DiagramEngine()
-
-    init {
-        engine.installDefaultFactories()
-
-        val model = DiagramModel()
-        model.setGridSize(50);
-        val node1 = DefaultNodeModel("Node 1", "rgb(0,192,255)")
-        val node2 = DefaultNodeModel("Node 2", "rgb(192,255,0)")
-        val port1 = node1.addOutPort("Out")
-        val port2 = node2.addInPort("In")
-
-        node1.setPosition(100, 100)
-        val link1 = port1.link(port2)
-        link1.addLabel("Hello World!")
-        model.addNode(node1)
-        model.addNode(node2)
-        model.addLink(link1)
-        engine.setDiagramModel(model)
-        console.log(engine)
-    }
+class Scene : RComponent<Scene.Props, RState>() {
 
     override fun RBuilder.render() {
-        diagramWidget {
+        div("scene") {
+
             attrs {
-                className = "srd-demo-canvas"
-                diagramEngine = engine
+                onDropFunction = { e -> props.engine.addNode(e); forceUpdate { } }
+                onDragOverFunction = { it.preventDefault() }
+            }
+
+            diagramWidget {
+                attrs {
+                    className = "srd-demo-canvas"
+                    diagramEngine = props.engine
+                }
             }
         }
     }
+
+    private fun DiagramEngine.addNode(e: Event) {
+        val node = props.paletteSceneTransfer.getDto() ?: return
+        val point = getRelativeMousePoint(e)
+        node.setPosition(point.x, point.y)
+        getDiagramModel().addNode(node)
+    }
+
+    interface Props : RProps {
+        var engine: DiagramEngine
+        var paletteSceneTransfer: PaletteSceneTransferObject
+    }
 }
 
-fun RBuilder.scene(handler: RHandler<RProps>) = child(Scene::class, handler)
+
+fun RBuilder.scene(handler: RHandler<Scene.Props>) = child(Scene::class, handler)

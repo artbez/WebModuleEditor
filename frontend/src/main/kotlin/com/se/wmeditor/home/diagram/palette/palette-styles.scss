@@ -1,0 +1,22 @@
+$green_color: rgb(192, 255, 0);
+$blue_color: rgb(0, 192, 255);
+
+.tray {
+  display: flex;
+  flex-direction: row;
+}
+
+.tray-item {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-top: 4rem;
+  margin-left: 2rem;
+
+  &__in {
+    background-color: $green_color;
+  }
+
+  &__out {
+    background-color: $blue_color;
+  }
+}
