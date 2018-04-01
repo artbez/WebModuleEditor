@@ -1,7 +1,9 @@
 package com.se.wmeditor.home.diagram
 
+import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
+import kotlinext.js.toPlainObjectStripNull
 import kotlinx.html.js.onDragOverFunction
 import kotlinx.html.js.onDropFunction
 import org.w3c.dom.events.Event
@@ -14,7 +16,10 @@ class Scene : RComponent<Scene.Props, RState>() {
         div("scene") {
 
             attrs {
-                onDropFunction = { e -> props.engine.addNode(e); forceUpdate { } }
+                onDropFunction = { e ->
+                    val node = props.engine.addNode(e)
+                    props.updateDiagram()
+                }
                 onDragOverFunction = { it.preventDefault() }
             }
 
@@ -27,16 +32,25 @@ class Scene : RComponent<Scene.Props, RState>() {
         }
     }
 
-    private fun DiagramEngine.addNode(e: Event) {
-        val node = props.paletteSceneTransfer.getDto() ?: return
+    private fun DiagramEngine.addNode(e: Event): DefaultNodeModel? {
+        val node = props.paletteSceneTransfer.getDto() ?: return null
         val point = getRelativeMousePoint(e)
+
         node.setPosition(point.x, point.y)
+
+        // todo: fix this to correct wrappers calls
+        node.addListener(toPlainObjectStripNull(object {
+            var selectionChanged = { props.updateDiagram() }
+        }))
+
         getDiagramModel().addNode(node)
+        return node
     }
 
     interface Props : RProps {
         var engine: DiagramEngine
         var paletteSceneTransfer: PaletteSceneTransferObject
+        var updateDiagram: () -> Unit
     }
 }
 

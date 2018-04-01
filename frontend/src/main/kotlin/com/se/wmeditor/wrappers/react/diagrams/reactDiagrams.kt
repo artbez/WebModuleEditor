@@ -14,35 +14,42 @@ external class DiagramEngine {
     fun setDiagramModel(model: DiagramModel)
     fun getRelativeMousePoint(event: Event): Point
     fun getDiagramModel(): DiagramModel
-    //fun getNodes(): Array<NodeModel>
 }
 
-external class Point {
-    val x: Int
-    val y: Int
+external interface BaseModelListener {
+    var selectionChanged: () -> Unit
 }
+
+@JsName("BaseModel")
+open external class BaseModel {
+    fun addListener(selectionChanged: () -> Unit): String
+}
+
 
 @JsName("DiagramModel")
 external class DiagramModel {
     fun addLink(link: LinkModel)
     fun addNode(node: DefaultNodeModel)
     fun setGridSize(size: Int)
+    fun getNodes(): NodeDescriptor
+    fun forEach(modelFunction: (BaseModel) -> Unit)
 }
 
-//@JsName("NodeModel")
-//external class NodeModel {
-//
-//}
+external class NodeDescriptor {
+    operator fun get(id: String): DefaultNodeModel
+}
 
 @JsName("DefaultNodeModel")
-external class DefaultNodeModel(name: String, color: String) {
+external class DefaultNodeModel(name: String, color: String) : BaseModel {
+    var name: String
+    fun isSelected(): Boolean
     fun addOutPort(label: String): DefaultPortModel
     fun addInPort(label: String): DefaultPortModel
     fun setPosition(xPosition: Int, yPosition: Int)
 }
 
 @JsName("LinkModel")
-open external class LinkModel
+open external class LinkModel : BaseModel
 
 @JsName("DefaultLinkModel")
 external class DefaultLinkModel : LinkModel {
@@ -60,7 +67,11 @@ external interface DiagramWidgetProps : RProps {
 }
 
 @JsName("DefaultPortModel")
-external class DefaultPortModel {
+external class DefaultPortModel : BaseModel {
     fun link(other: DefaultPortModel): DefaultLinkModel
 }
 
+external class Point {
+    val x: Int
+    val y: Int
+}
