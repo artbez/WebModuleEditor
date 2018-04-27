@@ -17,7 +17,7 @@ class Scene : RComponent<Scene.Props, RState>() {
 
             attrs {
                 onDropFunction = { e ->
-                    val node = props.engine.addNode(e)
+                    props.engine.addNode(e)
                     props.updateDiagram()
                 }
                 onDragOverFunction = { it.preventDefault() }

@@ -31,7 +31,7 @@ external class DiagramModel {
     fun addLink(link: LinkModel)
     fun addNode(node: DefaultNodeModel)
     fun setGridSize(size: Int)
-    fun getNodes(): NodeDescriptor
+    fun getNodes(): NodeDescriptor//JsObjectMap<DefaultNodeModel>
     fun forEach(modelFunction: (BaseModel) -> Unit)
 }
 

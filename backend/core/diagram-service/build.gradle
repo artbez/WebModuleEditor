@@ -1,5 +1,10 @@
 buildscript {
+
+    ext {
+        dl4j_version = "1.0.0-alpha"
+    }
     repositories {
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         mavenCentral()
     }
     dependencies {
@@ -31,6 +36,7 @@ compileTestKotlin {
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 
@@ -45,8 +51,11 @@ dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-config')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.projectreactor:reactor-test')
+
+    compile "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
+    compile "org.nd4j:nd4j-native-platform:${dl4j_version}"
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 dependencyManagement {

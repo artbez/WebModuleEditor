@@ -1,11 +1,20 @@
 package com.se.wmeditor.service.diagram
 
+import org.springframework.context.ApplicationContextInitializer
+import org.springframework.context.support.GenericApplicationContext
 import org.springframework.web.reactive.function.server.*
 
 fun beans() = org.springframework.context.support.beans {
-    bean<EchoHandler>("echoHandler")
+}
 
-    bean<RouterFunction<ServerResponse>>("monoRouterFunction") {
-        RouterFunctions.route(RequestPredicates.POST("/api/echo"), HandlerFunction { ref<EchoHandler>().echo(it) })
-    }
+class BeansInitializer : ApplicationContextInitializer<GenericApplicationContext> {
+    override fun initialize(ctx: GenericApplicationContext) = org.springframework.context.support.beans {
+        bean("echoHandler") { EchoHandler(ref("mnistModel")) }
+
+        bean<MnistModel>("mnistModel")
+
+        bean<RouterFunction<ServerResponse>>("monoRouterFunction") {
+            RouterFunctions.route(RequestPredicates.POST("/api/mnist"), HandlerFunction { ref<EchoHandler>().echo(it) })
+        }
+    }.initialize(ctx)
 }
