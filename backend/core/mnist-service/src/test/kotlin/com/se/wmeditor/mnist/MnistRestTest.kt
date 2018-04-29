@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.PropertySource
 import org.springframework.core.io.ClassPathResource
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.web.WebAppConfiguration
@@ -22,7 +21,6 @@ import javax.imageio.ImageIO
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest(classes = [DiagramService::class])
-@PropertySource("application.yml")
 @WebAppConfiguration
 class MnistRestTest {
 

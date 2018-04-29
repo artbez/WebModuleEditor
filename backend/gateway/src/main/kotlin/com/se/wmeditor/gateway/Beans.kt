@@ -17,7 +17,7 @@ fun beans() = beans {
         ref<RouteLocatorBuilder>().routes().route { r ->
             r.path("/api/**")
                     .filters { f -> f.addResponseHeader("X-TestHeader", "foobar") }
-                    .uri("lb://diagram-service")
+                .uri("lb://mnist-service")
         }.build()
     }
 }

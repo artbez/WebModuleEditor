@@ -3,7 +3,7 @@ rootProject.name = 'WebModelingEditor'
 include 'common'
 include 'frontend'
 include 'backend:gateway'
-include 'backend:core:diagram-service'
+include 'backend:core:mnist-service'
 include 'backend:discovery'
 include 'backend:config'
 

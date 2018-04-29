@@ -1,5 +1,5 @@
 spring:
   cloud:
     config:
-      name: diagram-service
+      name: mnist-service
       uri: http://localhost:8081
