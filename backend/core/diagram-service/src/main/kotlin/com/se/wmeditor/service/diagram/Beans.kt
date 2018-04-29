@@ -4,8 +4,6 @@ import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.web.reactive.function.server.*
 
-fun beans() = org.springframework.context.support.beans {
-}
 
 class BeansInitializer : ApplicationContextInitializer<GenericApplicationContext> {
     override fun initialize(ctx: GenericApplicationContext) = org.springframework.context.support.beans {

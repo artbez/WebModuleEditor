@@ -10,12 +10,12 @@ import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
-import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler
 import org.nd4j.linalg.learning.config.Nesterovs
 import org.nd4j.linalg.lossfunctions.LossFunctions
 import org.slf4j.LoggerFactory
 import java.awt.Image
 import java.awt.image.BufferedImage
+
 
 class MnistModel {
 
@@ -34,7 +34,7 @@ class MnistModel {
         logger.info("Build model....")
         model = createModel()
 
-        //train(mnistTrain, mnistTest)
+        train(mnistTrain, mnistTest)
     }
 
     fun predict(image: BufferedImage) = predictImage(image.resize(28, 28), model)
@@ -113,20 +113,20 @@ class MnistModel {
 }
 
 fun BufferedImage.resize(newW: Int, newH: Int): BufferedImage {
-    val tmp = getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-    val dimg = BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+    val tmp = getScaledInstance(newW, newH, Image.SCALE_SMOOTH)
 
-    val g2d = dimg.createGraphics();
-    g2d.drawImage(tmp, 0, 0, null);
-    g2d.dispose();
+    val bufferedImage = BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB)
 
-    return dimg;
+    val g2d = bufferedImage.createGraphics()
+    g2d.drawImage(tmp, 0, 0, null)
+    g2d.dispose()
+
+    return bufferedImage
 }
 
 private fun predictImage(img: BufferedImage, net: MultiLayerNetwork): Int {
     val loader = NativeImageLoader(28, 28, 1, true)
     val image = loader.asRowVector(img)
-    ImagePreProcessingScaler(0.0, 1.0).transform(image)
     return net.predict(image)[0]
 }
 
