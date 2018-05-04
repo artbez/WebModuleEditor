@@ -1,6 +1,6 @@
 package com.se.wmeditor.mnist
 
-import com.se.wmeditor.service.diagram.DiagramService
+import com.se.wmeditor.service.mnist.DiagramService
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is
 import org.junit.Before

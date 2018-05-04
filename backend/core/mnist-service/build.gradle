@@ -55,6 +55,9 @@ dependencies {
     compile "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
     // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-zoo
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-zoo', version: "${dl4j_version}"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-datavec-iterators', version: "${dl4j_version}"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: "${dl4j_version}"
+
 
     compile "org.nd4j:nd4j-native-platform:${dl4j_version}"
 

@@ -1,4 +1,4 @@
-package com.se.wmeditor.service.diagram
+package com.se.wmeditor.service.mnist
 
 import org.datavec.image.loader.NativeImageLoader
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator
@@ -45,7 +45,7 @@ class MnistModel {
         for (i in 0 until nEpochs) {
             model.fit(mnistTrain)
             logger.info("*** Completed epoch {} ***", i)
-
+            model.labels
             logger.info("Evaluate model....")
             val eval = model.evaluate(mnistTest)
 
