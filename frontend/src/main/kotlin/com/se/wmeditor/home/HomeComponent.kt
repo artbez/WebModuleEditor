@@ -6,7 +6,6 @@ import com.se.wmeditor.home.diagram.editor.editor
 import com.se.wmeditor.home.diagram.palette.palette
 import com.se.wmeditor.home.diagram.scene
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.setup
 import kotlinext.js.invoke
 import react.RBuilder
 import react.RComponent
