@@ -7,16 +7,25 @@ import com.se.wmeditor.home.diagram.palette.palette
 import com.se.wmeditor.home.diagram.scene
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.setup
+import kotlinext.js.invoke
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.div
+import react.dom.h4
+import react.dom.hr
 
 class HomeComponent : RComponent<RProps, RState>() {
 
     private lateinit var engine: DiagramEngine
     private lateinit var paletteSceneTransferObject: PaletteSceneTransferObject
+
+    companion object {
+        init {
+            kotlinext.js.require("styles/home.scss")
+        }
+    }
 
     override fun componentWillMount() {
         paletteSceneTransferObject = PaletteSceneTransferObject()
@@ -25,28 +34,42 @@ class HomeComponent : RComponent<RProps, RState>() {
 
     override fun RBuilder.render() {
         header
-        div("row") {
+        div("row home-all") {
             div("col-md-2") {
-                editor {
-                    attrs {
-                        engine = this@HomeComponent.engine
-                        updateDiagram = { forceUpdate {} }
+                div("home-left") {
+                    h4("home-left__title") {
+                        +"Property Editor"
+                    }
+                    hr("home-left__line") { }
+                    editor {
+                        attrs {
+                            engine = this@HomeComponent.engine
+                            updateDiagram = { forceUpdate {} }
+                        }
                     }
                 }
             }
-            div("col-md-8") {
-                scene {
-                    attrs {
-                        paletteSceneTransfer = paletteSceneTransferObject
-                        engine = this@HomeComponent.engine
-                        updateDiagram = { forceUpdate {} }
+            div("col-md-7") {
+                div("home-central") {
+                    scene {
+                        attrs {
+                            paletteSceneTransfer = paletteSceneTransferObject
+                            engine = this@HomeComponent.engine
+                            updateDiagram = { forceUpdate {} }
+                        }
                     }
                 }
             }
-            div("col-md-2") {
-                palette {
-                    attrs {
-                        paletteSceneTransfer = paletteSceneTransferObject
+            div("col-md-3") {
+                div("home-right") {
+                    h4("home-right__title") {
+                        +"Palette"
+                    }
+                    hr("home-right__line") { }
+                    palette {
+                        attrs {
+                            paletteSceneTransfer = paletteSceneTransferObject
+                        }
                     }
                 }
             }

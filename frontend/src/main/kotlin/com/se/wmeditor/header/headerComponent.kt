@@ -20,7 +20,7 @@ class HeaderComponent : RComponent<RProps, RState>() {
     }
 
     override fun RBuilder.render() {
-        nav("navbar navbar-default header-nav") {
+        nav("navbar navbar-default header-nav navbar-fixed-top") {
             div("container-fluid") {
                 div("navbar-header") {
                     homeLink("navbar-brand")
