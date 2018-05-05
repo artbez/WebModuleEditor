@@ -14,6 +14,7 @@ external class DiagramEngine {
     fun setDiagramModel(model: DiagramModel)
     fun getRelativeMousePoint(event: Event): Point
     fun getDiagramModel(): DiagramModel
+    fun registerNodeFactory(nodeFactory: AbstractNodeFactory<*>)
 }
 
 external interface BaseModelListener {
@@ -40,6 +41,7 @@ external class NodeDescriptor {
 }
 
 @JsName("DefaultNodeModel")
+open
 external class DefaultNodeModel(name: String, color: String) : BaseModel {
     var name: String
     fun isSelected(): Boolean
@@ -71,7 +73,22 @@ external class DefaultPortModel : BaseModel {
     fun link(other: DefaultPortModel): DefaultLinkModel
 }
 
+@JsName("PortWidget")
 external class Point {
     val x: Int
     val y: Int
+}
+
+@JsName("AbstractFactory")
+abstract external class AbstractFactory<out T>(name: String) {
+    val type: String
+
+    fun getType(): String
+
+    abstract fun getNewInstance(initialConfig: dynamic): T
+}
+
+@JsName("AbstractNodeFactory")
+abstract external class AbstractNodeFactory<T>(name: String) : AbstractFactory<T> {
+    abstract fun generateReactWidget(diagramEngine: DiagramEngine, node: T): dynamic
 }
