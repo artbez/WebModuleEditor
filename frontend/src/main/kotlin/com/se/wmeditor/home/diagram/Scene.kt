@@ -1,7 +1,7 @@
 package com.se.wmeditor.home.diagram
 
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
 import kotlinext.js.toPlainObjectStripNull
 import kotlinx.html.js.onDragOverFunction

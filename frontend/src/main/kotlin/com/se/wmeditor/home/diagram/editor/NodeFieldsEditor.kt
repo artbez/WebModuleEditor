@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.editor
 
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction

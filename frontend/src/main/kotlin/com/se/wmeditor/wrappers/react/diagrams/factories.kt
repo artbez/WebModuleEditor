@@ -2,9 +2,11 @@
 
 package com.se.wmeditor.wrappers.react.diagrams
 
+import com.se.wmeditor.wrappers.react.diagrams.models.*
+import react.ReactElement
+
 @JsName("AbstractFactory")
-abstract external class AbstractFactory<out T>(name: String) {
-    val type: String
+abstract external class AbstractFactory<out T : BaseModel<dynamic, dynamic>>(name: String) {
 
     fun getType(): String
 
@@ -12,6 +14,19 @@ abstract external class AbstractFactory<out T>(name: String) {
 }
 
 @JsName("AbstractNodeFactory")
-abstract external class AbstractNodeFactory<T>(name: String) : AbstractFactory<T> {
-    abstract fun generateReactWidget(diagramEngine: DiagramEngine, node: T): dynamic
+abstract external class AbstractNodeFactory<T : NodeModel>(name: String) : AbstractFactory<T> {
+    abstract fun generateReactWidget(diagramEngine: DiagramEngine, node: T): ReactElement
 }
+
+@JsName("AbstractLinkFactory")
+abstract external class AbstractLinkFactory<T : LinkModel<dynamic>> : AbstractFactory<T> {
+    abstract fun generateReactWidget(diagramEngine: DiagramEngine, link: T): ReactElement
+}
+
+@JsName("AbstractLabelFactory")
+abstract external class AbstractLabelFactory<T : LabelModel> : AbstractFactory<T> {
+    abstract fun generateReactWidget(diagramEngine: DiagramEngine, link: T): ReactElement
+}
+
+@JsName("AbstractPortFactory")
+abstract external class AbstractPortFactory<out T : PortModel> : AbstractFactory<T>

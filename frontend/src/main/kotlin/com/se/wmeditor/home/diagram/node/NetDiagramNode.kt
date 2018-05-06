@@ -2,8 +2,8 @@ package com.se.wmeditor.home.diagram.node
 
 import com.se.wmeditor.dom.netIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div

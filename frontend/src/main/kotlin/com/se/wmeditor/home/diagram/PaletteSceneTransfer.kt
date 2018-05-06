@@ -1,6 +1,7 @@
 package com.se.wmeditor.home.diagram
 
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
+
 
 enum class PortType {
     IN, OUT

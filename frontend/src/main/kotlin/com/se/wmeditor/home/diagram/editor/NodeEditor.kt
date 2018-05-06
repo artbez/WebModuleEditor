@@ -1,13 +1,14 @@
 package com.se.wmeditor.home.diagram.editor
 
-import com.se.wmeditor.wrappers.react.diagrams.DefaultNodeModel
+import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.toMap
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
+import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import react.*
 
 class NodeEditor : RComponent<NodeEditor.Props, RState>() {
 
-    private var selectedNodes: List<DefaultNodeModel> = emptyList()
+    private var selectedNodes: List<NodeModel> = emptyList()
 
     override fun componentWillReceiveProps(nextProps: Props) {
         selectedNodes = nextProps.engine.getDiagramModel().getNodes().toMap().values.filter { it.isSelected() }
@@ -17,7 +18,7 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
         when (selectedNodes.size) {
             1 -> nodeFieldsEditor {
                 attrs {
-                    node = selectedNodes[0]
+                    node = selectedNodes[0] as DefaultNodeModel
                     updateDiagram = { props.updateDiagram() }
                 }
             }
