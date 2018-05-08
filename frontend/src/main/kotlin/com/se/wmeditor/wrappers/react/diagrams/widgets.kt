@@ -52,7 +52,7 @@ external class NodeWidget : BaseWidget<NodeProps>
 
 external interface PortProps : BaseWidgetProps {
     var name: String
-    var model: NodeModel
+    var node: NodeModel
 }
 
 @JsName("PortWidget")

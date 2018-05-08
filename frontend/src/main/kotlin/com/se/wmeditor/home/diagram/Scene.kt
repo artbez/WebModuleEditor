@@ -38,15 +38,11 @@ class Scene : RComponent<Scene.Props, RState>() {
 
         node.setPosition(point.x, point.y)
 
-        // todo: fix this to correct wrappers calls
         node.addListener(
             BaseModelListenerImpl().events {
                 this.selectionChanged = { props.updateDiagram() }
             }
         )
-//        node.addListener(toPlainObjectStripNull(object {
-//            var selectionChanged = { props.updateDiagram() }
-//        }))
 
         getDiagramModel().addNode(node)
         return node

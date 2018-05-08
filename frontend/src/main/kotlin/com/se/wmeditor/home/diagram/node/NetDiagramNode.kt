@@ -3,16 +3,24 @@ package com.se.wmeditor.home.diagram.node
 import com.se.wmeditor.dom.netIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
+import com.se.wmeditor.wrappers.react.diagrams.PortWidget
+import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
+import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String, val type: String) : DefaultNodeModel(name, "") {
+class NetNode(name: String, val type: String) : NodeModel(name, "") {
 
     init {
-        addInPort("in")
+        addPort(NetPortModel("right"))
     }
+}
+
+class NetPortModel(name: String) : PortModel(name) {
+
+    override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
 }
 
 class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
@@ -24,9 +32,18 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     }
 
     override fun RBuilder.render() {
-        div("diagram-net-node") {
+        div("diagram-net__node") {
             netIcon { }
-
+            //console.log(props.node)
+            div("diagram-net__port") {
+                child(PortWidget::class) {
+                    attrs {
+                        this.node = this@NetNodeWidget.props.node
+                        this.name = "right"
+                    }
+                    //console.log(this)
+                }
+            }
         }
     }
 
@@ -39,6 +56,7 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
 
 class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+
     override fun getNewInstance(initialConfig: dynamic): NetNode {
         return NetNode("nett", "t1")
     }

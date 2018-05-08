@@ -19,7 +19,7 @@ open external class PortModel(
     fun removeLink(link: LinkModel<LinkModelListener>)
     fun addLink(link: LinkModel<LinkModelListener>)
     fun getLinks(): JsMap<LinkModel<LinkModelListener>>
-    fun createLinkModel(): LinkModel<LinkModelListener>?
+    open fun createLinkModel(): LinkModel<out LinkModelListener>?
     fun updateCoords(coords: Coordinates): Coordinates
     fun canLinkToPort(port: PortModel): Boolean
 
