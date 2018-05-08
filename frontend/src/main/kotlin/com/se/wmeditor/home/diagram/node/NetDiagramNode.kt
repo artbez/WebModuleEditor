@@ -11,7 +11,7 @@ import react.dom.div
 class NetNode(name: String, val type: String) : DefaultNodeModel(name, "") {
 
     init {
-        //addOutPort("net")
+        addInPort("in")
     }
 }
 
@@ -26,6 +26,7 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     override fun RBuilder.render() {
         div("diagram-net-node") {
             netIcon { }
+
         }
     }
 

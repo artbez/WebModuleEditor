@@ -13,3 +13,8 @@ external class DiagramEngine {
     fun getDiagramModel(): DiagramModel
     fun registerNodeFactory(nodeFactory: AbstractNodeFactory<dynamic>)
 }
+
+external class Point {
+    val x: Double
+    val y: Double
+}
