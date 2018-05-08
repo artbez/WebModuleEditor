@@ -14,7 +14,7 @@ external interface BaseEvent<T : BaseEntity<dynamic>> {
 @JsName("BaseListener")
 external interface BaseListener {
 
-    fun <U> lockChanged(event: U) where U : BaseEvent<dynamic>, U : BaseListener.Locked
+    var lockChanged: ((event: BaseEvent<dynamic>, BaseListener.Locked) -> Unit)?
 
     interface Locked {
         var locked: Boolean

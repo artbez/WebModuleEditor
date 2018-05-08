@@ -1,9 +1,9 @@
 package com.se.wmeditor.home.diagram
 
+import com.se.wmeditor.wrappers.react.diagrams.BaseModelListenerImpl
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
-import kotlinext.js.toPlainObjectStripNull
 import kotlinx.html.js.onDragOverFunction
 import kotlinx.html.js.onDropFunction
 import org.w3c.dom.events.Event
@@ -39,9 +39,14 @@ class Scene : RComponent<Scene.Props, RState>() {
         node.setPosition(point.x, point.y)
 
         // todo: fix this to correct wrappers calls
-        node.addListener(toPlainObjectStripNull(object {
-            var selectionChanged = { props.updateDiagram() }
-        }))
+        node.addListener(
+            BaseModelListenerImpl().events {
+                this.selectionChanged = { props.updateDiagram() }
+            }
+        )
+//        node.addListener(toPlainObjectStripNull(object {
+//            var selectionChanged = { props.updateDiagram() }
+//        }))
 
         getDiagramModel().addNode(node)
         return node

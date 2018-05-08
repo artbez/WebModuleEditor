@@ -7,12 +7,14 @@ import com.se.wmeditor.wrappers.react.diagrams.BaseEvent
 import com.se.wmeditor.wrappers.react.diagrams.BaseListener
 
 external interface BaseModelListener : BaseListener {
-    fun <T> selectionChanged(event: T) where T : BaseEvent<BaseModel<dynamic, dynamic>>, T : Selected
-    fun entityRemoved(event: BaseEvent<BaseModel<dynamic, dynamic>>)
+    var selectionChanged: ((event: SelectedEvent) -> Unit)?
+    var entityRemoved: ((event: BaseEvent<BaseModel<dynamic, dynamic>>) -> Unit)?
 
     interface Selected {
         var isSelected: Boolean
     }
+
+    interface SelectedEvent : BaseEvent<BaseModel<dynamic, dynamic>>, Selected
 }
 
 @JsName("BaseModel")
