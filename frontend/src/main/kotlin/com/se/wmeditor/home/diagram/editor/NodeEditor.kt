@@ -2,9 +2,11 @@ package com.se.wmeditor.home.diagram.editor
 
 import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import react.*
+import react.dom.div
+import react.dom.h4
+import react.dom.hr
 
 class NodeEditor : RComponent<NodeEditor.Props, RState>() {
 
@@ -15,13 +17,19 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
     }
 
     override fun RBuilder.render() {
-        when (selectedNodes.size) {
-            1 -> nodeFieldsEditor {
-                attrs {
-                    node = selectedNodes[0] as DefaultNodeModel
-                    updateDiagram = { props.updateDiagram() }
-                }
+        div("home-left") {
+            h4("home-left__title") {
+                +"Property Editor"
             }
+            hr("home-left__line") { }
+//            when (selectedNodes.size) {
+//                1 -> nodeFieldsEditor {
+//                    attrs {
+//                        node = selectedNodes[0] as DefaultNodeModel
+//                        updateDiagram = { props.updateDiagram() }
+//                    }
+//                }
+//            }
         }
     }
 

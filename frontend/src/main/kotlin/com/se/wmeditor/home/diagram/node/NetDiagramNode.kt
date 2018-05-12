@@ -11,7 +11,7 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String, val type: String) : NodeModel(name, "") {
+class NetNode(name: String) : NodeModel("net", "") {
 
     init {
         addPort(NetPortModel("right"))
@@ -34,14 +34,14 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     override fun RBuilder.render() {
         div("diagram-net__node") {
             netIcon { }
-            //console.log(props.node)
-            div("diagram-net__port") {
-                child(PortWidget::class) {
-                    attrs {
-                        this.node = this@NetNodeWidget.props.node
-                        this.name = "right"
+            if (props.isView != true) {
+                div("diagram-net__port") {
+                    child(PortWidget::class) {
+                        attrs {
+                            this.node = this@NetNodeWidget.props.node
+                            this.name = "right"
+                        }
                     }
-                    //console.log(this)
                 }
             }
         }
@@ -49,6 +49,7 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
     interface Props : RProps {
         var node: NetNode
+        var isView: Boolean?
         var size: Int?
     }
 }
@@ -57,8 +58,12 @@ fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNo
 
 class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
 
+    companion object {
+        val instance = NetNodeFactory()
+    }
+
     override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("nett", "t1")
+        return NetNode("net")
     }
 
     override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): dynamic {

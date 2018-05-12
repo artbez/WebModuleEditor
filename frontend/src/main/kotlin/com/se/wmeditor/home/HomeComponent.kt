@@ -12,8 +12,6 @@ import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.div
-import react.dom.h4
-import react.dom.hr
 
 class HomeComponent : RComponent<RProps, RState>() {
 
@@ -35,42 +33,29 @@ class HomeComponent : RComponent<RProps, RState>() {
         header
         div("row home-all") {
             div("col-md-2") {
-                div("home-left") {
-                    h4("home-left__title") {
-                        +"Property Editor"
-                    }
-                    hr("home-left__line") { }
-                    editor {
-                        attrs {
-                            engine = this@HomeComponent.engine
-                            updateDiagram = { forceUpdate {} }
-                        }
+                editor {
+                    attrs {
+                        engine = this@HomeComponent.engine
+                        updateDiagram = { forceUpdate {} }
                     }
                 }
             }
             div("col-md-7") {
-                div("home-central") {
-                    scene {
-                        attrs {
-                            paletteSceneTransfer = paletteSceneTransferObject
-                            engine = this@HomeComponent.engine
-                            updateDiagram = { forceUpdate {} }
-                        }
+                scene {
+                    attrs {
+                        paletteSceneTransfer = paletteSceneTransferObject
+                        engine = this@HomeComponent.engine
+                        updateDiagram = { forceUpdate {} }
                     }
                 }
             }
             div("col-md-3") {
-                div("home-right") {
-                    h4("home-right__title") {
-                        +"Palette"
-                    }
-                    hr("home-right__line") { }
-                    palette {
-                        attrs {
-                            paletteSceneTransfer = paletteSceneTransferObject
-                        }
+                palette {
+                    attrs {
+                        paletteSceneTransfer = paletteSceneTransferObject
                     }
                 }
+
             }
         }
     }

@@ -1,36 +1,21 @@
 package com.se.wmeditor.home.diagram
 
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultNodeModel
-
-
-enum class PortType {
-    IN, OUT
-}
-
-enum class Color {
-    BLUE {
-        override fun toRgb(): String = "rgb(0, 192, 255)"
-    },
-    GREEN {
-        override fun toRgb(): String = "rgb(192, 255, 0)"
-    };
-
-    abstract fun toRgb(): String
-}
+import com.se.wmeditor.home.diagram.node.NetNode
+import com.se.wmeditor.home.diagram.node.NetNodeFactory
+import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import kotlin.reflect.KClass
 
 class PaletteSceneTransferObject {
-    private var transferNode: DefaultNodeModel? = null
+    private var transferNode: NodeModel? = null
 
-    fun putDto(name: String, type: PortType, color: Color) {
-        val newTransferDto = DefaultNodeModel(name, color.toRgb())
-        when (type) {
-            PortType.IN -> newTransferDto.addInPort("In")
-            PortType.OUT -> newTransferDto.addOutPort("Out")
+    fun <T : Any> putDto(clazz: KClass<T>) {
+        transferNode = when (clazz) {
+            NetNode::class -> NetNodeFactory.instance.getNewInstance(null)
+            else -> throw IllegalStateException("There are no such node")
         }
-        transferNode = newTransferDto
     }
 
-    fun getDto(): DefaultNodeModel? = transferNode
+    fun getDto(): NodeModel = transferNode ?: throw IllegalStateException("There are no dto to transfer")
 
     fun cleanDto() {
         transferNode = null
