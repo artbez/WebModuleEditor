@@ -1,8 +1,10 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.NetNode
-import com.se.wmeditor.home.diagram.node.netNodeWidget
+import com.se.wmeditor.home.diagram.node.AlertNodeFactory
+import com.se.wmeditor.home.diagram.node.UploadDatasetNodeFactory
+import com.se.wmeditor.home.diagram.node.alertNodeWidget
+import com.se.wmeditor.home.diagram.node.uploadDatasetWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
 import react.dom.div
@@ -21,12 +23,12 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, RState>() 
             paletteNode {
                 attrs {
                     label = "Upload dataset"
-                    onDragStart = { props.paletteSceneTransfer.putDto(NetNode::class) }
-                    onDragEnd = { props.paletteSceneTransfer.cleanDto() }
+                    paletteSceneTransfer = props.paletteSceneTransfer
+                    this.node = UploadDatasetNodeFactory.instance.getNewInstance(null)
                 }
-                netNodeWidget {
+                uploadDatasetWidget {
                     attrs {
-                        node = NetNode("VGA16")
+                        node = UploadDatasetNodeFactory.instance.getNewInstance(null)
                         isView = true
                     }
                 }
@@ -35,12 +37,12 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, RState>() 
             paletteNode {
                 attrs {
                     label = "Alert"
-                    onDragStart = { props.paletteSceneTransfer.putDto(NetNode::class) }
-                    onDragEnd = { props.paletteSceneTransfer.cleanDto() }
+                    paletteSceneTransfer = props.paletteSceneTransfer
+                    this.node = AlertNodeFactory.instance.getNewInstance(null)
                 }
-                netNodeWidget {
+                alertNodeWidget {
                     attrs {
-                        node = NetNode("VGA16")
+                        this.node = AlertNodeFactory.instance.getNewInstance(null)
                         isView = true
                     }
                 }

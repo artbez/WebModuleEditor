@@ -1,7 +1,7 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.NetNode
+import com.se.wmeditor.home.diagram.node.NetNodeFactory
 import com.se.wmeditor.home.diagram.node.netNodeWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
@@ -20,12 +20,12 @@ class NetArchitecturesBlock : RComponent<NetArchitecturesBlock.Props, RState>() 
             paletteNode {
                 attrs {
                     label = "VGA16"
-                    onDragStart = { props.paletteSceneTransfer.putDto(NetNode::class) }
-                    onDragEnd = { props.paletteSceneTransfer.cleanDto() }
+                    paletteSceneTransfer = props.paletteSceneTransfer
+                    this.node = NetNodeFactory.instance.getNewInstance(null)
                 }
                 netNodeWidget {
                     attrs {
-                        node = NetNode("VGA16")
+                        this.node = NetNodeFactory.instance.getNewInstance(null)
                         isView = true
                     }
                 }

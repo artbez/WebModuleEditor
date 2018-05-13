@@ -1,8 +1,10 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.NetNode
-import com.se.wmeditor.home.diagram.node.netNodeWidget
+import com.se.wmeditor.home.diagram.node.NetEvalNodeFactory
+import com.se.wmeditor.home.diagram.node.NetTrainNodeFactory
+import com.se.wmeditor.home.diagram.node.netEvalWidget
+import com.se.wmeditor.home.diagram.node.netTrainWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
 import react.dom.div
@@ -21,12 +23,12 @@ class NetActionBlock : RComponent<NetActionBlock.Props, RState>() {
             paletteNode {
                 attrs {
                     label = "Train"
-                    onDragStart = { props.paletteSceneTransfer.putDto(NetNode::class) }
-                    onDragEnd = { props.paletteSceneTransfer.cleanDto() }
+                    paletteSceneTransfer = props.paletteSceneTransfer
+                    this.node = NetTrainNodeFactory.instance.getNewInstance(null)
                 }
-                netNodeWidget {
+                netTrainWidget {
                     attrs {
-                        node = NetNode("VGA16")
+                        this.node = node
                         isView = true
                     }
                 }
@@ -35,12 +37,12 @@ class NetActionBlock : RComponent<NetActionBlock.Props, RState>() {
             paletteNode {
                 attrs {
                     label = "Eval"
-                    onDragStart = { props.paletteSceneTransfer.putDto(NetNode::class) }
-                    onDragEnd = { props.paletteSceneTransfer.cleanDto() }
+                    paletteSceneTransfer = props.paletteSceneTransfer
+                    this.node = NetEvalNodeFactory.instance.getNewInstance(null)
                 }
-                netNodeWidget {
+                netEvalWidget {
                     attrs {
-                        node = NetNode("VGA16")
+                        this.node = NetEvalNodeFactory.instance.getNewInstance(null)
                         isView = true
                     }
                 }

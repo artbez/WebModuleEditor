@@ -1,5 +1,7 @@
 package com.se.wmeditor.home.diagram.palette
 
+import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
+import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import kotlinx.html.Draggable
 import kotlinx.html.draggable
 import kotlinx.html.js.onDragEndFunction
@@ -14,8 +16,8 @@ class PaletteNode : RComponent<PaletteNode.Props, RState>() {
             div("node_item__widget") {
                 attrs {
                     draggable = Draggable.htmlTrue
-                    onDragStartFunction = { props.onDragStart() }
-                    onDragEndFunction = { props.onDragEnd() }
+                    onDragStartFunction = { props.paletteSceneTransfer.putDto(props.node) }
+                    onDragEndFunction = { props.paletteSceneTransfer.cleanDto() }
                 }
                 this.children()
             }
@@ -23,24 +25,12 @@ class PaletteNode : RComponent<PaletteNode.Props, RState>() {
                 +props.label
             }
         }
-//        div("srd-default-node tray-item tray-item__${props.type.name.toLowerCase()}") {
-//            attrs {
-//                draggable = Draggable.htmlTrue
-//                onDragStartFunction = { props.onDragStart() }
-//                onDragEndFunction = { props.onDragEnd() }
-//            }
-//            div("srd-default-node__title ") {
-//                div("srd-default-node__name") {
-//                    +props.name
-//                }
-//            }
-//        }
     }
 
     interface Props : RProps {
         var label: String
-        var onDragStart: () -> Unit
-        var onDragEnd: () -> Unit
+        var node: NodeModel
+        var paletteSceneTransfer: PaletteSceneTransferObject
     }
 }
 

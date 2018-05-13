@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.node
 
-import com.se.wmeditor.dom.netIcon
+import com.se.wmeditor.dom.alertIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.PortWidget
@@ -11,19 +11,19 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String) : NodeModel("net", "") {
+class AlertNode(name: String) : NodeModel("alert", "") {
 
     init {
-        addPort(NetPortModel("right"))
+        addPort(AlertPortModel("right"))
     }
 }
 
-class NetPortModel(name: String) : PortModel(name) {
+class AlertPortModel(name: String) : PortModel(name) {
 
     override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
 }
 
-class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
+class AlertNodeWidget : RComponent<AlertNodeWidget.Props, RState>() {
 
     companion object {
         init {
@@ -33,12 +33,12 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
     override fun RBuilder.render() {
         div("diagram-net__node") {
-            netIcon { }
+            alertIcon { }
             if (props.isView != true) {
                 div("diagram-net__port") {
                     child(PortWidget::class) {
                         attrs {
-                            this.node = this@NetNodeWidget.props.node
+                            this.node = this@AlertNodeWidget.props.node
                             this.name = "right"
                         }
                     }
@@ -48,27 +48,27 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     }
 
     interface Props : RProps {
-        var node: NetNode
+        var node: AlertNode
         var isView: Boolean?
         var size: Int?
     }
 }
 
-fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
+fun RBuilder.alertNodeWidget(handler: RHandler<AlertNodeWidget.Props>) = child(AlertNodeWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+class AlertNodeFactory : AbstractNodeFactory<AlertNode>("alert") {
 
     companion object {
-        val instance = NetNodeFactory()
+        val instance = AlertNodeFactory()
     }
 
-    override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("net")
+    override fun getNewInstance(initialConfig: dynamic): AlertNode {
+        return AlertNode("alert")
     }
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: AlertNode): ReactElement {
         return buildElement {
-            netNodeWidget {
+            alertNodeWidget {
                 attrs {
                     this.node = node
                 }

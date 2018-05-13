@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.node
 
-import com.se.wmeditor.dom.netIcon
+import com.se.wmeditor.dom.uploadDatasetIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.PortWidget
@@ -11,19 +11,20 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String) : NodeModel("net", "") {
-
+class UploadDatasetNode : NodeModel("upload_dataset", "") {
     init {
-        addPort(NetPortModel("right"))
+        addPort(UploadPortModel("net"))
+        //addPort(PortModel("dataset"))
+        //addPort(PortModel("trained_net"))
     }
 }
 
-class NetPortModel(name: String) : PortModel(name) {
-
+class UploadPortModel(name: String) : PortModel(name) {
     override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
 }
 
-class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
+
+class UploadDatasetWidget : RComponent<UploadDatasetWidget.Props, RState>() {
 
     companion object {
         init {
@@ -33,13 +34,13 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
     override fun RBuilder.render() {
         div("diagram-net__node") {
-            netIcon { }
+            uploadDatasetIcon {}
             if (props.isView != true) {
                 div("diagram-net__port") {
                     child(PortWidget::class) {
                         attrs {
-                            this.node = this@NetNodeWidget.props.node
-                            this.name = "right"
+                            this.node = this@UploadDatasetWidget.props.node
+                            this.name = "net"
                         }
                     }
                 }
@@ -48,32 +49,28 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     }
 
     interface Props : RProps {
-        var node: NetNode
+        var node: UploadDatasetNode
         var isView: Boolean?
-        var size: Int?
     }
 }
 
-fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
+fun RBuilder.uploadDatasetWidget(handler: RHandler<UploadDatasetWidget.Props>) =
+    child(UploadDatasetWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+
+class UploadDatasetNodeFactory : AbstractNodeFactory<UploadDatasetNode>("upload_dataset") {
 
     companion object {
-        val instance = NetNodeFactory()
+        val instance = UploadDatasetNodeFactory()
     }
 
-    override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("net")
-    }
+    override fun getNewInstance(initialConfig: dynamic): UploadDatasetNode = UploadDatasetNode()
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {
-        return buildElement {
-            netNodeWidget {
-                attrs {
-                    this.node = node
-                }
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: UploadDatasetNode): ReactElement =
+        buildElement {
+            uploadDatasetWidget {
+                attrs.node = node
             }
         }!!
-    }
 
 }

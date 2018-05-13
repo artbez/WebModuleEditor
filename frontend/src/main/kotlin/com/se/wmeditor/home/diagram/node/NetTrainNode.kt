@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.node
 
-import com.se.wmeditor.dom.netIcon
+import com.se.wmeditor.dom.netTrainIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.PortWidget
@@ -11,19 +11,19 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String) : NodeModel("net", "") {
-
+class NetTrainNode : NodeModel("net_train", "") {
     init {
-        addPort(NetPortModel("right"))
+        addPort(TrainPortModel("net"))
+        //addPort(PortModel("dataset"))
+        //addPort(PortModel("trained_net"))
     }
 }
 
-class NetPortModel(name: String) : PortModel(name) {
-
+class TrainPortModel(name: String) : PortModel(name) {
     override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
 }
 
-class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
+class NetTrainWidget : RComponent<NetTrainWidget.Props, RState>() {
 
     companion object {
         init {
@@ -33,13 +33,13 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
     override fun RBuilder.render() {
         div("diagram-net__node") {
-            netIcon { }
+            netTrainIcon()
             if (props.isView != true) {
                 div("diagram-net__port") {
                     child(PortWidget::class) {
                         attrs {
-                            this.node = this@NetNodeWidget.props.node
-                            this.name = "right"
+                            this.node = this@NetTrainWidget.props.node
+                            this.name = "net"
                         }
                     }
                 }
@@ -48,32 +48,26 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     }
 
     interface Props : RProps {
-        var node: NetNode
+        var node: NetTrainNode
         var isView: Boolean?
-        var size: Int?
     }
 }
 
-fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
+fun RBuilder.netTrainWidget(handler: RHandler<NetTrainWidget.Props>) = child(NetTrainWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+
+class NetTrainNodeFactory : AbstractNodeFactory<NetTrainNode>("net_train") {
 
     companion object {
-        val instance = NetNodeFactory()
+        val instance = NetTrainNodeFactory()
     }
 
-    override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("net")
-    }
+    override fun getNewInstance(initialConfig: dynamic): NetTrainNode = NetTrainNode()
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {
-        return buildElement {
-            netNodeWidget {
-                attrs {
-                    this.node = node
-                }
-            }
-        }!!
-    }
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetTrainNode): ReactElement = buildElement {
+        netTrainWidget {
+            attrs.node = node
+        }
+    }!!
 
 }

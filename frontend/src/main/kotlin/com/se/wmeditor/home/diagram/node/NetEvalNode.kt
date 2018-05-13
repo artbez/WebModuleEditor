@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.node
 
-import com.se.wmeditor.dom.netIcon
+import com.se.wmeditor.dom.netEvalIcon
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.PortWidget
@@ -11,19 +11,19 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String) : NodeModel("net", "") {
-
+class NetEvalNode : NodeModel("net_eval", "") {
     init {
-        addPort(NetPortModel("right"))
+        addPort(EvalPortModel("eval"))
+        //addPort(PortModel("dataset"))
+        //addPort(PortModel("trained_net"))
     }
 }
 
-class NetPortModel(name: String) : PortModel(name) {
-
+class EvalPortModel(name: String) : PortModel(name) {
     override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
 }
 
-class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
+class NetEvalWidget : RComponent<NetEvalWidget.Props, RState>() {
 
     companion object {
         init {
@@ -33,13 +33,13 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
     override fun RBuilder.render() {
         div("diagram-net__node") {
-            netIcon { }
+            netEvalIcon {}
             if (props.isView != true) {
                 div("diagram-net__port") {
                     child(PortWidget::class) {
                         attrs {
-                            this.node = this@NetNodeWidget.props.node
-                            this.name = "right"
+                            this.node = this@NetEvalWidget.props.node
+                            this.name = "eval"
                         }
                     }
                 }
@@ -48,32 +48,26 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     }
 
     interface Props : RProps {
-        var node: NetNode
+        var node: NetEvalNode
         var isView: Boolean?
-        var size: Int?
     }
 }
 
-fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
+fun RBuilder.netEvalWidget(handler: RHandler<NetEvalWidget.Props>) = child(NetEvalWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+
+class NetEvalNodeFactory : AbstractNodeFactory<NetEvalNode>("net_eval") {
 
     companion object {
-        val instance = NetNodeFactory()
+        val instance = NetEvalNodeFactory()
     }
 
-    override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("net")
-    }
+    override fun getNewInstance(initialConfig: dynamic): NetEvalNode = NetEvalNode()
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {
-        return buildElement {
-            netNodeWidget {
-                attrs {
-                    this.node = node
-                }
-            }
-        }!!
-    }
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetEvalNode): ReactElement = buildElement {
+        netEvalWidget {
+            attrs.node = node
+        }
+    }!!
 
 }
