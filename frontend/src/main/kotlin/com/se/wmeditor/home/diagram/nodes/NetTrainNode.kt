@@ -11,9 +11,9 @@ import react.dom.div
 
 class NetTrainNode : NodeModel("net_train", "") {
 
-    val inputNetPort = NetPortModel("netInput", PortType.In)
-    val inputDatasetPort = DatasetPortModel("datasetInput", PortType.In)
-    val outputNetPort = NetPortModel("netOutput", PortType.Out)
+    val inputNetPort = NetPortModel("Net", PortType.In)
+    val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
+    val outputNetPort = NetPortModel("Net", PortType.Out)
 
     init {
         addPort(inputNetPort)

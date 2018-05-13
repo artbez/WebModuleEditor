@@ -14,7 +14,7 @@ import react.dom.div
 
 class NetNode(name: String) : NodeModel("net", "") {
 
-    val outputNetPort = NetPortModel("netOutput", PortType.Out)
+    val outputNetPort = NetPortModel("Net", PortType.Out)
 
     init {
         addPort(outputNetPort)

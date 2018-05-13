@@ -14,7 +14,7 @@ import react.dom.div
 
 class AlertNode : NodeModel(name, "") {
 
-    val dataInputPort = DataPortModel("dataInput", PortType.In)
+    val dataInputPort = DataPortModel("Data", PortType.In)
 
     init {
         addPort(dataInputPort)

@@ -14,7 +14,7 @@ import react.dom.div
 
 class UploadDatasetNode : NodeModel("upload_dataset", "") {
 
-    val outputDatasetPort = DatasetPortModel("datasetOutput", PortType.Out)
+    val outputDatasetPort = DatasetPortModel("Dataset", PortType.Out)
 
     init {
         addPort(outputDatasetPort)

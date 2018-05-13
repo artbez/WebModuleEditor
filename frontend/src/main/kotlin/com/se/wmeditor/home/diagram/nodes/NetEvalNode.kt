@@ -11,9 +11,9 @@ import react.dom.div
 
 class NetEvalNode : NodeModel("net_eval", "") {
 
-    val inputNetPort = NetPortModel("netInput", PortType.In)
-    val inputDatasetPort = DatasetPortModel("datasetInput", PortType.In)
-    val outputDataPort = DataPortModel("dataOutput", PortType.Out)
+    val inputNetPort = NetPortModel("Net", PortType.In)
+    val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
+    val outputDataPort = DataPortModel("Data", PortType.Out)
 
     init {
         addPort(inputNetPort)
