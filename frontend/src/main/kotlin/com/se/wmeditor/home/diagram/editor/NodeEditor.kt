@@ -19,7 +19,7 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
     override fun RBuilder.render() {
         div("home-left") {
             h4("home-left__title") {
-                +"Property Editor"
+                +"Configurer"
             }
             hr("home-left__line") { }
 //            when (selectedNodes.size) {

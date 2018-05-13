@@ -1,6 +1,7 @@
 package com.se.wmeditor.utils
 
 import kotlinext.js.Object
+import kotlinext.js.toPlainObjectStripNull
 
 external class JsMap<T> {
     operator fun get(key: String): T
@@ -9,7 +10,8 @@ external class JsMap<T> {
 
 fun <T> JsMap<T>.toMap(): Map<String, T> {
     val resultMap = mutableMapOf<String, T>()
-    for (key in Object.keys(this)) {
+    val that = toPlainObjectStripNull(this)
+    for (key in Object.keys(that)) {
         val value = this.asDynamic()[key]
         resultMap[key] = value as T
     }

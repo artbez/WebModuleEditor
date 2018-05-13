@@ -5,6 +5,7 @@ import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import kotlinext.js.invoke
+import kotlinx.html.js.onContextMenuFunction
 import kotlinx.html.js.onDragOverFunction
 import kotlinx.html.js.onDropFunction
 import org.w3c.dom.events.Event
@@ -28,11 +29,14 @@ class Scene : RComponent<Scene.Props, RState>() {
                         props.updateDiagram()
                     }
                     onDragOverFunction = { it.preventDefault() }
+                    onContextMenuFunction = { it.stopPropagation(); it.preventDefault() }
                 }
                 diagramWidget {
                     attrs {
                         className = "srd-demo-canvas"
                         diagramEngine = props.engine
+                        allowLooseLinks = false
+                        maxNumberPointsPerLink = 0
                     }
                 }
             }
