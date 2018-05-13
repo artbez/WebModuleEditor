@@ -15,6 +15,7 @@ import react.dom.div
 class NetNode(val config: NetNodeConfig) : NodeModel(name, "") {
 
     val outputNetPort = NetPortModel("Net", PortType.Out)
+    var dataset: Dataset = Dataset.NONE
 
     init {
         addPort(outputNetPort)
@@ -23,6 +24,10 @@ class NetNode(val config: NetNodeConfig) : NodeModel(name, "") {
     companion object {
         const val name = "net"
     }
+}
+
+enum class Dataset {
+    NONE, IMAGENET, CIFAR10
 }
 
 sealed class NetNodeConfig(val model: String, val description: String)

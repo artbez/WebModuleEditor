@@ -1,9 +1,9 @@
 package com.se.wmeditor.home.diagram.editor
 
+import com.se.wmeditor.home.diagram.nodes.Dataset
 import com.se.wmeditor.home.diagram.nodes.NetNode
-import kotlinx.html.ButtonType
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.events.Event
+import kotlinx.html.js.onChangeFunction
+import org.w3c.dom.HTMLOptionElement
 import react.*
 import react.dom.*
 
@@ -19,25 +19,6 @@ class NetFieldsEditor : RComponent<NetFieldsEditor.Props, NetFieldsEditor.State>
         }
     }
 
-    private fun handleInputFieldChanged(e: Event) {
-        e.stopPropagation()
-        e.preventDefault()
-        val value = e.target.unsafeCast<HTMLInputElement>().value
-        setState {
-            currentValue = value
-        }
-    }
-
-    private fun enterName(e: Event) {
-        e.preventDefault()
-        val nameNewValue = state.currentValue
-        if (nameNewValue.isNotBlank()) {
-            // props.node.name = nameNewValue
-        }
-        props.updateDiagram()
-    }
-
-
     override fun componentWillReceiveProps(nextProps: Props) {
         setState {
             currentValue = ""//nextProps.node.name
@@ -48,36 +29,44 @@ class NetFieldsEditor : RComponent<NetFieldsEditor.Props, NetFieldsEditor.State>
 
         div("configurer-props") {
             div("configurer-props__group") {
-                label {
-                    +"Net model"
+                b {
+                    +"Net model:"
                 }
-                label { +props.node.config.model }
+                span { +props.node.config.model }
             }
             div("configurer-props__group") {
                 +props.node.config.description
             }
             div("configurer-props__group") {
-                label { +"Pretrained" }
-                button(classes = "btn btn-default dropdown-toggle", type = ButtonType.button) {
-                    ul("dropdown-menu") {
-                        li {
-                            +"ImageNet"
+                b { +"Pretrained:" }
+                select {
+                    attrs {
+                        name = "Test"
+                        onChangeFunction = {
+                            props.node.dataset =
+                                    Dataset.valueOf(it.target.unsafeCast<HTMLOptionElement>().value.toUpperCase())
+                        }
+                    }
+                    option {
+                        attrs {
+                            value = "None"
+                            label = ""
+                        }
+                    }
+                    option {
+                        attrs {
+                            value = "ImageNet"
+                            label = "ImageNet"
+                        }
+                    }
+                    option {
+                        attrs {
+                            value = "CIFAR10"
+                            label = "CIFAR10"
                         }
                     }
                 }
             }
-//            input(type = InputType.text) {
-//                attrs {
-//                    value = state.currentValue
-//                    onChangeFunction = ::handleInputFieldChanged
-//                }
-//            }
-//            button {
-//                attrs {
-//                    onClickFunction = ::enterName
-//                }
-//                +"Submit"
-//            }
         }
     }
 

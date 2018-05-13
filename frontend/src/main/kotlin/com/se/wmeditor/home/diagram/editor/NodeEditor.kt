@@ -4,12 +4,19 @@ import com.se.wmeditor.home.diagram.nodes.NetNode
 import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import kotlinext.js.invoke
 import react.*
 import react.dom.div
 import react.dom.h4
 import react.dom.hr
 
 class NodeEditor : RComponent<NodeEditor.Props, RState>() {
+
+    companion object {
+        init {
+            kotlinext.js.require("styles/configurer.scss")
+        }
+    }
 
     private var selectedNodes: List<NodeModel> = emptyList()
 
