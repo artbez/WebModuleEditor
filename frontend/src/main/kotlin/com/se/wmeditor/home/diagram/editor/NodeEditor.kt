@@ -5,7 +5,9 @@ import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import kotlinext.js.invoke
+import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.button
 import react.dom.div
 import react.dom.h4
 import react.dom.hr
@@ -33,7 +35,6 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
 
             when (selectedNodes.size) {
                 1 -> {
-                    console.log(selectedNodes[0].getType())
                     when (selectedNodes[0].getType()) {
                         NetNode.Companion.name ->
                             netFieldsEditor {
@@ -43,6 +44,15 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
                                 }
                             }
 
+                    }
+                    button(classes = "btn-danger") {
+                        attrs.onClickFunction = {
+                            it.stopPropagation()
+                            it.preventDefault()
+                            props.engine.getDiagramModel().removeNode(selectedNodes[0])
+                            props.updateDiagram()
+                        }
+                        +"Remove"
                     }
                 }
             }

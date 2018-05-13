@@ -20,7 +20,7 @@ class NetArchitecturesBlock : RComponent<NetArchitecturesBlock.Props, RState>() 
             hr("palette__block__line") { }
             paletteNode {
                 attrs {
-                    label = "VGA16"
+                    label = "VGG-16"
                     paletteSceneTransfer = props.paletteSceneTransfer
                     this.node = NetNodeFactory.instance.getNewInstance(VGG16Config)
                 }
