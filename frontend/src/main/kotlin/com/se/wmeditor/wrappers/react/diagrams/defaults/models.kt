@@ -3,8 +3,12 @@
 package com.se.wmeditor.wrappers.react.diagrams.defaults
 
 import com.se.wmeditor.utils.JsMap
-import com.se.wmeditor.wrappers.react.diagrams.BaseEvent
-import com.se.wmeditor.wrappers.react.diagrams.models.*
+import com.se.wmeditor.wrappers.react.diagrams.DefaultLinkModelListener
+import com.se.wmeditor.wrappers.react.diagrams.LinkModelListener
+import com.se.wmeditor.wrappers.react.diagrams.models.LabelModel
+import com.se.wmeditor.wrappers.react.diagrams.models.LinkModel
+import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 
 @JsName("DefaultNodeModel")
 open external class DefaultNodeModel(name: String = definedExternally, color: String = definedExternally) : NodeModel {
@@ -32,22 +36,6 @@ open external class DefaultPortModel(
 @JsName("DefaultLabelModel")
 open external class DefaultLabelModel : LabelModel {
     fun setLabel(label: String)
-}
-
-@JsName("DefaultLinkModelListener")
-external interface DefaultLinkModelListener : LinkModelListener {
-
-    fun <T> colorChanged(event: T) where T : BaseEvent<DefaultLinkModel>, T : ColorHave
-
-    fun <T> widthChanged(event: T) where T : BaseEvent<DefaultLinkModel>, T : WidthHave
-
-    interface ColorHave {
-        var color: String?
-    }
-
-    interface WidthHave {
-        var width: Double
-    }
 }
 
 @JsName("DefaultLinkModel")

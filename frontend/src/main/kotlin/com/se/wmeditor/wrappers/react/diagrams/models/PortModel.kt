@@ -4,6 +4,8 @@ package com.se.wmeditor.wrappers.react.diagrams.models
 
 import com.se.wmeditor.home.diagram.nodes.ports.InitialPortModel
 import com.se.wmeditor.utils.JsMap
+import com.se.wmeditor.wrappers.react.diagrams.BaseModelListener
+import com.se.wmeditor.wrappers.react.diagrams.LinkModelListener
 
 @JsName("PortModel")
 open external class PortModel(

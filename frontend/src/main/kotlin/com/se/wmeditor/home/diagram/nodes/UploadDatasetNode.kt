@@ -12,12 +12,16 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class UploadDatasetNode : NodeModel("upload_dataset", "") {
+class UploadDatasetNode : NodeModel(name, "") {
 
     val outputDatasetPort = DatasetPortModel("Dataset", PortType.Out)
 
     init {
         addPort(outputDatasetPort)
+    }
+
+    companion object {
+        const val name = "upload_dataset"
     }
 }
 
@@ -54,7 +58,7 @@ fun RBuilder.uploadDatasetWidget(handler: RHandler<UploadDatasetWidget.Props>) =
     child(UploadDatasetWidget::class, handler)
 
 
-class UploadDatasetNodeFactory : AbstractNodeFactory<UploadDatasetNode>("upload_dataset") {
+class UploadDatasetNodeFactory : AbstractNodeFactory<UploadDatasetNode>(UploadDatasetNode.name) {
 
     companion object {
         val instance = UploadDatasetNodeFactory()

@@ -3,7 +3,6 @@
 package com.se.wmeditor.wrappers.react.diagrams
 
 import com.se.wmeditor.wrappers.react.diagrams.models.LinkModel
-import com.se.wmeditor.wrappers.react.diagrams.models.LinkModelListener
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import com.se.wmeditor.wrappers.react.diagrams.models.PointModel
 import org.w3c.dom.events.MouseEvent

@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram
 
-import com.se.wmeditor.wrappers.react.diagrams.BaseModelListenerImpl
+import com.se.wmeditor.wrappers.react.diagrams.BaseModelListener
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.diagramWidget
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
@@ -50,7 +50,7 @@ class Scene : RComponent<Scene.Props, RState>() {
         node.setPosition(point.x, point.y)
 
         node.addListener(
-            BaseModelListenerImpl().events {
+            BaseModelListener().events {
                 this.selectionChanged = { props.updateDiagram() }
             }
         )

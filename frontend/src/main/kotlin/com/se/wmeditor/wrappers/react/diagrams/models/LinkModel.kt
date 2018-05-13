@@ -2,18 +2,7 @@
 
 package com.se.wmeditor.wrappers.react.diagrams.models
 
-import com.se.wmeditor.wrappers.react.diagrams.BaseEvent
-
-
-@JsName("LinkModelListener")
-external interface LinkModelListener : BaseModelListener {
-    fun <T> sourcePortChanged(event: T) where T : BaseEvent<LinkModel<LinkModelListener>>, T : Portable
-    fun <T> targetPortChanged(event: T) where T : BaseEvent<LinkModel<LinkModelListener>>, T : Portable
-
-    interface Portable {
-        var port: PortModel?
-    }
-}
+import com.se.wmeditor.wrappers.react.diagrams.LinkModelListener
 
 
 @JsName("LinkModel")

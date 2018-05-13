@@ -9,7 +9,7 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetTrainNode : NodeModel("net_train", "") {
+class NetTrainNode : NodeModel(name, "") {
 
     val inputNetPort = NetPortModel("Net", PortType.In)
     val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
@@ -19,6 +19,10 @@ class NetTrainNode : NodeModel("net_train", "") {
         addPort(inputNetPort)
         addPort(inputDatasetPort)
         addPort(outputNetPort)
+    }
+
+    companion object {
+        const val name = "net_train"
     }
 }
 
@@ -69,7 +73,7 @@ class NetTrainWidget : RComponent<NetTrainWidget.Props, RState>() {
 fun RBuilder.netTrainWidget(handler: RHandler<NetTrainWidget.Props>) = child(NetTrainWidget::class, handler)
 
 
-class NetTrainNodeFactory : AbstractNodeFactory<NetTrainNode>("net_train") {
+class NetTrainNodeFactory : AbstractNodeFactory<NetTrainNode>(NetTrainNode.name) {
 
     companion object {
         val instance = NetTrainNodeFactory()

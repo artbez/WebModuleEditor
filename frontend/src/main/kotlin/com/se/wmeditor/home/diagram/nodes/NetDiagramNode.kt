@@ -12,15 +12,25 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(name: String) : NodeModel("net", "") {
+class NetNode(val config: NetNodeConfig) : NodeModel(name, "") {
 
     val outputNetPort = NetPortModel("Net", PortType.Out)
 
     init {
         addPort(outputNetPort)
     }
+
+    companion object {
+        const val name = "net"
+    }
 }
 
+sealed class NetNodeConfig(val model: String, val description: String)
+
+object VGG16Config : NetNodeConfig(
+    "VGG-16",
+    "Given image → find object name in the image, It takes input image of size 224 * 244 * 3 (RGB image)"
+)
 
 class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
@@ -53,14 +63,14 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
 fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>("net") {
+class NetNodeFactory : AbstractNodeFactory<NetNode>(NetNode.name) {
 
     companion object {
         val instance = NetNodeFactory()
     }
 
-    override fun getNewInstance(initialConfig: dynamic): NetNode {
-        return NetNode("net")
+    override fun getNewInstance(initialConfig: NetNodeConfig): NetNode {
+        return NetNode(initialConfig)
     }
 
     override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {

@@ -1,5 +1,6 @@
 package com.se.wmeditor.home.diagram.editor
 
+import com.se.wmeditor.home.diagram.nodes.NetNode
 import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
@@ -22,14 +23,22 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
                 +"Configurer"
             }
             hr("home-left__line") { }
-//            when (selectedNodes.size) {
-//                1 -> nodeFieldsEditor {
-//                    attrs {
-//                        node = selectedNodes[0] as DefaultNodeModel
-//                        updateDiagram = { props.updateDiagram() }
-//                    }
-//                }
-//            }
+
+            when (selectedNodes.size) {
+                1 -> {
+                    console.log(selectedNodes[0].getType())
+                    when (selectedNodes[0].getType()) {
+                        NetNode.Companion.name ->
+                            netFieldsEditor {
+                                attrs {
+                                    node = selectedNodes[0] as NetNode
+                                    updateDiagram = { props.updateDiagram() }
+                                }
+                            }
+
+                    }
+                }
+            }
         }
     }
 

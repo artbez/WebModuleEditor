@@ -3,6 +3,7 @@
 package com.se.wmeditor.wrappers.react.diagrams.models
 
 import com.se.wmeditor.utils.JsMap
+import com.se.wmeditor.wrappers.react.diagrams.BaseModelListener
 
 @JsName("NodeModel")
 open external class NodeModel(nodeType: String = definedExternally, id: String?) :

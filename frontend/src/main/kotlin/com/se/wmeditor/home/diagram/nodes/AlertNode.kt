@@ -21,7 +21,7 @@ class AlertNode : NodeModel(name, "") {
     }
 
     companion object {
-        val name = "alert"
+        const val name = "alert"
     }
 }
 

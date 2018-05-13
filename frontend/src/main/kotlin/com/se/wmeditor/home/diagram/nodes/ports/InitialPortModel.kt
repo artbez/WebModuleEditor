@@ -1,10 +1,10 @@
 package com.se.wmeditor.home.diagram.nodes.ports
 
 import com.se.wmeditor.utils.toMap
+import com.se.wmeditor.wrappers.react.diagrams.LinkModelListener
 import com.se.wmeditor.wrappers.react.diagrams.PortWidget
 import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.LinkModel
-import com.se.wmeditor.wrappers.react.diagrams.models.LinkModelListener
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import com.se.wmeditor.wrappers.react.tippy.Tooltip

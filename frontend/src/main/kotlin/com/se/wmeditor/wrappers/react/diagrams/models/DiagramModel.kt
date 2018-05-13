@@ -3,9 +3,7 @@
 package com.se.wmeditor.wrappers.react.diagrams.models
 
 import com.se.wmeditor.utils.JsMap
-import com.se.wmeditor.wrappers.react.diagrams.BaseEntity
-import com.se.wmeditor.wrappers.react.diagrams.BaseEvent
-import com.se.wmeditor.wrappers.react.diagrams.BaseListener
+import com.se.wmeditor.wrappers.react.diagrams.*
 
 @JsName("DiagramListener")
 external interface DiagramListener : BaseListener {
