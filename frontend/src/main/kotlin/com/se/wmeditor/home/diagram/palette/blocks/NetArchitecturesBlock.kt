@@ -1,8 +1,8 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.NetNodeFactory
-import com.se.wmeditor.home.diagram.node.netNodeWidget
+import com.se.wmeditor.home.diagram.nodes.NetNodeFactory
+import com.se.wmeditor.home.diagram.nodes.netNodeWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
 import react.dom.div

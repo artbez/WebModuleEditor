@@ -1,10 +1,10 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.AlertNodeFactory
-import com.se.wmeditor.home.diagram.node.UploadDatasetNodeFactory
-import com.se.wmeditor.home.diagram.node.alertNodeWidget
-import com.se.wmeditor.home.diagram.node.uploadDatasetWidget
+import com.se.wmeditor.home.diagram.nodes.AlertNodeFactory
+import com.se.wmeditor.home.diagram.nodes.UploadDatasetNodeFactory
+import com.se.wmeditor.home.diagram.nodes.alertNodeWidget
+import com.se.wmeditor.home.diagram.nodes.uploadDatasetWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
 import react.dom.div

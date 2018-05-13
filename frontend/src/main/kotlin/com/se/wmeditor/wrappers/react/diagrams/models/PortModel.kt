@@ -2,6 +2,7 @@
 
 package com.se.wmeditor.wrappers.react.diagrams.models
 
+import com.se.wmeditor.home.diagram.nodes.ports.InitialPortModel
 import com.se.wmeditor.utils.JsMap
 
 @JsName("PortModel")
@@ -21,7 +22,7 @@ open external class PortModel(
     fun getLinks(): JsMap<LinkModel<LinkModelListener>>
     open fun createLinkModel(): LinkModel<out LinkModelListener>?
     fun updateCoords(coords: Coordinates): Coordinates
-    fun canLinkToPort(port: PortModel): Boolean
+    open fun canLinkToPort(port: InitialPortModel): Boolean
 
     interface Coordinates {
         var x: Double

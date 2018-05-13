@@ -1,28 +1,25 @@
-package com.se.wmeditor.home.diagram.node
+package com.se.wmeditor.home.diagram.nodes
 
 import com.se.wmeditor.dom.uploadDatasetIcon
+import com.se.wmeditor.home.diagram.nodes.ports.DatasetPortModel
+import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
+import com.se.wmeditor.home.diagram.nodes.ports.PortType
+import com.se.wmeditor.home.diagram.nodes.ports.portModelWidget
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.PortWidget
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
 class UploadDatasetNode : NodeModel("upload_dataset", "") {
+
+    val outputDatasetPort = DatasetPortModel("datasetOutput", PortType.Out)
+
     init {
-        addPort(UploadPortModel("net"))
-        //addPort(PortModel("dataset"))
-        //addPort(PortModel("trained_net"))
+        addPort(outputDatasetPort)
     }
 }
-
-class UploadPortModel(name: String) : PortModel(name) {
-    override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
-}
-
 
 class UploadDatasetWidget : RComponent<UploadDatasetWidget.Props, RState>() {
 
@@ -36,12 +33,11 @@ class UploadDatasetWidget : RComponent<UploadDatasetWidget.Props, RState>() {
         div("diagram-net__node") {
             uploadDatasetIcon {}
             if (props.isView != true) {
-                div("diagram-net__port") {
-                    child(PortWidget::class) {
-                        attrs {
-                            this.node = this@UploadDatasetWidget.props.node
-                            this.name = "net"
-                        }
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.outputDatasetPort
+                        position = PortPosition.Right
                     }
                 }
             }

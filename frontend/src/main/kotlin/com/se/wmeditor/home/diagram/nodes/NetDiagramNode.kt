@@ -1,27 +1,26 @@
-package com.se.wmeditor.home.diagram.node
+package com.se.wmeditor.home.diagram.nodes
 
 import com.se.wmeditor.dom.netIcon
+import com.se.wmeditor.home.diagram.nodes.ports.NetPortModel
+import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
+import com.se.wmeditor.home.diagram.nodes.ports.PortType
+import com.se.wmeditor.home.diagram.nodes.ports.portModelWidget
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.PortWidget
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
 class NetNode(name: String) : NodeModel("net", "") {
 
+    val outputNetPort = NetPortModel("netOutput", PortType.Out)
+
     init {
-        addPort(NetPortModel("right"))
+        addPort(outputNetPort)
     }
 }
 
-class NetPortModel(name: String) : PortModel(name) {
-
-    override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
-}
 
 class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
@@ -35,12 +34,11 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
         div("diagram-net__node") {
             netIcon { }
             if (props.isView != true) {
-                div("diagram-net__port") {
-                    child(PortWidget::class) {
-                        attrs {
-                            this.node = this@NetNodeWidget.props.node
-                            this.name = "right"
-                        }
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.outputNetPort
+                        position = PortPosition.Right
                     }
                 }
             }
@@ -50,7 +48,6 @@ class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
     interface Props : RProps {
         var node: NetNode
         var isView: Boolean?
-        var size: Int?
     }
 }
 

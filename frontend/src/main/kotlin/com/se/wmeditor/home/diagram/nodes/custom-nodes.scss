@@ -1,0 +1,51 @@
+.diagram-net {
+
+  &__node {
+    position: absolute;
+    height: 4.5rem;
+    width: 4.5rem;
+    background-color: aliceblue;
+    border-radius: 10px;
+    border: 2px solid black;
+  }
+
+  &__port {
+
+    position: absolute;
+    z-index: 10;
+
+    &__in {
+      border: 1px solid green;
+      :hover {
+        background-color: green;
+      }
+    }
+
+    &__out {
+      border: 1px solid blueviolet;
+      :hover {
+        background-color: blueviolet;
+      }
+    }
+
+    &__right {
+      top: 1.5rem;
+      left: 4.5rem;
+    }
+
+    &__left {
+      top: 1.5rem;
+      right: 4.5rem;
+    }
+
+    &__bottom {
+      top: 4.5rem;
+      left: 1.5rem;
+    }
+
+    &__top {
+      bottom: 4.5rem;
+      left: 1.5rem;
+    }
+  }
+}

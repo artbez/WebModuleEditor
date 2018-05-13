@@ -1,10 +1,10 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.node.NetEvalNodeFactory
-import com.se.wmeditor.home.diagram.node.NetTrainNodeFactory
-import com.se.wmeditor.home.diagram.node.netEvalWidget
-import com.se.wmeditor.home.diagram.node.netTrainWidget
+import com.se.wmeditor.home.diagram.nodes.NetEvalNodeFactory
+import com.se.wmeditor.home.diagram.nodes.NetTrainNodeFactory
+import com.se.wmeditor.home.diagram.nodes.netEvalWidget
+import com.se.wmeditor.home.diagram.nodes.netTrainWidget
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import react.*
 import react.dom.div

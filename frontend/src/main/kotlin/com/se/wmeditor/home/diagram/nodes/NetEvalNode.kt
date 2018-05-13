@@ -1,26 +1,25 @@
-package com.se.wmeditor.home.diagram.node
+package com.se.wmeditor.home.diagram.nodes
 
 import com.se.wmeditor.dom.netEvalIcon
+import com.se.wmeditor.home.diagram.nodes.ports.*
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.PortWidget
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
 class NetEvalNode : NodeModel("net_eval", "") {
-    init {
-        addPort(EvalPortModel("eval"))
-        //addPort(PortModel("dataset"))
-        //addPort(PortModel("trained_net"))
-    }
-}
 
-class EvalPortModel(name: String) : PortModel(name) {
-    override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
+    val inputNetPort = NetPortModel("netInput", PortType.In)
+    val inputDatasetPort = DatasetPortModel("datasetInput", PortType.In)
+    val outputDataPort = DataPortModel("dataOutput", PortType.Out)
+
+    init {
+        addPort(inputNetPort)
+        addPort(inputDatasetPort)
+        addPort(outputDataPort)
+    }
 }
 
 class NetEvalWidget : RComponent<NetEvalWidget.Props, RState>() {
@@ -35,12 +34,26 @@ class NetEvalWidget : RComponent<NetEvalWidget.Props, RState>() {
         div("diagram-net__node") {
             netEvalIcon {}
             if (props.isView != true) {
-                div("diagram-net__port") {
-                    child(PortWidget::class) {
-                        attrs {
-                            this.node = this@NetEvalWidget.props.node
-                            this.name = "eval"
-                        }
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.inputDatasetPort
+                        position = PortPosition.Bottom
+                    }
+                }
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.inputNetPort
+                        position = PortPosition.Left
+                    }
+                }
+
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.outputDataPort
+                        position = PortPosition.Right
                     }
                 }
             }

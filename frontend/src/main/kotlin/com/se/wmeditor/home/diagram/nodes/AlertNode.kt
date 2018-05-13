@@ -1,26 +1,28 @@
-package com.se.wmeditor.home.diagram.node
+package com.se.wmeditor.home.diagram.nodes
 
 import com.se.wmeditor.dom.alertIcon
+import com.se.wmeditor.home.diagram.nodes.ports.DataPortModel
+import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
+import com.se.wmeditor.home.diagram.nodes.ports.PortType
+import com.se.wmeditor.home.diagram.nodes.ports.portModelWidget
 import com.se.wmeditor.wrappers.react.diagrams.AbstractNodeFactory
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
-import com.se.wmeditor.wrappers.react.diagrams.PortWidget
-import com.se.wmeditor.wrappers.react.diagrams.defaults.DefaultLinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class AlertNode(name: String) : NodeModel("alert", "") {
+class AlertNode : NodeModel(name, "") {
+
+    val dataInputPort = DataPortModel("dataInput", PortType.In)
 
     init {
-        addPort(AlertPortModel("right"))
+        addPort(dataInputPort)
     }
-}
 
-class AlertPortModel(name: String) : PortModel(name) {
-
-    override fun createLinkModel(): DefaultLinkModel = DefaultLinkModel()
+    companion object {
+        val name = "alert"
+    }
 }
 
 class AlertNodeWidget : RComponent<AlertNodeWidget.Props, RState>() {
@@ -35,12 +37,11 @@ class AlertNodeWidget : RComponent<AlertNodeWidget.Props, RState>() {
         div("diagram-net__node") {
             alertIcon { }
             if (props.isView != true) {
-                div("diagram-net__port") {
-                    child(PortWidget::class) {
-                        attrs {
-                            this.node = this@AlertNodeWidget.props.node
-                            this.name = "right"
-                        }
+                portModelWidget {
+                    attrs {
+                        node = props.node
+                        port = props.node.dataInputPort
+                        position = PortPosition.Left
                     }
                 }
             }
@@ -50,20 +51,19 @@ class AlertNodeWidget : RComponent<AlertNodeWidget.Props, RState>() {
     interface Props : RProps {
         var node: AlertNode
         var isView: Boolean?
-        var size: Int?
     }
 }
 
 fun RBuilder.alertNodeWidget(handler: RHandler<AlertNodeWidget.Props>) = child(AlertNodeWidget::class, handler)
 
-class AlertNodeFactory : AbstractNodeFactory<AlertNode>("alert") {
+class AlertNodeFactory : AbstractNodeFactory<AlertNode>(AlertNode.name) {
 
     companion object {
         val instance = AlertNodeFactory()
     }
 
     override fun getNewInstance(initialConfig: dynamic): AlertNode {
-        return AlertNode("alert")
+        return AlertNode()
     }
 
     override fun generateReactWidget(diagramEngine: DiagramEngine, node: AlertNode): ReactElement {
