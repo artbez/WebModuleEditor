@@ -49,6 +49,11 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
                         attrs.onClickFunction = {
                             it.stopPropagation()
                             it.preventDefault()
+                            selectedNodes[0].getPorts().toMap().forEach {
+                                it.value.getLinks().toMap().forEach {
+                                    props.engine.getDiagramModel().removeLink(it.value)
+                                }
+                            }
                             props.engine.getDiagramModel().removeNode(selectedNodes[0])
                             props.updateDiagram()
                         }
