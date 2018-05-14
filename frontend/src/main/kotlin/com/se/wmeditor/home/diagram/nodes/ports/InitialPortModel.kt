@@ -36,7 +36,6 @@ sealed class InitialPortModel(name: String, val type: PortType) : PortModel("$na
     override fun canLinkToPort(port: InitialPortModel): Boolean =
         type != port.type && this::class.simpleName == port::class.simpleName && getNode() != port.getNode()
                 && getLinks().toMap().size == 1 && port.getLinks().toMap().size == 1
-
 }
 
 class NetPortModel(name: String, type: PortType) : InitialPortModel(name, type)

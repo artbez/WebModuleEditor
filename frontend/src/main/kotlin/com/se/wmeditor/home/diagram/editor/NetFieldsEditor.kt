@@ -7,23 +7,7 @@ import org.w3c.dom.HTMLOptionElement
 import react.*
 import react.dom.*
 
-class NetFieldsEditor : RComponent<NetFieldsEditor.Props, NetFieldsEditor.State>() {
-
-    override fun State.init() {
-        currentValue = ""
-    }
-
-    override fun componentDidMount() {
-        setState {
-            currentValue = ""//props.node.name
-        }
-    }
-
-    override fun componentWillReceiveProps(nextProps: Props) {
-        setState {
-            currentValue = ""//nextProps.node.name
-        }
-    }
+class NetFieldsEditor : RComponent<NetFieldsEditor.Props, RState>() {
 
     override fun RBuilder.render() {
 
@@ -68,10 +52,6 @@ class NetFieldsEditor : RComponent<NetFieldsEditor.Props, NetFieldsEditor.State>
                 }
             }
         }
-    }
-
-    interface State : RState {
-        var currentValue: String
     }
 
     interface Props : RProps {

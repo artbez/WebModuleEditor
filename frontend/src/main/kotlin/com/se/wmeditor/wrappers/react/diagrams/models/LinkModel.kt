@@ -18,10 +18,10 @@ open external class LinkModel<T : LinkModelListener>(
     fun getPointForPort(portModel: PortModel): PointModel?
     fun getFirstPoint(): PointModel
     fun getLastPoint(): PointModel
-    fun setSourcePort(port: PortModel)
-    fun setTargetPort(port: PortModel)
-    fun getSourcePort(): PortModel
-    fun getTargetPort(): PortModel
+    open fun setSourcePort(port: PortModel)
+    open fun setTargetPort(port: PortModel)
+    open fun getSourcePort(): PortModel
+    open fun getTargetPort(): PortModel
     fun point(x: Double, y: Double): PointModel
     fun addLabel(label: LabelModel)
     fun getPoints(): Array<PointModel>

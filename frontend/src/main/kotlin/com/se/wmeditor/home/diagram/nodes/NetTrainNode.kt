@@ -15,6 +15,8 @@ class NetTrainNode : NodeModel(name, "") {
     val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
     val outputNetPort = NetPortModel("Net", PortType.Out)
 
+    var epochNumber: Int = 10
+
     init {
         addPort(inputNetPort)
         addPort(inputDatasetPort)

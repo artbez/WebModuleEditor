@@ -15,6 +15,8 @@ class NetEvalNode : NodeModel(name, "") {
     val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
     val outputDataPort = DataPortModel("Data", PortType.Out)
 
+    var epochNumber = 10
+
     init {
         addPort(inputNetPort)
         addPort(inputDatasetPort)

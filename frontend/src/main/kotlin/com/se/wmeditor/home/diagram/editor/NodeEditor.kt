@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.editor
 
-import com.se.wmeditor.home.diagram.nodes.NetNode
+import com.se.wmeditor.home.diagram.nodes.*
 import com.se.wmeditor.utils.toMap
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
@@ -36,28 +36,60 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
             when (selectedNodes.size) {
                 1 -> {
                     when (selectedNodes[0].getType()) {
-                        NetNode.Companion.name ->
+                        NetNode.name ->
                             netFieldsEditor {
                                 attrs {
                                     node = selectedNodes[0] as NetNode
                                     updateDiagram = { props.updateDiagram() }
                                 }
                             }
-
-                    }
-                    button(classes = "btn-danger") {
-                        attrs.onClickFunction = {
-                            it.stopPropagation()
-                            it.preventDefault()
-                            selectedNodes[0].getPorts().toMap().forEach {
-                                it.value.getLinks().toMap().forEach {
-                                    props.engine.getDiagramModel().removeLink(it.value)
+                        NetTrainNode.name ->
+                            netTrainEditor {
+                                attrs {
+                                    node = selectedNodes[0] as NetTrainNode
+                                    updateDiagram = { props.updateDiagram() }
                                 }
                             }
-                            props.engine.getDiagramModel().removeNode(selectedNodes[0])
-                            props.updateDiagram()
+                        NetEvalNode.name ->
+                            netEvalEditor {
+                                attrs {
+                                    node = selectedNodes[0] as NetEvalNode
+                                    updateDiagram = { props.updateDiagram() }
+                                }
+                            }
+                        UploadDatasetNode.name ->
+                            uploadDatasetEditor {
+                                attrs {
+                                    node = selectedNodes[0] as UploadDatasetNode
+                                }
+                            }
+                        AlertNode.name ->
+                            alertEditor {
+                                attrs {
+                                    node = selectedNodes[0] as AlertNode
+                                }
+                            }
+
+                    }
+                    div {
+                        button(classes = "btn-danger") {
+                            attrs.onClickFunction = {
+                                it.stopPropagation()
+                                it.preventDefault()
+                                selectedNodes[0].getPorts().toMap().forEach {
+                                    it.value.getLinks().toMap().forEach {
+                                        val source = it.value.getSourcePort()
+                                        val target = it.value.getTargetPort()
+                                        source.removeLink(it.value)
+                                        target.removeLink(it.value)
+                                        props.engine.getDiagramModel().removeLink(it.value)
+                                    }
+                                }
+                                props.engine.getDiagramModel().removeNode(selectedNodes[0])
+                                props.updateDiagram()
+                            }
+                            +"Remove"
                         }
-                        +"Remove"
                     }
                 }
             }
