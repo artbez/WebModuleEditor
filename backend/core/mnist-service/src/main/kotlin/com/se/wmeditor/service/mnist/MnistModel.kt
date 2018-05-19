@@ -8,6 +8,7 @@ import org.deeplearning4j.nn.conf.layers.*
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
+import org.deeplearning4j.zoo.ZooModel
 import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
 import org.nd4j.linalg.learning.config.Nesterovs
@@ -41,6 +42,7 @@ class MnistModel {
 
     private fun train(mnistTrain: DataSetIterator, mnistTest: DataSetIterator) {
         logger.info("Train model....")
+        val model = ZooModel
         model.setListeners(ScoreIterationListener(10)) //Print score every 10 iterations
         for (i in 0 until nEpochs) {
             model.fit(mnistTrain)

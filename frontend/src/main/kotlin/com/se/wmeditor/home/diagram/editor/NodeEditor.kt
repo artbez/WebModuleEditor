@@ -69,6 +69,12 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
                                     node = selectedNodes[0] as AlertNode
                                 }
                             }
+                        DatasetNode.name ->
+                            datasetEditor {
+                                attrs {
+                                    node = selectedNodes[0] as DatasetNode
+                                }
+                            }
 
                     }
                     div {

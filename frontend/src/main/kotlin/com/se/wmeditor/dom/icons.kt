@@ -43,3 +43,11 @@ fun RBuilder.alertIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> Un
         block()
     }
 }
+
+fun RBuilder.cabinetIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> Unit) {
+    svg(classes, "0 0 1024 1024") {
+        title("Dataset")
+        path("M160 960v-768l133.344-128h405.344l133.312 128v768h-672zM800 704v-480h-608v704h608v-224zM768 448h-544v-192h544v192zM576 320h-160v32h160v-32zM768 672h-544v-192h544v192zM576 544h-160v32h160v-32zM768 896h-544v-192h544v192zM576 768h-160v32h160v-32z")
+        block()
+    }
+}

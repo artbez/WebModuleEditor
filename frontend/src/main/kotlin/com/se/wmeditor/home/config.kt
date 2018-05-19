@@ -12,6 +12,7 @@ fun DiagramEngine.setup(): DiagramEngine {
     registerNodeFactory(NetEvalNodeFactory.instance)
     registerNodeFactory(UploadDatasetNodeFactory.instance)
     registerNodeFactory(AlertNodeFactory.instance)
+    registerNodeFactory(DatasetNodeFactory.instance)
     val model = DiagramModel()
     setDiagramModel(model)
     return this
