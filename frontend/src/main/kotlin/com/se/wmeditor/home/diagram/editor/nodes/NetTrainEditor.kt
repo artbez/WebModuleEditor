@@ -1,4 +1,4 @@
-package com.se.wmeditor.home.diagram.editor
+package com.se.wmeditor.home.diagram.editor.nodes
 
 import com.se.wmeditor.home.diagram.nodes.NetEvalNode
 import com.se.wmeditor.home.diagram.nodes.NetNode
@@ -13,9 +13,10 @@ import react.dom.div
 import react.dom.input
 import react.dom.span
 
-class NetEvalEditor : RComponent<NetEvalEditor.Props, RState>() {
+class NetTrainEditor : RComponent<NetTrainEditor.Props, RState>() {
 
     override fun RBuilder.render() {
+
         div("configurer-props") {
             div("configurer-props__group") {
                 b {
@@ -37,18 +38,18 @@ class NetEvalEditor : RComponent<NetEvalEditor.Props, RState>() {
                 }
             }
             div("configurer-props__group") {
-                +"Evaluating Net model. Should has input net model and dataset with labels"
+                +"Training Net model. Should has input net model and dataset with labels"
             }
         }
     }
 
     interface Props : RProps {
-        var node: NetEvalNode
+        var node: NetTrainNode
         var updateDiagram: () -> Unit
     }
 }
 
-fun NetEvalNode.inputNet(): String {
+fun NetTrainNode.inputNet(): String {
     val links = inputNetPort.getLinks().toMap()
     if (links.isEmpty()) {
         return "Not selected"
@@ -66,4 +67,4 @@ fun NetEvalNode.inputNet(): String {
     }
 }
 
-fun RBuilder.netEvalEditor(handler: RHandler<NetEvalEditor.Props>) = child(NetEvalEditor::class, handler)
+fun RBuilder.netTrainEditor(handler: RHandler<NetTrainEditor.Props>) = child(NetTrainEditor::class, handler)

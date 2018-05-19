@@ -2,7 +2,7 @@ package com.se.wmeditor.home
 
 import com.se.wmeditor.header.header
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
-import com.se.wmeditor.home.diagram.editor.editor
+import com.se.wmeditor.home.diagram.editor.mainEditor
 import com.se.wmeditor.home.diagram.palette.palette
 import com.se.wmeditor.home.diagram.scene
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
@@ -33,7 +33,7 @@ class HomeComponent : RComponent<RProps, RState>() {
         header
         div("row home-all") {
             div("col-md-2") {
-                editor {
+                mainEditor {
                     attrs {
                         engine = this@HomeComponent.engine
                         updateDiagram = { forceUpdate {} }

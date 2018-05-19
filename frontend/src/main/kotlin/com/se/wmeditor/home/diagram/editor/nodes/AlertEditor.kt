@@ -1,4 +1,4 @@
-package com.se.wmeditor.home.diagram.editor
+package com.se.wmeditor.home.diagram.editor.nodes
 
 import com.se.wmeditor.home.diagram.nodes.AlertNode
 import react.*
