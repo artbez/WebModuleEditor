@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
-import com.se.wmeditor.home.diagram.nodes.ports.Description
+import com.se.wmeditor.common.Description
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.diagram.nodes.ports.createValueHolder
 import com.se.wmeditor.home.inPorts

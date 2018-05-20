@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.editor.nodes
 
-import com.se.wmeditor.home.diagram.nodes.Dataset
+import com.se.wmeditor.common.Dataset
 import com.se.wmeditor.home.diagram.nodes.NetNode
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLOptionElement

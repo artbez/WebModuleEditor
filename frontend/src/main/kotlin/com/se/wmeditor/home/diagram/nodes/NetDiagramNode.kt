@@ -1,5 +1,7 @@
 package com.se.wmeditor.home.diagram.nodes
 
+import com.se.wmeditor.common.Dataset
+import com.se.wmeditor.common.NetModel
 import com.se.wmeditor.dom.netIcon
 import com.se.wmeditor.home.diagram.nodes.ports.NetPortModel
 import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
@@ -24,14 +26,6 @@ class NetNode(val config: NetNodeConfig) : NodeModel(name, "") {
     companion object {
         const val name = "net"
     }
-}
-
-enum class Dataset {
-    NONE, IMAGENET, CIFAR10
-}
-
-enum class NetModel {
-    VGG16
 }
 
 sealed class NetNodeConfig(val model: NetModel, val description: String)

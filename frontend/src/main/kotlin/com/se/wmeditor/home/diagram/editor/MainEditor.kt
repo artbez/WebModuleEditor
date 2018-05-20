@@ -45,11 +45,17 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
                         +"Diagram configurer"
                     }
                     diagramEditor {
-                        attrs.selectedNodes = selectedNodes
+                        attrs {
+                            this.selectedNodes = this@MainEditor.selectedNodes
+                            this.blockScene = { blocked -> props.blockScene(blocked) }
+                        }
                     }
                 }
                 selectedNodes.size > 1 -> diagramEditor {
-                    attrs.selectedNodes = selectedNodes
+                    attrs {
+                        this.selectedNodes = this@MainEditor.selectedNodes
+                        this.blockScene = { blocked -> props.blockScene(blocked) }
+                    }
                 }
             }
         }
@@ -58,6 +64,7 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
     interface Props : RProps {
         var engine: DiagramEngine
         var updateDiagram: () -> Unit
+        var blockScene: (Boolean) -> Unit
     }
 }
 

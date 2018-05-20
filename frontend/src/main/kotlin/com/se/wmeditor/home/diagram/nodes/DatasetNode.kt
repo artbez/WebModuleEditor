@@ -1,5 +1,6 @@
 package com.se.wmeditor.home.diagram.nodes
 
+import com.se.wmeditor.common.Dataset
 import com.se.wmeditor.dom.cabinetIcon
 import com.se.wmeditor.home.diagram.nodes.ports.DatasetPortModel
 import com.se.wmeditor.home.diagram.nodes.ports.PortPosition

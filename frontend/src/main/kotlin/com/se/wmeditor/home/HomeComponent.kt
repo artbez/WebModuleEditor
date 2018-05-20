@@ -7,13 +7,10 @@ import com.se.wmeditor.home.diagram.palette.palette
 import com.se.wmeditor.home.diagram.scene
 import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import kotlinext.js.invoke
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 import react.dom.div
 
-class HomeComponent : RComponent<RProps, RState>() {
+class HomeComponent : RComponent<RProps, HomeComponent.State>() {
 
     private lateinit var engine: DiagramEngine
     private lateinit var paletteSceneTransferObject: PaletteSceneTransferObject
@@ -29,6 +26,12 @@ class HomeComponent : RComponent<RProps, RState>() {
         engine = DiagramEngine().setup()
     }
 
+    private fun setSceneBlocked(blocked: Boolean) {
+        setState {
+            this.blocked = blocked
+        }
+    }
+
     override fun RBuilder.render() {
         header
         div("row home-all") {
@@ -37,10 +40,11 @@ class HomeComponent : RComponent<RProps, RState>() {
                     attrs {
                         engine = this@HomeComponent.engine
                         updateDiagram = { forceUpdate {} }
+                        blockScene = { blocked -> setSceneBlocked(blocked) }
                     }
                 }
             }
-            div("col-md-7") {
+            div("col-md-7 blocked__${state.blocked}") {
                 scene {
                     attrs {
                         paletteSceneTransfer = paletteSceneTransferObject
@@ -58,5 +62,9 @@ class HomeComponent : RComponent<RProps, RState>() {
 
             }
         }
+    }
+
+    interface State : RState {
+        var blocked: Boolean
     }
 }

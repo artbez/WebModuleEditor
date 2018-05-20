@@ -48,3 +48,7 @@ html, body {
     border-top: 1px solid #8c8b8b;
   }
 }
+
+.blocked__true {
+  pointer-events: none
+}

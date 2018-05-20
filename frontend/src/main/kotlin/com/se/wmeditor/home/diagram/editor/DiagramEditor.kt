@@ -25,9 +25,15 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
 
 
     private fun executeDiagram(e: Event) {
+        e.preventDefault()
+        e.stopPropagation()
+
         val allNodes = props.selectedNodes.flatMap { it.selectAllNodes() }
         val computationGraph = ComputationGraph(allNodes)
+        props.blockScene(true)
         computationGraph.execute()
+        props.blockScene(false)
+
     }
 
     override fun RBuilder.render() {
@@ -60,6 +66,7 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
 
     interface Props : RProps {
         var selectedNodes: List<NodeModel>
+        var blockScene: (Boolean) -> Unit
     }
 }
 
