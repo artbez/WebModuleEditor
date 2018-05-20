@@ -1,6 +1,7 @@
 package com.se.wmeditor.home.diagram.editor
 
-import com.se.wmeditor.utils.toMap
+import com.se.wmeditor.home.diagram.nodes.executors.ComputationGraph
+import com.se.wmeditor.home.neighbors
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.events.Event
@@ -14,11 +15,19 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
         props.selectedNodes[0].selectAllNodes()
     }
 
-    private fun NodeModel.selectAllNodes() {
-        getPorts().toMap().values
-            .flatMap { it.getLinks().toMap().values.flatMap { listOf(it.getTargetPort().getNode(), it.getSourcePort().getNode()) } }
+    private fun NodeModel.selectAllNodes(): List<NodeModel> {
+        val nearNodes = neighbors()
             .filterNot { it.isSelected() }
-            .forEach { it.setSelected(true); it.selectAllNodes() }
+            .map { it.setSelected(true); it }
+
+        return nearNodes.plus(this).plus(nearNodes.flatMap { it.selectAllNodes() }).distinctBy { it.getID() }
+    }
+
+
+    private fun executeDiagram(e: Event) {
+        val allNodes = props.selectedNodes.flatMap { it.selectAllNodes() }
+        val computationGraph = ComputationGraph(allNodes)
+        computationGraph.execute()
     }
 
     override fun RBuilder.render() {
@@ -37,7 +46,7 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
             div("configurer-props__group") {
                 button(classes = "editor_button btn-success") {
                     attrs {
-                        onClickFunction = ::selectClicked
+                        onClickFunction = ::executeDiagram
                     }
                     +"Run"
                 }

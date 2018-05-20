@@ -30,10 +30,14 @@ enum class Dataset {
     NONE, IMAGENET, CIFAR10
 }
 
-sealed class NetNodeConfig(val model: String, val description: String)
+enum class NetModel {
+    VGG16
+}
+
+sealed class NetNodeConfig(val model: NetModel, val description: String)
 
 object VGG16Config : NetNodeConfig(
-    "VGG-16",
+    NetModel.VGG16,
     "Given image → find object name in the image, It takes input image of size 224 * 244 * 3 (RGB image)"
 )
 

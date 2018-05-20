@@ -60,7 +60,7 @@ fun NetTrainNode.inputNet(): String {
     val other = if (sourceNode.getID() == this.getID()) targetNode else sourceNode
 
     return when (other::class) {
-        NetNode::class -> (other as NetNode).config.model
+        NetNode::class -> (other as NetNode).config.model.name
         NetTrainNode::class -> (other as NetTrainNode).inputNet()
         NetEvalNode::class -> (other as NetEvalNode).inputNet()
         else -> "Undefined"

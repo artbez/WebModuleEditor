@@ -16,7 +16,7 @@ class NetFieldsEditor : RComponent<NetFieldsEditor.Props, RState>() {
                 b {
                     +"Net model:"
                 }
-                span { +props.node.config.model }
+                span { +props.node.config.model.name }
             }
             div("configurer-props__group") {
                 +props.node.config.description
