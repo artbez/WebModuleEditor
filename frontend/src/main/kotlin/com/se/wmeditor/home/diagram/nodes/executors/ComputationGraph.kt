@@ -1,9 +1,13 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
-import com.se.wmeditor.home.diagram.nodes.ports.createValueHolder
+import com.se.wmeditor.common.ContextHolder
 import com.se.wmeditor.home.inPort
 import com.se.wmeditor.home.outLinks
+import com.se.wmeditor.utils.get
+import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import kotlinx.coroutines.experimental.async
+import kotlinx.serialization.json.JSON as KJSON
 
 class ComputationGraph(val nodes: List<NodeModel>) {
 
@@ -11,18 +15,34 @@ class ComputationGraph(val nodes: List<NodeModel>) {
 
     init {
         nodes.forEach { it.setSelected(false) }
-        val executorMap = nodes.map { it.getID() to DefaultNodeExecutor(it) }.toMap()
+        val executorMap = nodes.map { it.getID() to createExecutor(it) }.toMap()
         nodes.forEach { sourceNode ->
             sourceNode.outLinks().forEach {
                 val targetPort = it.inPort()
                 val targetExecutor = executorMap[targetPort.getNode().getID()] ?: throw IllegalStateException("Node must have executor")
-                executorMap[sourceNode.getID()]!!.linkedPorts.add(createValueHolder(targetPort, targetExecutor))
+                val sourceExecutor = executorMap[sourceNode.getID()]!!
+                sourceExecutor.attachPort(targetPort, targetExecutor)
             }
         }
         executors = executorMap.values.toList()
     }
 
-    fun execute() {
-        executors.forEach { it.tryExecute() }
+    suspend fun execute(callback: () -> Unit) {
+        val contextId = getContextId()
+
+        try {
+            executors.forEach {
+                it.contextId = contextId
+                async { it.tryExecute() }
+            }
+
+        } finally {
+            removeContext(contextId)
+            callback()
+        }
     }
 }
+
+suspend fun getContextId() = KJSON.parse<ContextHolder>(get("/api/net/context/create")).contextId
+suspend fun removeContext(contextId: String) =
+    KJSON.parse<ContextHolder>(post("/api/net/context/remove", KJSON.stringify(ContextHolder(contextId)))).contextId

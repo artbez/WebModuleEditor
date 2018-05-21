@@ -6,16 +6,19 @@ import com.se.wmeditor.common.Description
 import com.se.wmeditor.common.NetDescription
 import com.se.wmeditor.home.diagram.nodes.executors.AbstractNodeExecutor
 
-class ValueHolderPort<T : Description>(private val nodeExecutor: AbstractNodeExecutor) {
-    var value: T? = null
-        set(value) {
-            field = value
-            nodeExecutor.dataReceived()
-        }
+class ValueHolderPort<T : Description>(val portId: String, private val nodeExecutor: AbstractNodeExecutor) {
+    private var value: T? = null
+
+    fun getValue(): T? = value
+
+    suspend fun setValue(newValue: T?) {
+        value = newValue
+        nodeExecutor.dataReceived()
+    }
 }
 
 fun createValueHolder(port: InitialPortModel, nodeExecutor: AbstractNodeExecutor) = when (port) {
-    is NetPortModel -> ValueHolderPort<NetDescription>(nodeExecutor)
-    is DataPortModel -> ValueHolderPort<DataDescription>(nodeExecutor)
-    is DatasetPortModel -> ValueHolderPort<DatasetDescription>(nodeExecutor)
+    is NetPortModel -> ValueHolderPort<NetDescription>(port.getID(), nodeExecutor)
+    is DataPortModel -> ValueHolderPort<DataDescription>(port.getID(), nodeExecutor)
+    is DatasetPortModel -> ValueHolderPort<DatasetDescription>(port.getID(), nodeExecutor)
 }

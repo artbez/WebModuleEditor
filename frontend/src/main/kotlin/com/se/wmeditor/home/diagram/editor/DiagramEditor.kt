@@ -3,6 +3,7 @@ package com.se.wmeditor.home.diagram.editor
 import com.se.wmeditor.home.diagram.nodes.executors.ComputationGraph
 import com.se.wmeditor.home.neighbors
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import kotlinx.coroutines.experimental.launch
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.events.Event
 import react.*
@@ -30,10 +31,12 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
 
         val allNodes = props.selectedNodes.flatMap { it.selectAllNodes() }
         val computationGraph = ComputationGraph(allNodes)
-        props.blockScene(true)
-        computationGraph.execute()
-        props.blockScene(false)
-
+        launch {
+            props.blockScene(true)
+            computationGraph.execute {
+                props.blockScene(false)
+            }
+        }
     }
 
     override fun RBuilder.render() {

@@ -4,6 +4,7 @@ include 'common'
 include 'frontend'
 include 'backend:gateway'
 include 'backend:core:mnist-service'
+include 'backend:core:net-service'
 include 'backend:discovery'
 include 'backend:config'
 

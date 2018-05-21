@@ -1,30 +1,33 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
 import com.se.wmeditor.common.Description
+import com.se.wmeditor.home.diagram.nodes.*
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
-import com.se.wmeditor.home.diagram.nodes.ports.createValueHolder
 import com.se.wmeditor.home.inPorts
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
+import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 
 
-abstract class AbstractNodeExecutor(protected val node: NodeModel) {
+abstract class AbstractNodeExecutor(val node: NodeModel) {
 
-    var dataPoints = node.inPorts().size
+    private var dataPoints = node.inPorts().size
+    lateinit var contextId: String
 
-    protected abstract fun execute()
+    protected abstract suspend fun execute()
+    abstract fun getPortById(portId: String): ValueHolderPort<out Description>
 
-    fun tryExecute() {
+    abstract fun attachPort(port: PortModel, targetExecutor: AbstractNodeExecutor)
+
+    suspend fun tryExecute() {
         if (dataPoints == 0) {
             node.setSelected(true)
             node.outLinks().forEach { it.setSelected(true) }
             execute()
-            node.setSelected(false)
-            node.outLinks().forEach { it.setSelected(false) }
         }
     }
 
-    fun dataReceived() {
+    suspend fun dataReceived() {
         if (dataPoints == 0) {
             throw IllegalStateException("All data already received")
         }
@@ -33,18 +36,11 @@ abstract class AbstractNodeExecutor(protected val node: NodeModel) {
     }
 }
 
-class DefaultNodeExecutor(node: NodeModel) : AbstractNodeExecutor(node) {
-
-    var inPorts = node.inPorts().map { it.getID() to createValueHolder(it, this) }
-    var linkedPorts: MutableList<ValueHolderPort<out Description>> = mutableListOf()
-
-    override fun execute() {
-        console.log("Executing ${node.getID()} ${node.getType()}")
-        inPorts.forEachIndexed { index, valueHolderPortEntry ->
-            console.log("Value in port $index = ${valueHolderPortEntry.second.value}")
-        }
-        linkedPorts.forEach {
-            it.value = null
-        }
-    }
+fun createExecutor(node: NodeModel) = when (node) {
+    is NetNode -> NetNodeExecutor(node)
+    is NetTrainNode -> NetTrainExecutor(node)
+    is NetEvalNode -> NetEvalExecutor(node)
+    is DatasetNode -> DatasetExecutor(node)
+    is AlertNode -> AlertExecutor(node)
+    else -> throw IllegalStateException("Not supported node")
 }

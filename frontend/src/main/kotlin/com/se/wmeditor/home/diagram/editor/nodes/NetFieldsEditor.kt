@@ -35,18 +35,21 @@ class NetFieldsEditor : RComponent<NetFieldsEditor.Props, RState>() {
                         attrs {
                             value = "None"
                             label = ""
+                            selected = props.node.dataset.name.toUpperCase() == value.toUpperCase()
                         }
                     }
                     option {
                         attrs {
                             value = "ImageNet"
                             label = "ImageNet"
+                            selected = props.node.dataset.name.toUpperCase() == value.toUpperCase()
                         }
                     }
                     option {
                         attrs {
                             value = "CIFAR10"
                             label = "CIFAR10"
+                            selected = props.node.dataset.name.toUpperCase() == value.toUpperCase()
                         }
                     }
                 }
