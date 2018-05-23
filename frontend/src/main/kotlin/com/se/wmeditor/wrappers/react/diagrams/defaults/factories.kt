@@ -9,8 +9,7 @@ import react.ReactElement
 external class DefaultNodeFactory : AbstractNodeFactory<DefaultNodeModel> {
     override fun getNewInstance(initialConfig: dynamic): DefaultNodeModel = definedExternally
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: DefaultNodeModel): ReactElement =
-        definedExternally
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: DefaultNodeModel): ReactElement = definedExternally
 }
 
 @JsName("DefaultPortFactory")
@@ -22,16 +21,14 @@ external class DefaultPortFactory : AbstractPortFactory<DefaultPortModel> {
 external class DefaultLabelFactory : AbstractLabelFactory<DefaultLabelModel> {
     override fun getNewInstance(initialConfig: dynamic): DefaultLabelModel = definedExternally
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, link: DefaultLabelModel): ReactElement =
-        definedExternally
+    override fun generateReactWidget(diagramEngine: DiagramEngine, link: DefaultLabelModel): ReactElement = definedExternally
 }
 
 @JsName("DefaultLinkFactory")
 external class DefaultLinkFactory : AbstractLinkFactory<DefaultLinkModel> {
     override fun getNewInstance(initialConfig: dynamic): DefaultLinkModel = definedExternally
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, link: DefaultLinkModel): ReactElement =
-        definedExternally
+    override fun generateReactWidget(diagramEngine: DiagramEngine, link: DefaultLinkModel): ReactElement = definedExternally
 
     fun generateLinkSegment(model: DefaultLinkModel, widget: DefaultLinkWidget, selected: Boolean, path: String)
 }

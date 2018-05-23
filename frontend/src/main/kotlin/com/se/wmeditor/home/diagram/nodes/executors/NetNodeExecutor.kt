@@ -11,6 +11,9 @@ import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinx.serialization.json.JSON
 
 class NetNodeExecutor(private val nodeModel: NetNode) : AbstractNodeExecutor(nodeModel) {
+
+    private lateinit var outNet: ValueHolderPort<NetDescription>
+
     override fun getPortById(portId: String): ValueHolderPort<out Description> {
         throw IllegalArgumentException("No port with id $portId")
     }
@@ -18,8 +21,6 @@ class NetNodeExecutor(private val nodeModel: NetNode) : AbstractNodeExecutor(nod
     override fun attachPort(port: PortModel, targetExecutor: AbstractNodeExecutor) {
         outNet = targetExecutor.getPortById(port.getID()).unsafeCast<ValueHolderPort<NetDescription>>()
     }
-
-    lateinit var outNet: ValueHolderPort<NetDescription>
 
     override suspend fun execute() {
         val sendingDescription = NetDescription(nodeModel.config.model, nodeModel.dataset)

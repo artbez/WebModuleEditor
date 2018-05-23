@@ -66,11 +66,9 @@ class UploadDatasetNodeFactory : AbstractNodeFactory<UploadDatasetNode>(UploadDa
 
     override fun getNewInstance(initialConfig: dynamic): UploadDatasetNode = UploadDatasetNode()
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: UploadDatasetNode): ReactElement =
-        buildElement {
-            uploadDatasetWidget {
-                attrs.node = node
-            }
-        }!!
-
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: UploadDatasetNode): ReactElement = buildElement {
+        uploadDatasetWidget {
+            attrs.node = node
+        }
+    }!!
 }

@@ -10,21 +10,19 @@ import kotlinx.serialization.json.JSON
 
 class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecutor(netEvalNode) {
 
+    private val inNet: ValueHolderPort<NetDescription> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
+    private val inDataset: ValueHolderPort<DatasetDescription> = ValueHolderPort(netEvalNode.inputDatasetPort.getID(), this)
+    private lateinit var outData: ValueHolderPort<DataDescription>
+
     override fun getPortById(portId: String): ValueHolderPort<out Description> = when (portId) {
         inNet.portId -> inNet
         inDataset.portId -> inDataset
         else -> throw IllegalArgumentException("No port with id $portId")
     }
 
-
     override fun attachPort(port: PortModel, targetExecutor: AbstractNodeExecutor) {
         outData = targetExecutor.getPortById(port.getID()).unsafeCast<ValueHolderPort<DataDescription>>()
     }
-
-    private val inNet: ValueHolderPort<NetDescription> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
-    private val inDataset: ValueHolderPort<DatasetDescription> = ValueHolderPort(netEvalNode.inputDatasetPort.getID(), this)
-
-    lateinit var outData: ValueHolderPort<DataDescription>
 
     override suspend fun execute() {
         val sendingDescription = inDataset.getValue()!!

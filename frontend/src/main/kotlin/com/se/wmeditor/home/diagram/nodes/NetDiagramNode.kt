@@ -76,14 +76,11 @@ class NetNodeFactory : AbstractNodeFactory<NetNode>(NetNode.name) {
         return NetNode(initialConfig)
     }
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement {
-        return buildElement {
-            netNodeWidget {
-                attrs {
-                    this.node = node
-                }
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement = buildElement {
+        netNodeWidget {
+            attrs {
+                this.node = node
             }
-        }!!
-    }
-
+        }
+    }!!
 }

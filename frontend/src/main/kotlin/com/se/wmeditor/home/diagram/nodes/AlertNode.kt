@@ -66,14 +66,12 @@ class AlertNodeFactory : AbstractNodeFactory<AlertNode>(AlertNode.name) {
         return AlertNode()
     }
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: AlertNode): ReactElement {
-        return buildElement {
-            alertNodeWidget {
-                attrs {
-                    this.node = node
-                }
+    override fun generateReactWidget(diagramEngine: DiagramEngine, node: AlertNode): ReactElement = buildElement {
+        alertNodeWidget {
+            attrs {
+                this.node = node
             }
-        }!!
-    }
-
+        }
+    }!!
 }
+

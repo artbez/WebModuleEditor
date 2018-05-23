@@ -19,7 +19,7 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
     private fun NodeModel.selectAllNodes(): List<NodeModel> {
         val nearNodes = neighbors()
             .filterNot { it.isSelected() }
-            .map { it.setSelected(true); it }
+            .map { it.also { it.setSelected(true) } }
 
         return nearNodes.plus(this).plus(nearNodes.flatMap { it.selectAllNodes() }).distinctBy { it.getID() }
     }

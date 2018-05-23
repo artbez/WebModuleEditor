@@ -38,6 +38,7 @@ class DatasetWidget : RComponent<DatasetWidget.Props, RState>() {
     override fun RBuilder.render() {
         div("diagram-net__node") {
             cabinetIcon {}
+
             if (props.isView != true) {
                 portModelWidget {
                     attrs {

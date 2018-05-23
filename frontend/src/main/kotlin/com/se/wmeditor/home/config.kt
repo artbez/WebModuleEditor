@@ -10,31 +10,21 @@ import com.se.wmeditor.wrappers.react.diagrams.models.LinkModel
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 
 fun DiagramEngine.setup(): DiagramEngine {
+
     installDefaultFactories()
+
     registerNodeFactory(NetNodeFactory.instance)
     registerNodeFactory(NetTrainNodeFactory.instance)
     registerNodeFactory(NetEvalNodeFactory.instance)
     registerNodeFactory(UploadDatasetNodeFactory.instance)
     registerNodeFactory(AlertNodeFactory.instance)
     registerNodeFactory(DatasetNodeFactory.instance)
+
     val model = DiagramModel()
     setDiagramModel(model)
+
     return this
 }
-
-fun NodeModel.outNodes() = getPorts().toMap().values.map { it as InitialPortModel }
-    .flatMap { it.getLinks().toMap().values.flatMap { listOf(it.getSourcePort(), it.getTargetPort()) } }
-    .map { it as InitialPortModel }
-    .filter { it.type == PortType.In }
-    .map { it.getNode() }
-    .filter { it.getID() != this.getID() }
-
-fun NodeModel.inNodes() = getPorts().toMap().values.map { it as InitialPortModel }
-    .flatMap { it.getLinks().toMap().values.flatMap { listOf(it.getSourcePort(), it.getTargetPort()) } }
-    .map { it as InitialPortModel }
-    .filter { it.type == PortType.Out }
-    .map { it.getNode() }
-    .filter { it.getID() != this.getID() }
 
 fun NodeModel.neighbors() = getPorts().toMap().values.map { it as InitialPortModel }
     .flatMap { it.getLinks().toMap().values.flatMap { listOf(it.getSourcePort(), it.getTargetPort()) } }
@@ -51,11 +41,13 @@ fun NodeModel.outLinks() = outPorts().flatMap { it.getLinks().toMap().values }
 fun LinkModel<*>.inPort(): InitialPortModel {
     val initialSource = getSourcePort() as InitialPortModel
     val initialTarget = getTargetPort() as InitialPortModel
+
     return if (initialSource.type == PortType.In) initialSource else initialTarget
 }
 
 fun LinkModel<*>.outPort(): InitialPortModel {
     val initialSource = getSourcePort() as InitialPortModel
     val initialTarget = getTargetPort() as InitialPortModel
+
     return if (initialSource.type == PortType.Out) initialSource else initialTarget
 }
