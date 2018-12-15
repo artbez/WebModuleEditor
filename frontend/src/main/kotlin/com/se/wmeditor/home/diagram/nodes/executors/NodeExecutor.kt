@@ -7,6 +7,7 @@ import com.se.wmeditor.home.inPorts
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
+import kotlinx.serialization.ImplicitReflectionSerializer
 
 
 abstract class AbstractNodeExecutor(val node: NodeModel) {
@@ -36,6 +37,7 @@ abstract class AbstractNodeExecutor(val node: NodeModel) {
     }
 }
 
+@UseExperimental(ImplicitReflectionSerializer::class)
 fun createExecutor(node: NodeModel) = when (node) {
     is NetNode -> NetNodeExecutor(node)
     is NetTrainNode -> NetTrainExecutor(node)

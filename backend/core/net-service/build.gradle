@@ -1,7 +1,8 @@
 buildscript {
 
     ext {
-        dl4j_version = "1.0.0-alpha"
+        dl4j_version = "1.0.0-beta3"
+        kotlin_version = '1.3.11'
     }
     repositories {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -11,7 +12,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
-        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -22,14 +23,24 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'kotlin-platform-jvm'
 apply plugin: 'io.spring.dependency-management'
+//apply plugin: "org.jetbrains.kotlin.jvm"
 
 sourceCompatibility = 1.8
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs = ["-jvm-target=1.8"]
+        jvmTarget="1.8"
+    }
+}
+
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
         jvmTarget = "1.8"
     }
 }
+
 compileTestKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
@@ -57,6 +68,7 @@ dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
     compile('org.springframework.cloud:spring-cloud-starter-config')
     compile("org.jetbrains.kotlin:kotlin-stdlib")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile("org.jetbrains.kotlin:kotlin-reflect")
 
     compile "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
@@ -65,6 +77,12 @@ dependencies {
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-datavec-iterators', version: "${dl4j_version}"
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: "${dl4j_version}"
 
+// https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-nn
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nn', version: '1.0.0-beta3'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-common', version: '1.0.0-beta3'
+// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
 
     compile "org.nd4j:nd4j-native-platform:${dl4j_version}"
 

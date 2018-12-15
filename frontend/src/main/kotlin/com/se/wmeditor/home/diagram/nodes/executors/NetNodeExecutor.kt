@@ -8,8 +8,10 @@ import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
+import kotlinx.serialization.*
 import kotlinx.serialization.json.JSON
 
+@ImplicitReflectionSerializer
 class NetNodeExecutor(private val nodeModel: NetNode) : AbstractNodeExecutor(nodeModel) {
 
     private lateinit var outNet: ValueHolderPort<NetDescription>

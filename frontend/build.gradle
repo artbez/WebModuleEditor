@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlin_coroutine_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.0.1"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
@@ -94,4 +94,8 @@ kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0' //version required
 }

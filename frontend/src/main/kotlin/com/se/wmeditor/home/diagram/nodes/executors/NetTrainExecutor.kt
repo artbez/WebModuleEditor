@@ -10,8 +10,8 @@ import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 
 class NetTrainExecutor(nodeModel: NetTrainNode) : AbstractNodeExecutor(nodeModel) {
 
-    val inNet: ValueHolderPort<NetDescription> = ValueHolderPort(nodeModel.inputNetPort.getID(), this)
-    val inDataset: ValueHolderPort<DatasetDescription> = ValueHolderPort(nodeModel.inputDatasetPort.getID(), this)
+    private val inNet: ValueHolderPort<NetDescription> = ValueHolderPort(nodeModel.inputNetPort.getID(), this)
+    private val inDataset: ValueHolderPort<DatasetDescription> = ValueHolderPort(nodeModel.inputDatasetPort.getID(), this)
 
     lateinit var outNet: ValueHolderPort<NetDescription>
 

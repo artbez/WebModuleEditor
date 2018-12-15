@@ -10,5 +10,5 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 class NetService
 
 fun main(args: Array<String>) {
-    SpringApplication.run(NetService::class.java, *args)
+  SpringApplication.run(NetService::class.java, *args)
 }

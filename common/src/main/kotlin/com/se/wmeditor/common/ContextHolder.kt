@@ -9,7 +9,7 @@ data class ContextHolder(val contextId: String)
 data class ContextNetDescription(val contextId: String, val netDescription: NetDescription)
 
 @Serializable
-data class ContextDatasetDesciption(val contextId: String, val datasetDescription: DatasetDescription)
+data class ContextDatasetDescription(val contextId: String, val datasetDescription: DatasetDescription)
 
 @Serializable
 data class ContextDataDescription(val contextId: String, val dataDescription: DataDescription)

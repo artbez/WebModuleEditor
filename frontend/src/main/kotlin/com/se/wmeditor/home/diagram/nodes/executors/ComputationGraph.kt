@@ -6,7 +6,9 @@ import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.utils.get
 import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
+import kotlinx.serialization.*
+//import kotlinx.coroutines.experimental.async
 import kotlinx.serialization.json.JSON as KJSON
 
 class ComputationGraph(val nodes: List<NodeModel>) {
@@ -33,7 +35,7 @@ class ComputationGraph(val nodes: List<NodeModel>) {
         try {
             executors.forEach {
                 it.contextId = contextId
-                async { it.tryExecute() }
+                GlobalScope.launch { it.tryExecute() }
             }
 
         } finally {
@@ -43,6 +45,8 @@ class ComputationGraph(val nodes: List<NodeModel>) {
     }
 }
 
+@UseExperimental(ImplicitReflectionSerializer::class)
 suspend fun getContextId() = KJSON.parse<ContextHolder>(get("/api/net/context/create")).contextId
+@UseExperimental(ImplicitReflectionSerializer::class)
 suspend fun removeContext(contextId: String) =
     KJSON.parse<ContextHolder>(post("/api/net/context/remove", KJSON.stringify(ContextHolder(contextId)))).contextId

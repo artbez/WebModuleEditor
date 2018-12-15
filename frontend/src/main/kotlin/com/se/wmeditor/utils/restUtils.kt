@@ -1,6 +1,6 @@
 package com.se.wmeditor.utils
 
-import kotlinx.coroutines.experimental.await
+import kotlinx.coroutines.await
 import org.w3c.fetch.RequestCredentials
 import org.w3c.fetch.RequestInit
 import org.w3c.fetch.Response

@@ -5,6 +5,6 @@ import org.springframework.context.support.GenericApplicationContext
 
 class BeansInitializer : ApplicationContextInitializer<GenericApplicationContext> {
     override fun initialize(ctx: GenericApplicationContext) = org.springframework.context.support.beans {
-        bean<NetContextHolder>()
+      bean<NetContextHolder>()
     }.initialize(ctx)
 }

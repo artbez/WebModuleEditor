@@ -1,12 +1,15 @@
 buildscript {
-
+    ext {
+        kotlinVersion = '1.3.11'
+        springBootVersion = '2.1.1.RELEASE'
+    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
     }
 }
 
@@ -16,7 +19,8 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 compileKotlin {
     kotlinOptions {
@@ -36,17 +40,14 @@ repositories {
     maven { url "https://repo.spring.io/milestone" }
 }
 
-
-ext {
-    springCloudVersion = 'Finchley.M8'
-}
+ext['springCloudVersion'] = 'Greenwich.M3'
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-config-server')
-    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("org.jetbrains.kotlin:kotlin-reflect")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.cloud:spring-cloud-config-server')
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+//    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
@@ -54,3 +55,60 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+//buildscript {
+//
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
+//        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+//    }
+//}
+//
+//apply plugin: 'kotlin'
+//apply plugin: 'kotlin-spring'
+//apply plugin: 'eclipse'
+//apply plugin: 'org.springframework.boot'
+//apply plugin: 'io.spring.dependency-management'
+//
+//
+//sourceCompatibility = 1.8
+//compileKotlin {
+//    kotlinOptions {
+//        freeCompilerArgs = ["-Xjsr305=strict"]
+//        jvmTarget = "1.8"
+//    }
+//}
+//compileTestKotlin {
+//    kotlinOptions {
+//        freeCompilerArgs = ["-Xjsr305=strict"]
+//        jvmTarget = "1.8"
+//    }
+//}
+//
+//repositories {
+//    mavenCentral()
+//    maven { url "https://repo.spring.io/milestone" }
+//}
+//
+//
+//ext {
+//    springCloudVersion = 'Finchley.M8'
+//}
+//
+//dependencies {
+//    compile('org.springframework.cloud:spring-cloud-config-server')
+//    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+//    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+//    compile("org.jetbrains.kotlin:kotlin-reflect")
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
+//}
+//
+//dependencyManagement {
+//    imports {
+//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//    }
+//}

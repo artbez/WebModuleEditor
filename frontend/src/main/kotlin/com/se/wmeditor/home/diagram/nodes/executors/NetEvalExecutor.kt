@@ -6,8 +6,10 @@ import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
+import kotlinx.serialization.*
 import kotlinx.serialization.json.JSON
 
+@ImplicitReflectionSerializer
 class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecutor(netEvalNode) {
 
     private val inNet: ValueHolderPort<NetDescription> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
@@ -26,7 +28,7 @@ class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecut
 
     override suspend fun execute() {
         val sendingDescription = inDataset.getValue()!!
-        val contextDescription = ContextDatasetDesciption(contextId, sendingDescription)
+        val contextDescription = ContextDatasetDescription(contextId, sendingDescription)
         val ans = JSON.parse<DataDescription>(post("/api/net/actions/eval", JSON.stringify(contextDescription)))
         node.setSelected(false)
         node.outLinks().forEach { it.setSelected(false) }

@@ -8,13 +8,13 @@ import java.util.*
 @RequestMapping("/api/net/context")
 class ContextApi(private val netContextHolder: NetContextHolder) {
 
-    @GetMapping("create")
-    fun create(): ContextHolder {
-        return ContextHolder(UUID.randomUUID().toString())
-    }
+  @GetMapping("create")
+  fun create(): ContextHolder {
+    return ContextHolder(UUID.randomUUID().toString())
+  }
 
-    @PostMapping("remove")
-    fun remove(@RequestBody context: ContextHolder) {
-        netContextHolder.removeContext(context.contextId)
-    }
+  @PostMapping("remove")
+  fun remove(@RequestBody context: ContextHolder) {
+    netContextHolder.removeContext(context.contextId)
+  }
 }
