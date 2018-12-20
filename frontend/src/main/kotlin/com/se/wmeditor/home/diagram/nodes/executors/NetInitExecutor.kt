@@ -43,4 +43,5 @@ class NetInitExecutor(private val nodeModel: NetInitNode) : AbstractNodeExecutor
     node.outLinks().forEach { it.setSelected(false) }
     outNet.setValue(ans.netMeta)
   }
+
 }
