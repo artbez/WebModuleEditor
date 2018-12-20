@@ -12,7 +12,7 @@ import react.dom.div
 class NetTrainNode : NodeModel(name, "") {
 
     val inputNetPort = NetPortModel("Net", PortType.In)
-    val inputDatasetPort = DatasetPortModel("Dataset", PortType.In)
+    val inputDatasetPort = DatasetPortModel("DatasetType", PortType.In)
     val outputNetPort = NetPortModel("Net", PortType.Out)
 
     var epochNumber: Int = 10

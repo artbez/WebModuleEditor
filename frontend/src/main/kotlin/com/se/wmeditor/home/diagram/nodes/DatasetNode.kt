@@ -1,6 +1,6 @@
 package com.se.wmeditor.home.diagram.nodes
 
-import com.se.wmeditor.common.Dataset
+import com.se.wmeditor.common.*
 import com.se.wmeditor.dom.cabinetIcon
 import com.se.wmeditor.home.diagram.nodes.ports.DatasetPortModel
 import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
@@ -13,67 +13,67 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class DatasetNode : NodeModel(name, "") {
+class DatasetNode(val datasets: List<DatasetDescription>) : NodeModel(name, "") {
 
-    val outputDatasetPort = DatasetPortModel("Dataset", PortType.Out)
-    var dataset: Dataset = Dataset.IMAGENET
+  val outputDatasetPort = DatasetPortModel("DatasetType", PortType.Out)
+  var selectedDataset: DatasetMeta = datasets[0].meta()
 
-    init {
-        addPort(outputDatasetPort)
-    }
+  init {
+    addPort(outputDatasetPort)
+  }
 
-    companion object {
-        const val name = "dataset"
-    }
+  companion object {
+    const val name = "datasetMeta"
+  }
 }
 
 class DatasetWidget : RComponent<DatasetWidget.Props, RState>() {
 
-    companion object {
-        init {
-            kotlinext.js.require("styles/custom-nodes.scss")
+  companion object {
+    init {
+      kotlinext.js.require("styles/custom-nodes.scss")
+    }
+  }
+
+  override fun RBuilder.render() {
+    div("diagram-net__node") {
+      cabinetIcon {}
+
+      if (props.isView != true) {
+        portModelWidget {
+          attrs {
+            node = props.node
+            port = props.node.outputDatasetPort
+            position = PortPosition.Right
+          }
         }
+      }
     }
+  }
 
-    override fun RBuilder.render() {
-        div("diagram-net__node") {
-            cabinetIcon {}
-
-            if (props.isView != true) {
-                portModelWidget {
-                    attrs {
-                        node = props.node
-                        port = props.node.outputDatasetPort
-                        position = PortPosition.Right
-                    }
-                }
-            }
-        }
-    }
-
-    interface Props : RProps {
-        var node: DatasetNode
-        var isView: Boolean?
-    }
+  interface Props : RProps {
+    var node: DatasetNode
+    var isView: Boolean?
+  }
 }
 
 fun RBuilder.datasetWidget(handler: RHandler<DatasetWidget.Props>) =
-    child(DatasetWidget::class, handler)
+  child(DatasetWidget::class, handler)
 
 
 class DatasetNodeFactory : AbstractNodeFactory<DatasetNode>(DatasetNode.name) {
 
-    companion object {
-        val instance = DatasetNodeFactory()
-    }
+  companion object {
+    val instance = DatasetNodeFactory()
+  }
 
-    override fun getNewInstance(initialConfig: dynamic): DatasetNode = DatasetNode()
+  override fun getNewInstance(initialConfig: List<DatasetDescription>): DatasetNode = DatasetNode(initialConfig)
 
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: DatasetNode): ReactElement =
-        buildElement {
-            datasetWidget {
-                attrs.node = node
-            }
-        }!!
+  override fun generateReactWidget(diagramEngine: DiagramEngine, node: DatasetNode): ReactElement =
+    buildElement {
+      datasetWidget {
+        attrs.node = node
+      }
+    }!!
 
 }

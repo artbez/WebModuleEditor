@@ -1,12 +1,13 @@
-package com.se.wmeditor.service.net
+package com.se.wmeditor.service.net.api
 
 import com.se.wmeditor.common.ContextHolder
+import com.se.wmeditor.service.net.core.NetContextHolder
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/api/net/context")
-class ContextApi(private val netContextHolder: NetContextHolder) {
+class ContextController(private val netContextHolder: NetContextHolder) {
 
   @GetMapping("create")
   fun create(): ContextHolder {

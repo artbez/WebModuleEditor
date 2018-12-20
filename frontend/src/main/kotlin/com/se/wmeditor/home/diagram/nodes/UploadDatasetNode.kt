@@ -14,61 +14,61 @@ import react.dom.div
 
 class UploadDatasetNode : NodeModel(name, "") {
 
-    val outputDatasetPort = DatasetPortModel("Dataset", PortType.Out)
+  val outputDatasetPort = DatasetPortModel("DatasetType", PortType.Out)
 
-    init {
-        addPort(outputDatasetPort)
-    }
+  init {
+    addPort(outputDatasetPort)
+  }
 
-    companion object {
-        const val name = "upload_dataset"
-    }
+  companion object {
+    const val name = "upload_dataset"
+  }
 }
 
 class UploadDatasetWidget : RComponent<UploadDatasetWidget.Props, RState>() {
 
-    companion object {
-        init {
-            kotlinext.js.require("styles/custom-nodes.scss")
-        }
+  companion object {
+    init {
+      kotlinext.js.require("styles/custom-nodes.scss")
     }
+  }
 
-    override fun RBuilder.render() {
-        div("diagram-net__node") {
-            uploadDatasetIcon {}
-            if (props.isView != true) {
-                portModelWidget {
-                    attrs {
-                        node = props.node
-                        port = props.node.outputDatasetPort
-                        position = PortPosition.Right
-                    }
-                }
-            }
+  override fun RBuilder.render() {
+    div("diagram-net__node") {
+      uploadDatasetIcon {}
+      if (props.isView != true) {
+        portModelWidget {
+          attrs {
+            node = props.node
+            port = props.node.outputDatasetPort
+            position = PortPosition.Right
+          }
         }
+      }
     }
+  }
 
-    interface Props : RProps {
-        var node: UploadDatasetNode
-        var isView: Boolean?
-    }
+  interface Props : RProps {
+    var node: UploadDatasetNode
+    var isView: Boolean?
+  }
 }
 
 fun RBuilder.uploadDatasetWidget(handler: RHandler<UploadDatasetWidget.Props>) =
-    child(UploadDatasetWidget::class, handler)
+  child(UploadDatasetWidget::class, handler)
 
 
 class UploadDatasetNodeFactory : AbstractNodeFactory<UploadDatasetNode>(UploadDatasetNode.name) {
 
-    companion object {
-        val instance = UploadDatasetNodeFactory()
+  companion object {
+    val instance = UploadDatasetNodeFactory()
+  }
+
+  override fun getNewInstance(initialConfig: dynamic): UploadDatasetNode = UploadDatasetNode()
+
+  override fun generateReactWidget(diagramEngine: DiagramEngine, node: UploadDatasetNode): ReactElement = buildElement {
+    uploadDatasetWidget {
+      attrs.node = node
     }
-
-    override fun getNewInstance(initialConfig: dynamic): UploadDatasetNode = UploadDatasetNode()
-
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: UploadDatasetNode): ReactElement = buildElement {
-        uploadDatasetWidget {
-            attrs.node = node
-        }
-    }!!
+  }!!
 }

@@ -1,7 +1,6 @@
 package com.se.wmeditor.home.diagram.nodes
 
-import com.se.wmeditor.common.Dataset
-import com.se.wmeditor.common.NetModel
+import com.se.wmeditor.common.*
 import com.se.wmeditor.dom.netIcon
 import com.se.wmeditor.home.diagram.nodes.ports.NetPortModel
 import com.se.wmeditor.home.diagram.nodes.ports.PortPosition
@@ -14,73 +13,66 @@ import kotlinext.js.invoke
 import react.*
 import react.dom.div
 
-class NetNode(val config: NetNodeConfig) : NodeModel(name, "") {
+class NetInitNode(val netDescription: NetDescription) : NodeModel(name, "") {
 
-    val outputNetPort = NetPortModel("Net", PortType.Out)
-    var dataset: Dataset = Dataset.NONE
+  val outputNetPort = NetPortModel("Net", PortType.Out)
+  var datasetMeta: DatasetMeta? = null
 
-    init {
-        addPort(outputNetPort)
-    }
+  init {
+    addPort(outputNetPort)
+  }
 
-    companion object {
-        const val name = "net"
-    }
+  companion object {
+    const val name = "net"
+  }
 }
-
-sealed class NetNodeConfig(val model: NetModel, val description: String)
-
-object VGG16Config : NetNodeConfig(
-    NetModel.VGG16,
-    "Given image → find object name in the image, It takes input image of size 224 * 244 * 3 (RGB image)"
-)
 
 class NetNodeWidget : RComponent<NetNodeWidget.Props, RState>() {
 
-    companion object {
-        init {
-            kotlinext.js.require("styles/custom-nodes.scss")
-        }
+  companion object {
+    init {
+      kotlinext.js.require("styles/custom-nodes.scss")
     }
+  }
 
-    override fun RBuilder.render() {
-        div("diagram-net__node") {
-            netIcon { }
-            if (props.isView != true) {
-                portModelWidget {
-                    attrs {
-                        node = props.node
-                        port = props.node.outputNetPort
-                        position = PortPosition.Right
-                    }
-                }
-            }
+  override fun RBuilder.render() {
+    div("diagram-net__node") {
+      netIcon { }
+      if (props.isView != true) {
+        portModelWidget {
+          attrs {
+            node = props.node
+            port = props.node.outputNetPort
+            position = PortPosition.Right
+          }
         }
+      }
     }
+  }
 
-    interface Props : RProps {
-        var node: NetNode
-        var isView: Boolean?
-    }
+  interface Props : RProps {
+    var node: NetInitNode
+    var isView: Boolean?
+  }
 }
 
 fun RBuilder.netNodeWidget(handler: RHandler<NetNodeWidget.Props>) = child(NetNodeWidget::class, handler)
 
-class NetNodeFactory : AbstractNodeFactory<NetNode>(NetNode.name) {
+class NetNodeFactory : AbstractNodeFactory<NetInitNode>(NetInitNode.name) {
 
-    companion object {
-        val instance = NetNodeFactory()
+  companion object {
+    val instance = NetNodeFactory()
+  }
+
+  override fun getNewInstance(initialConfig: NetDescription): NetInitNode {
+    return NetInitNode(initialConfig)
+  }
+
+  override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetInitNode): ReactElement = buildElement {
+    netNodeWidget {
+      attrs {
+        this.node = node
+      }
     }
-
-    override fun getNewInstance(initialConfig: NetNodeConfig): NetNode {
-        return NetNode(initialConfig)
-    }
-
-    override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetNode): ReactElement = buildElement {
-        netNodeWidget {
-            attrs {
-                this.node = node
-            }
-        }
-    }!!
+  }!!
 }

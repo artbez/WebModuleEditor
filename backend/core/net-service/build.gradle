@@ -71,11 +71,13 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile("org.jetbrains.kotlin:kotlin-reflect")
 
-    compile "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
+    compile "org.deeplearning4j:deeplearning4j-core:1.0.0-beta3"
     // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-zoo
-    compile group: 'org.deeplearning4j', name: 'deeplearning4j-zoo', version: "${dl4j_version}"
-    compile group: 'org.deeplearning4j', name: 'deeplearning4j-datavec-iterators', version: "${dl4j_version}"
-    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: "${dl4j_version}"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-zoo', version: "1.0.0-beta3"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-datavec-iterators', version: "1.0.0-beta3"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: "1.0.0-beta3"
+    // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-datasets
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-datasets', version: '1.0.0-beta3'
 
 // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-nn
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-nn', version: '1.0.0-beta3'
@@ -84,7 +86,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
 
-    compile "org.nd4j:nd4j-native-platform:${dl4j_version}"
+    compile "org.nd4j:nd4j-native-platform:1.0.0-beta3"
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     expectedBy project(":common")

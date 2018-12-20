@@ -1,7 +1,7 @@
 buildscript {
 
     ext {
-        dl4j_version = "1.0.0-alpha"
+        dl4j_version = "1.0.0-beta3"
     }
     repositories {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }

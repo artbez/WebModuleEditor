@@ -30,7 +30,7 @@ fun RBuilder.netEvalIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> 
 
 fun RBuilder.uploadDatasetIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> Unit) {
     svg(classes, "0 0 1024 1024") {
-        title("Upload dataset")
+        title("Upload datasetMeta")
         path("M480 832h-384.225c-17.499 0-31.775-14.209-31.775-31.738v-352.262h864v351.972c0 17.8-14.226 32.028-31.775 32.028h-384.225v-288l104 104 24-24-144-144-144 144 24 24 104-104v288zM64 416v-192.262c0-17.168 14.208-31.738 31.736-31.738h333.065l62.719 128h404.385c17.573 0 32.095 14.339 32.095 32.028v63.972h-864zM512 288l-64-128h-351.912c-35.395 0-64.088 28.47-64.088 63.717v576.566c0 35.19 28.791 63.717 63.785 63.717h800.43c35.228 0 63.785-28.564 63.785-63.843v-448.314c0-35.259-28.706-63.843-64.187-63.843h-383.813z")
         block()
     }
@@ -46,7 +46,7 @@ fun RBuilder.alertIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> Un
 
 fun RBuilder.cabinetIcon(classes: String? = null, block: RDOMBuilder<SVG>.() -> Unit) {
     svg(classes, "0 0 1024 1024") {
-        title("Dataset")
+        title("DatasetType")
         path("M160 960v-768l133.344-128h405.344l133.312 128v768h-672zM800 704v-480h-608v704h608v-224zM768 448h-544v-192h544v192zM576 320h-160v32h160v-32zM768 672h-544v-192h544v192zM576 544h-160v32h160v-32zM768 896h-544v-192h544v192zM576 768h-160v32h160v-32z")
         block()
     }

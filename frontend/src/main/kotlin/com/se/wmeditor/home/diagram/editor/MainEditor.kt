@@ -12,60 +12,60 @@ import react.dom.hr
 
 class MainEditor : RComponent<MainEditor.Props, RState>() {
 
-    companion object {
-        init {
-            kotlinext.js.require("styles/configurer.scss")
-        }
+  companion object {
+    init {
+      kotlinext.js.require("styles/configurer.scss")
     }
+  }
 
-    private var selectedNodes: List<NodeModel> = emptyList()
+  private var selectedNodes: List<NodeModel> = emptyList()
 
-    override fun componentWillReceiveProps(nextProps: Props) {
-        selectedNodes = nextProps.engine.getDiagramModel().getNodes().toMap().values.filter { it.isSelected() }
-    }
+  override fun componentWillReceiveProps(nextProps: Props) {
+    selectedNodes = nextProps.engine.getDiagramModel().getNodes().toMap().values.filter { it.isSelected() }
+  }
 
-    override fun RBuilder.render() {
-        div("home-left") {
-            h4("home-left__title") {
-                +"Configurer"
+  override fun RBuilder.render() {
+    div("home-left") {
+      h4("home-left__title") {
+        +"Configurer"
+      }
+      hr("home-left__line") { }
+
+      when {
+        selectedNodes.size == 1 -> {
+          nodeEditor {
+            attrs {
+              this.engine = props.engine
+              this.updateDiagram = props.updateDiagram
+              this.selectedNode = selectedNodes[0]
             }
-            hr("home-left__line") { }
-
-            when {
-                selectedNodes.size == 1 -> {
-                    nodeEditor {
-                        attrs {
-                            this.engine = props.engine
-                            this.updateDiagram = props.updateDiagram
-                            this.selectedNode = selectedNodes[0]
-                        }
-                    }
-                    hr { }
-                    h5("home-left__title") {
-                        +"Diagram configurer"
-                    }
-                    diagramEditor {
-                        attrs {
-                            this.selectedNodes = this@MainEditor.selectedNodes
-                            this.blockScene = { blocked -> props.blockScene(blocked) }
-                        }
-                    }
-                }
-                selectedNodes.size > 1 -> diagramEditor {
-                    attrs {
-                        this.selectedNodes = this@MainEditor.selectedNodes
-                        this.blockScene = { blocked -> props.blockScene(blocked) }
-                    }
-                }
+          }
+          hr { }
+          h5("home-left__title") {
+            +"Diagram configurer"
+          }
+          diagramEditor {
+            attrs {
+              this.selectedNodes = this@MainEditor.selectedNodes
+              this.blockScene = { blocked -> props.blockScene(blocked) }
             }
+          }
         }
+        selectedNodes.size > 1 -> diagramEditor {
+          attrs {
+            this.selectedNodes = this@MainEditor.selectedNodes
+            this.blockScene = { blocked -> props.blockScene(blocked) }
+          }
+        }
+      }
     }
+  }
 
-    interface Props : RProps {
-        var engine: DiagramEngine
-        var updateDiagram: () -> Unit
-        var blockScene: (Boolean) -> Unit
-    }
+  interface Props : RProps {
+    var engine: DiagramEngine
+    var updateDiagram: () -> Unit
+    var blockScene: (Boolean) -> Unit
+  }
 }
 
 fun RBuilder.mainEditor(handler: RHandler<MainEditor.Props>) = child(MainEditor::class, handler)
