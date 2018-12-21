@@ -63,9 +63,9 @@ class NetContext(private val netModelService: NetModelService) {
 
     val datasetIterator = when (datasetType) {
       DatasetType.TINY_IMAGENET ->
-        TinyImageNetDataSetIterator(batchSize, datasetState.inputSize.toIntArray(), DataSetType.TRAIN)
+        TinyImageNetDataSetIterator(batchSize, datasetState.inputSize.subList(1, 3).toIntArray(), DataSetType.TRAIN)
 
-      DatasetType.CIFAR10 -> CifarDataSetIterator(batchSize, datasetState.inputSize.toIntArray())
+      DatasetType.CIFAR10 -> CifarDataSetIterator(batchSize, datasetState.inputSize.reversed().toIntArray())
 
       else -> throw IllegalArgumentException("No such datasetType")
     }

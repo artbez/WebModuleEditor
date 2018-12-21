@@ -69,15 +69,14 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipu
         }
 
         paletteNode {
-          val nodeInstance = DatasetNodeFactory.instance.getNewInstance(state.datasets)
           attrs {
             label = "Existing dataset"
             paletteSceneTransfer = props.paletteSceneTransfer
-            this.node = nodeInstance
+            this.node = DatasetNodeFactory.instance.getNewInstance(state.datasets)
           }
           datasetWidget {
             attrs {
-              this.node = nodeInstance
+              this.node = DatasetNodeFactory.instance.getNewInstance(state.datasets)
               isView = true
             }
           }

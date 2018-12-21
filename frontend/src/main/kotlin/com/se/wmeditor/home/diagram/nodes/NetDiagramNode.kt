@@ -65,7 +65,7 @@ class NetNodeFactory : AbstractNodeFactory<NetInitNode>(NetInitNode.name) {
   }
 
   override fun getNewInstance(initialConfig: NetDescription): NetInitNode {
-    return NetInitNode(initialConfig)
+    return NetInitNode(initialConfig.copy())
   }
 
   override fun generateReactWidget(diagramEngine: DiagramEngine, node: NetInitNode): ReactElement = buildElement {

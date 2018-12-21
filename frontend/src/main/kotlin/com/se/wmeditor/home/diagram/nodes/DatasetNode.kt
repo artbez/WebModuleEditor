@@ -67,7 +67,7 @@ class DatasetNodeFactory : AbstractNodeFactory<DatasetNode>(DatasetNode.name) {
     val instance = DatasetNodeFactory()
   }
 
-  override fun getNewInstance(initialConfig: List<DatasetDescription>): DatasetNode = DatasetNode(initialConfig)
+  override fun getNewInstance(initialConfig: List<DatasetDescription>): DatasetNode = DatasetNode(initialConfig.map { it.copy() })
 
   override fun generateReactWidget(diagramEngine: DiagramEngine, node: DatasetNode): ReactElement =
     buildElement {
