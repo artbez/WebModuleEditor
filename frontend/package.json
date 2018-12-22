@@ -6,6 +6,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-tippy": "^1.2.2",
+    "react-bootstrap": "0.32.4",
     "storm-react-diagrams": "^5.0.0"
   },
   "devDependencies": {

@@ -41,7 +41,7 @@ class NetArchitecturesBlock : RComponent<NetArchitecturesBlock.Props, NetArchite
           attrs {
             label = config.label
             paletteSceneTransfer = props.paletteSceneTransfer
-            this.node = NetNodeFactory.instance.getNewInstance(config)
+            this.nodeProducer = {  NetNodeFactory.instance.getNewInstance(config) }
           }
           netNodeWidget {
             attrs {

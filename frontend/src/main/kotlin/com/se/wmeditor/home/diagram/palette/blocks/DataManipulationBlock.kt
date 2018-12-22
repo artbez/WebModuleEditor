@@ -1,19 +1,16 @@
 package com.se.wmeditor.home.diagram.palette.blocks
 
 import com.se.wmeditor.common.DatasetDescription
-import com.se.wmeditor.common.NetDescription
 import com.se.wmeditor.home.diagram.PaletteSceneTransferObject
 import com.se.wmeditor.home.diagram.nodes.*
 import com.se.wmeditor.home.diagram.palette.paletteNode
 import com.se.wmeditor.utils.get
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.*
 import kotlinx.serialization.json.JSON
+import kotlinx.serialization.list
 import react.*
-import react.dom.div
-import react.dom.h4
-import react.dom.hr
+import react.dom.*
 
 class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipulationBlock.State>() {
 
@@ -21,7 +18,6 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipu
     datasets = emptyList()
   }
 
-  @UseExperimental(ImplicitReflectionSerializer::class)
   override fun componentWillMount() {
     GlobalScope.launch {
       val netResponse = JSON.parse(DatasetDescription.serializer().list, get("/api/net/info/datasets/all"))
@@ -44,7 +40,7 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipu
           attrs {
             label = "Upload dataset"
             paletteSceneTransfer = props.paletteSceneTransfer
-            this.node = UploadDatasetNodeFactory.instance.getNewInstance(null)
+            this.nodeProducer = { UploadDatasetNodeFactory.instance.getNewInstance(null) }
           }
           uploadDatasetWidget {
             attrs {
@@ -58,7 +54,7 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipu
           attrs {
             label = "Alert"
             paletteSceneTransfer = props.paletteSceneTransfer
-            this.node = AlertNodeFactory.instance.getNewInstance(null)
+            this.nodeProducer = { AlertNodeFactory.instance.getNewInstance(null) }
           }
           alertNodeWidget {
             attrs {
@@ -72,7 +68,7 @@ class DataManipulationBlock : RComponent<DataManipulationBlock.Props, DataManipu
           attrs {
             label = "Existing dataset"
             paletteSceneTransfer = props.paletteSceneTransfer
-            this.node = DatasetNodeFactory.instance.getNewInstance(state.datasets)
+            this.nodeProducer = { DatasetNodeFactory.instance.getNewInstance(state.datasets) }
           }
           datasetWidget {
             attrs {

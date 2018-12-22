@@ -16,7 +16,7 @@ class PaletteNode : RComponent<PaletteNode.Props, RState>() {
             div("node_item__widget") {
                 attrs {
                     draggable = Draggable.htmlTrue
-                    onDragStartFunction = { props.paletteSceneTransfer.putDto(props.node) }
+                    onDragStartFunction = { props.paletteSceneTransfer.putDto(props.nodeProducer()) }
                     onDragEndFunction = { props.paletteSceneTransfer.cleanDto() }
                 }
                 this.children()
@@ -29,7 +29,7 @@ class PaletteNode : RComponent<PaletteNode.Props, RState>() {
 
     interface Props : RProps {
         var label: String
-        var node: NodeModel
+        var nodeProducer: () -> NodeModel
         var paletteSceneTransfer: PaletteSceneTransferObject
     }
 }

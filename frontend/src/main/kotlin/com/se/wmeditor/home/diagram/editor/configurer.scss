@@ -16,10 +16,23 @@
   }
 }
 
+.setting-section {
+  height: 2rem;
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .editor_input {
   min-width: 2rem;
 }
 
 .editor_button {
   width: 7rem;
+}
+
+#popover-select-pretrained {
+  max-width: 100rem;
 }

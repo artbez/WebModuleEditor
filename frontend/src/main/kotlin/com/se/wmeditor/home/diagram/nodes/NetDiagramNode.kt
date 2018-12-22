@@ -16,7 +16,7 @@ import react.dom.div
 class NetInitNode(val netDescription: NetDescription) : NodeModel(name, "") {
 
   val outputNetPort = NetPortModel("Net", PortType.Out)
-  var datasetMeta: DatasetMeta? = null
+  var trainedNetMeta: TrainedNetMeta = TrainedNetMeta(NetMeta(netDescription.type, netDescription.state), emptyList())
 
   init {
     addPort(outputNetPort)

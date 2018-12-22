@@ -16,6 +16,12 @@ class DatasetEditor(props: DatasetEditor.Props) : RComponent<DatasetEditor.Props
     selected = props.node.selectedDataset
   }
 
+  override fun componentWillReceiveProps(nextProps: DatasetEditor.Props) {
+    setState {
+      selected = nextProps.node.selectedDataset
+    }
+  }
+
   override fun componentDidUpdate(prevProps: Props, prevState: State) {
     props.node.selectedDataset = state.selected
   }
@@ -94,6 +100,7 @@ class DatasetEditor(props: DatasetEditor.Props) : RComponent<DatasetEditor.Props
           attrs {
             type = InputType.number
             value = state.selected.state.outputSize[0].toString()
+            disabled = true
             onChangeFunction = { event ->
               val classNum = event.target.unsafeCast<HTMLInputElement>().value.toInt()
               setState {

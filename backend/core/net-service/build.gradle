@@ -88,6 +88,8 @@ dependencies {
 
     compile "org.nd4j:nd4j-native-platform:1.0.0-beta3"
 
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.9.1'
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
     expectedBy project(":common")
 }

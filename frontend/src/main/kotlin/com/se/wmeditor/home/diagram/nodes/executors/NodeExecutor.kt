@@ -35,7 +35,6 @@ abstract class AbstractNodeExecutor(val node: NodeModel) {
   }
 }
 
-@UseExperimental(ImplicitReflectionSerializer::class)
 fun createExecutor(node: NodeModel) = when (node) {
   is NetInitNode -> NetInitExecutor(node)
   is NetTrainNode -> NetTrainExecutor(node)

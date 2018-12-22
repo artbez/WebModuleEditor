@@ -11,10 +11,10 @@ import kotlinx.serialization.json.JSON
 
 class NetTrainExecutor(nodeModel: NetTrainNode) : AbstractNodeExecutor(nodeModel) {
 
-  private val inNet: ValueHolderPort<NetMeta> = ValueHolderPort(nodeModel.inputNetPort.getID(), this)
+  private val inNet: ValueHolderPort<TrainedNetMeta> = ValueHolderPort(nodeModel.inputNetPort.getID(), this)
   private val inDataset: ValueHolderPort<DatasetMeta> = ValueHolderPort(nodeModel.inputDatasetPort.getID(), this)
 
-  lateinit var outNet: ValueHolderPort<NetMeta>
+  lateinit var outNet: ValueHolderPort<TrainedNetMeta>
 
   override fun getPortById(portId: String): ValueHolderPort<out Any> = when (portId) {
     inNet.portId -> inNet
@@ -23,19 +23,19 @@ class NetTrainExecutor(nodeModel: NetTrainNode) : AbstractNodeExecutor(nodeModel
   }
 
   override fun attachPort(port: PortModel, targetExecutor: AbstractNodeExecutor) {
-    outNet = targetExecutor.getPortById(port.getID()).unsafeCast<ValueHolderPort<NetMeta>>()
+    outNet = targetExecutor.getPortById(port.getID()).unsafeCast<ValueHolderPort<TrainedNetMeta>>()
   }
 
   override suspend fun execute() {
     val datasetMeta = inDataset.getValue()!!
-    val netMeta = inNet.getValue()!!
-    val netTrainRequest = NetTrainRequest(contextId, netMeta, datasetMeta)
+    val trainedNetMeta = inNet.getValue()!!
+    val netTrainRequest = NetTrainRequest(contextId, trainedNetMeta, datasetMeta)
     val ans = JSON.parse(
       NetTrainResponse.serializer(),
       post("/api/net/actions/train", JSON.stringify(NetTrainRequest.serializer(), netTrainRequest))
     )
     node.setSelected(false)
     node.outLinks().forEach { it.setSelected(false) }
-    outNet.setValue(ans.netMeta)
+    outNet.setValue(ans.trainedNetMeta)
   }
 }

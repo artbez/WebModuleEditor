@@ -15,7 +15,7 @@ class NodeEditor : RComponent<NodeEditor.Props, RState>() {
   override fun RBuilder.render() {
     when (props.selectedNode.getType()) {
       NetInitNode.name ->
-        netFieldsEditor {
+        netInitEditor {
           attrs {
             node = props.selectedNode as NetInitNode
             updateDiagram = { props.updateDiagram() }

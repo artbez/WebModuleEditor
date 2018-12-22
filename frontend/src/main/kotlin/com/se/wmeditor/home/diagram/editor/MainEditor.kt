@@ -22,6 +22,9 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
 
   override fun componentWillReceiveProps(nextProps: Props) {
     selectedNodes = nextProps.engine.getDiagramModel().getNodes().toMap().values.filter { it.isSelected() }
+    console.log(nextProps.engine.getDiagramModel().getNodes())
+    console.log(selectedNodes)
+    console.log("")
   }
 
   override fun RBuilder.render() {

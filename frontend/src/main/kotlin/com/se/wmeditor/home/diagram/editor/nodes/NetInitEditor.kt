@@ -1,24 +1,38 @@
 package com.se.wmeditor.home.diagram.editor.nodes
 
-import com.se.wmeditor.common.*
+import com.se.wmeditor.common.NetState
+import com.se.wmeditor.common.TrainedNetMeta
+import com.se.wmeditor.dom.settingsIcon
+import com.se.wmeditor.home.diagram.editor.nodes.configs.selectPretrained
 import com.se.wmeditor.home.diagram.nodes.NetInitNode
+import com.se.wmeditor.wrappers.react.bootstrap.OverlayTrigger
+import com.se.wmeditor.wrappers.react.bootstrap.Popover
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLOptionElement
 import react.*
 import react.dom.*
 
 class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props, NetInitEditor.State>(props) {
 
   override fun NetInitEditor.State.init(props: NetInitEditor.Props) {
-    netState = props.node.netDescription.state
-    pretrained = null
+    trainedNetMeta = props.node.trainedNetMeta
+    initial = trainedNetMeta.copy()
   }
 
-  override fun componentDidUpdate(prevProps: NetInitEditor.Props, prevState: NetInitEditor.State) {
-    props.node.datasetMeta = state.pretrained
-    props.node.netDescription.state = state.netState
+  override fun componentWillReceiveProps(nextProps: Props) {
+    setState {
+      trainedNetMeta = nextProps.node.trainedNetMeta
+      initial = nextProps.node.trainedNetMeta.copy()
+    }
+  }
+
+  override fun componentDidUpdate(prevProps: Props, prevState: State) {
+    props.node.trainedNetMeta = state.trainedNetMeta
+  }
+
+  override fun componentWillUnmount() {
+    console.log("here")
   }
 
   override fun RBuilder.render() {
@@ -35,34 +49,31 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
       }
       div("configurer-props__group") {
         b { +"Pretrained:" }
-        select {
+        OverlayTrigger {
           attrs {
-            name = "Test"
-            onChangeFunction = { event ->
-              val target = event.target.unsafeCast<HTMLOptionElement>().value.toUpperCase()
-              val selected = props.node.netDescription.pretrained.find {
-                it.type.name.toUpperCase() == target.toUpperCase()
+            trigger = "click"
+            placement = "right"
+            overlay = buildElement {
+              Popover {
+                attrs {
+                  id = "popover-select-pretrained"
+                  title = "select"
+                }
+                selectPretrained {
+                  attrs {
+                    this.trainedNetMeta = state.trainedNetMeta
+                    this.onPretrainedChange = { chosen ->
+                      setState {
+                        trainedNetMeta = chosen ?: initial
+                      }
+                    }
+                  }
+                }
               }
-              setState {
-                pretrained = selected?.let { DatasetMeta(it.type, it.state) }
-              }
-            }
+            }!!
           }
-          option {
-            attrs {
-              value = "none"
-              label = "None"
-              selected = true
-            }
-          }
-          props.node.netDescription.pretrained.forEach { dataset ->
-            option {
-              attrs {
-                value = dataset.type.name
-                label = dataset.label
-                selected = props.node.datasetMeta?.type?.name?.toUpperCase() == value.toUpperCase()
-              }
-            }
+          button(classes = "setting-section") {
+            settingsIcon("setting-section__icon") { }
           }
         }
       }
@@ -71,7 +82,7 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
         input {
           attrs {
             type = InputType.checkBox
-            checked = state.pretrained?.let { it.state.inputSize[0] == 3 } ?: state.netState.inputSize[0] == 3
+            checked = state.trainedNetMeta.netMeta.state.inputSize[0] == 3
             onChangeFunction = { event ->
               val channels = event.target.asDynamic().checked as Boolean
               changeInput(0, if (channels) 3 else 1)
@@ -85,7 +96,7 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
           input {
             attrs {
               type = InputType.number
-              value = state.pretrained?.let { it.state.inputSize[1].toString() } ?: state.netState.inputSize[1].toString()
+              value = state.trainedNetMeta.netMeta.state.inputSize[1].toString()
               onChangeFunction = { event ->
                 val height = event.target.unsafeCast<HTMLInputElement>().value.toInt()
                 changeInput(1, height)
@@ -96,7 +107,7 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
           input {
             attrs {
               type = InputType.number
-              value = state.pretrained?.let { it.state.inputSize[2].toString() } ?: state.netState.inputSize[2].toString()
+              value = state.trainedNetMeta.netMeta.state.inputSize[2].toString()
               onChangeFunction = { event ->
                 val width = event.target.unsafeCast<HTMLInputElement>().value.toInt()
                 changeInput(2, width)
@@ -110,19 +121,12 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
         input {
           attrs {
             type = InputType.number
-            value = state.pretrained?.let { it.state.outputSize[0].toString() } ?: state.netState.outputSize[0].toString()
+            value = state.trainedNetMeta.netMeta.state.outputSize[0].toString()
             onChangeFunction = { event ->
               val classNum = event.target.unsafeCast<HTMLInputElement>().value.toInt()
-              val pretrained = state.pretrained
-              if (pretrained != null) {
-                val newState = pretrained.state.copy(outputSize = listOf(classNum))
-                setState {
-                  this.pretrained = pretrained.copy(state = newState)
-                }
-              } else {
-                setState {
-                  netState = state.netState.copy(outputSize = listOf(classNum))
-                }
+              val newState = NetState(state.trainedNetMeta.netMeta.state.inputSize, listOf(classNum))
+              setState {
+                trainedNetMeta = trainedNetMeta.copy(netMeta = trainedNetMeta.netMeta.copy(state = newState))
               }
             }
           }
@@ -132,22 +136,12 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
   }
 
   private fun changeInput(index: Int, value: Int) {
-    val pretrained = state.pretrained
-    if (pretrained != null) {
-      val prevState = pretrained.state
-      val newInput = prevState.inputSize.mapIndexed { ind, el -> if (ind == index) value else el }
-      val newState = DatasetState(newInput, prevState.outputSize)
-      setState {
-        this.pretrained = pretrained.copy(state = newState)
-      }
-    } else {
-      val prevState = state.netState
+      val prevState = state.trainedNetMeta.netMeta.state
       val newInput = prevState.inputSize.mapIndexed { ind, el -> if (ind == index) value else el }
       val newState = NetState(newInput, prevState.outputSize)
       setState {
-        this.netState = newState
+        trainedNetMeta = trainedNetMeta.copy(netMeta = trainedNetMeta.netMeta.copy(state = newState))
       }
-    }
   }
 
   interface Props : RProps {
@@ -156,9 +150,9 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
   }
 
   interface State : RState {
-    var pretrained: DatasetMeta?
-    var netState: NetState
+    var trainedNetMeta: TrainedNetMeta
+    var initial: TrainedNetMeta
   }
 }
 
-fun RBuilder.netFieldsEditor(handler: RHandler<NetInitEditor.Props>) = child(NetInitEditor::class, handler)
+fun RBuilder.netInitEditor(handler: RHandler<NetInitEditor.Props>) = child(NetInitEditor::class, handler)

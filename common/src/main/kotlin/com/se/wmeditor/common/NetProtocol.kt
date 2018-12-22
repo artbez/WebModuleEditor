@@ -11,8 +11,7 @@ data class NetDescription(
   val type: NetType,
   val label: String,
   val description: String,
-  var state: NetState,
-  val pretrained: List<DatasetDescription> = emptyList()
+  var state: NetState
 )
 
 @Serializable
@@ -25,4 +24,15 @@ data class NetState(
 data class NetMeta(
   val type: NetType,
   val state: NetState
+)
+
+@Serializable
+data class TrainedNetMeta(
+  val netMeta: NetMeta,
+  val datasets: List<DatasetMeta>
+)
+
+@Serializable
+data class PretrainedInfo(
+  val nets: List<TrainedNetMeta>
 )

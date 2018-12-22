@@ -11,7 +11,7 @@ import kotlinx.serialization.json.JSON
 
 class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecutor(netEvalNode) {
 
-  private val inNet: ValueHolderPort<NetMeta> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
+  private val inNet: ValueHolderPort<TrainedNetMeta> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
   private val inDataset: ValueHolderPort<DatasetMeta> = ValueHolderPort(netEvalNode.inputDatasetPort.getID(), this)
   private lateinit var outData: ValueHolderPort<String>
 
@@ -27,8 +27,8 @@ class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecut
 
   override suspend fun execute() {
     val datasetMeta = inDataset.getValue()!!
-    val netMeta = inNet.getValue()!!
-    val evalRequest = NetEvalRequest(contextId, netMeta, datasetMeta)
+    val trainedNetMeta = inNet.getValue()!!
+    val evalRequest = NetEvalRequest(contextId, trainedNetMeta, datasetMeta)
     val ans = JSON.parse(
       NetEvalResponse.serializer(),
       post("/api/net/actions/eval", JSON.stringify(NetEvalRequest.serializer(), evalRequest))

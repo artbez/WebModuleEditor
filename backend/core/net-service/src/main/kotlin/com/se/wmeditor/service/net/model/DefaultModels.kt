@@ -11,9 +11,5 @@ val vgg16 = NetDescription(
   state = NetState(
     inputSize = listOf(3, 244, 244),
     outputSize = listOf(200)
-  ),
-  pretrained = listOf(
-    imageNet64.copy(state = DatasetState(listOf(3, 244, 244), listOf(200))),
-    cifar10.copy(state = DatasetState(listOf(3, 32, 32), listOf(10)))
   )
 )

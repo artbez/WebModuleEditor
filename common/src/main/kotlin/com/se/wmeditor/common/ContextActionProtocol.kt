@@ -8,33 +8,32 @@ data class ContextHolder(val contextId: String)
 @Serializable
 data class NetInitRequest(
   val contextId: String,
-  val netMeta: NetMeta,
-  val pretrained: DatasetType?
+  val trainedNetMeta: TrainedNetMeta
 )
 
 @Serializable
 data class NetInitResponse(
   val contextId: String,
-  val netMeta: NetMeta
+  val trainedNetMeta: TrainedNetMeta
 )
 
 @Serializable
 data class NetTrainRequest(
   val contextId: String,
-  val netMeta: NetMeta,
+  val trainedNetMeta: TrainedNetMeta,
   val datasetMeta: DatasetMeta
 )
 
 @Serializable
 data class NetTrainResponse(
   val contextId: String,
-  val netMeta: NetMeta
+  val trainedNetMeta: TrainedNetMeta
 )
 
 @Serializable
 data class NetEvalRequest(
   val contextId: String,
-  val netMeta: NetMeta,
+  val trainedNetMeta: TrainedNetMeta,
   val datasetMeta: DatasetMeta
 )
 
