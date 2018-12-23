@@ -1,5 +1,6 @@
 spring:
   cloud:
     config:
-      name: net-service
+#      name: net-service
+      name: net-service-instance2
       uri: http://localhost:8081

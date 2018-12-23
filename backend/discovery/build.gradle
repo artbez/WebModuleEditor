@@ -35,12 +35,12 @@ repositories {
 
 
 ext {
-    springCloudVersion = 'Finchley.SR2'
+    springCloudVersion = 'Finchley.RELEASE'
 }
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-starter-eureka-server:1.4.6.RELEASE')
-    compile('org.springframework.cloud:spring-cloud-starter-config')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-server', version: '2.0.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-config-client', version: '2.0.2.RELEASE'
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     testCompile('org.springframework.boot:spring-boot-starter-test')
