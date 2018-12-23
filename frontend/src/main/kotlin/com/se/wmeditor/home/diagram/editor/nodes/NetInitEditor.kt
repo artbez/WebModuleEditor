@@ -64,7 +64,7 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
                     this.trainedNetMeta = state.trainedNetMeta
                     this.onPretrainedChange = { chosen ->
                       setState {
-                        trainedNetMeta = chosen ?: initial
+                        trainedNetMeta = chosen
                       }
                     }
                   }

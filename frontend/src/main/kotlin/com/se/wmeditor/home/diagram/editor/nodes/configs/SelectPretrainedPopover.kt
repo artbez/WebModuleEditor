@@ -16,7 +16,7 @@ class PretrainedSelector(props: Props) : RComponent<PretrainedSelector.Props, Pr
   override fun State.init(props: Props) {
     trainedNetMeta = props.trainedNetMeta
     data = emptyList()
-    chosen = trainedNetMeta.datasets
+    chosen = trainedNetMeta
   }
 
   override fun componentDidMount() {
@@ -31,13 +31,13 @@ class PretrainedSelector(props: Props) : RComponent<PretrainedSelector.Props, Pr
 
   override fun RBuilder.render() {
     div("list-group") {
-      button(classes = "list-group-item ${active(emptyList())}") {
+      button(classes = "list-group-item ${active(TrainedNetMeta(state.trainedNetMeta.netMeta, emptyList()))}") {
         attrs {
           type = ButtonType.button
           onClickFunction = {
-            props.onPretrainedChange(null)
+            props.onPretrainedChange(TrainedNetMeta(state.trainedNetMeta.netMeta, emptyList()))
             setState {
-              chosen = emptyList()
+              chosen = TrainedNetMeta(state.trainedNetMeta.netMeta, emptyList())
             }
           }
         }
@@ -49,13 +49,13 @@ class PretrainedSelector(props: Props) : RComponent<PretrainedSelector.Props, Pr
             .map { "${it.type.name}:${it.state.inputSize}" }
             .foldRight("") { acc, s -> "$s → $acc" }
 
-        button(classes = "list-group-item ${active(net.datasets)}") {
+        button(classes = "list-group-item ${active(net)}") {
           attrs {
             type = ButtonType.button
             onClickFunction = {
               props.onPretrainedChange(state.data[index])
               setState {
-                chosen = net.datasets
+                chosen = net
               }
             }
           }
@@ -67,16 +67,16 @@ class PretrainedSelector(props: Props) : RComponent<PretrainedSelector.Props, Pr
 
   interface Props : RProps {
     var trainedNetMeta: TrainedNetMeta
-    var onPretrainedChange: (TrainedNetMeta?) -> Unit
+    var onPretrainedChange: (TrainedNetMeta) -> Unit
   }
 
   interface State : RState {
     var trainedNetMeta: TrainedNetMeta
     var data: List<TrainedNetMeta>
-    var chosen: List<DatasetMeta>
+    var chosen: TrainedNetMeta
   }
 
-  private fun active(datasets: List<DatasetMeta>) = if (state.chosen == datasets) "active" else ""
+  private fun active(meta: TrainedNetMeta) = if (state.chosen == meta) "active" else ""
 }
 
 fun RBuilder.selectPretrained(handler: RHandler<PretrainedSelector.Props>) = child(PretrainedSelector::class, handler)
