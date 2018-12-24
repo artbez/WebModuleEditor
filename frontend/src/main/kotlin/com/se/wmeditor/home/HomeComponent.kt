@@ -29,6 +29,15 @@ class HomeComponent : RComponent<RProps, HomeComponent.State>() {
   private fun setSceneBlocked(blocked: Boolean) {
     setState {
       this.blocked = blocked
+      console.log("blocked:", blocked)
+      if (blocked) {
+        js("\$('.srd-node').css('pointer-events', 'none')")
+        js("\$('.srd-default-link').css('pointer-events', 'none')")
+      } else {
+        js("\$('.srd-node').css('pointer-events', '')")
+        js("\$('.srd-default-link').css('pointer-events', '')")
+      }
+      Unit
     }
   }
 
@@ -41,10 +50,11 @@ class HomeComponent : RComponent<RProps, HomeComponent.State>() {
             engine = this@HomeComponent.engine
             updateDiagram = { forceUpdate {} }
             blockScene = { blocked -> setSceneBlocked(blocked) }
+            blocked = state.blocked
           }
         }
       }
-      div("col-md-7 blocked__${state.blocked}") {
+      div("main-scene col-md-7 blocked__${state.blocked}") {
         scene {
           attrs {
             paletteSceneTransfer = paletteSceneTransferObject

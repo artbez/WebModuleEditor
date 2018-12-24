@@ -1,15 +1,18 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
 import com.se.wmeditor.common.*
+import com.se.wmeditor.home.diagram.editor.nodes.panel.DiagramExecutionPanel
 import com.se.wmeditor.home.diagram.nodes.NetEvalNode
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
-import kotlinx.serialization.*
 import kotlinx.serialization.json.JSON
 
-class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecutor(netEvalNode) {
+class NetEvalExecutor(
+  private val netEvalNode: NetEvalNode,
+  private val panel: DiagramExecutionPanel
+) : AbstractNodeExecutor(netEvalNode) {
 
   private val inNet: ValueHolderPort<TrainedNetMeta> = ValueHolderPort(netEvalNode.inputNetPort.getID(), this)
   private val inDataset: ValueHolderPort<DatasetMeta> = ValueHolderPort(netEvalNode.inputDatasetPort.getID(), this)
@@ -26,6 +29,7 @@ class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecut
   }
 
   override suspend fun execute() {
+    panel.startNode(netEvalNode)
     val datasetMeta = inDataset.getValue()!!
     val trainedNetMeta = inNet.getValue()!!
     val evalRequest = NetEvalRequest(contextId, trainedNetMeta, datasetMeta)
@@ -36,5 +40,6 @@ class NetEvalExecutor(private val netEvalNode: NetEvalNode) : AbstractNodeExecut
     node.setSelected(false)
     node.outLinks().forEach { it.setSelected(false) }
     outData.setValue(ans.data)
+    panel.stopNode(node)
   }
 }

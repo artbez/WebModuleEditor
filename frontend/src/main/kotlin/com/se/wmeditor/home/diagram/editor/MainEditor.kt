@@ -24,12 +24,12 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
   override fun RBuilder.render() {
     div("home-left") {
       h4("home-left__title") {
-        +"Configurer"
+        +if (props.blocked) "Execution panel" else "Configurer"
       }
       hr("home-left__line") { }
 
       when {
-        selectedNodes.size == 1 -> {
+        selectedNodes.size == 1 && !props.blocked -> {
           nodeEditor {
             attrs {
               this.engine = props.engine
@@ -45,13 +45,16 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
             attrs {
               this.selectedNodes = this@MainEditor.selectedNodes
               this.blockScene = { blocked -> props.blockScene(blocked) }
+              this.blocked = props.blocked
             }
           }
         }
-        selectedNodes.size > 1 -> diagramEditor {
+
+        selectedNodes.size > 1 || props.blocked -> diagramEditor {
           attrs {
             this.selectedNodes = this@MainEditor.selectedNodes
             this.blockScene = { blocked -> props.blockScene(blocked) }
+            this.blocked = props.blocked
           }
         }
       }
@@ -62,6 +65,7 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
     var engine: DiagramEngine
     var updateDiagram: () -> Unit
     var blockScene: (Boolean) -> Unit
+    var blocked: Boolean
   }
 }
 

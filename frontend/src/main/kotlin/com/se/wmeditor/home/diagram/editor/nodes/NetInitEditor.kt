@@ -57,7 +57,7 @@ class NetInitEditor(props: NetInitEditor.Props) : RComponent<NetInitEditor.Props
               Popover {
                 attrs {
                   id = "popover-select-pretrained"
-                  title = "select"
+                  title = "Chose pretrained"
                 }
                 selectPretrained {
                   attrs {

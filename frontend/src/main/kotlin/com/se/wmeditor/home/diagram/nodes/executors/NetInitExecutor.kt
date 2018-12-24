@@ -1,6 +1,7 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
 import com.se.wmeditor.common.*
+import com.se.wmeditor.home.diagram.editor.nodes.panel.DiagramExecutionPanel
 import com.se.wmeditor.home.diagram.nodes.NetInitNode
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.outLinks
@@ -8,7 +9,10 @@ import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
 import kotlinx.serialization.json.JSON
 
-class NetInitExecutor(private val nodeModel: NetInitNode) : AbstractNodeExecutor(nodeModel) {
+class NetInitExecutor(
+  private val nodeModel: NetInitNode,
+  private val panel: DiagramExecutionPanel
+) : AbstractNodeExecutor(nodeModel) {
 
   private lateinit var outNet: ValueHolderPort<TrainedNetMeta>
 
@@ -21,6 +25,7 @@ class NetInitExecutor(private val nodeModel: NetInitNode) : AbstractNodeExecutor
   }
 
   override suspend fun execute() {
+    panel.startNode(nodeModel)
     val initRequest = NetInitRequest(contextId, nodeModel.trainedNetMeta)
     val ans = JSON.parse(
       NetInitResponse.serializer(),
@@ -29,5 +34,6 @@ class NetInitExecutor(private val nodeModel: NetInitNode) : AbstractNodeExecutor
     node.setSelected(false)
     node.outLinks().forEach { it.setSelected(false) }
     outNet.setValue(ans.trainedNetMeta)
+    panel.stopNode(nodeModel)
   }
 }

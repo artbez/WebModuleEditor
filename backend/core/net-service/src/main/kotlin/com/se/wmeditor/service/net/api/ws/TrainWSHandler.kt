@@ -46,7 +46,7 @@ private class TrainSessionListener(
   override fun iterationDone(model: Model, iteration: Int, epoch: Int) {
     counter++
     val score = model.score()
-    val logMsg = "Iteration $iteration done, score $score"
+    val logMsg = "Epoch $epoch, Iteration $iteration done, score $score"
     logger.info(logMsg)
     val msg = JSON.stringify(NetProgressMsg.serializer(), NetProgressMsg(contextId, logMsg))
     session.send(Mono.just(session.textMessage(msg))).block()

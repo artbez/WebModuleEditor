@@ -1,12 +1,12 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
+import com.se.wmeditor.home.diagram.editor.nodes.panel.DiagramExecutionPanel
 import com.se.wmeditor.home.diagram.nodes.*
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.inPorts
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
-import kotlinx.serialization.ImplicitReflectionSerializer
 
 abstract class AbstractNodeExecutor(val node: NodeModel) {
 
@@ -35,11 +35,11 @@ abstract class AbstractNodeExecutor(val node: NodeModel) {
   }
 }
 
-fun createExecutor(node: NodeModel) = when (node) {
-  is NetInitNode -> NetInitExecutor(node)
-  is NetTrainNode -> NetTrainExecutor(node)
-  is NetEvalNode -> NetEvalExecutor(node)
-  is DatasetNode -> DatasetExecutor(node)
-  is AlertNode -> AlertExecutor(node)
+fun createExecutor(node: NodeModel, panel: DiagramExecutionPanel) = when (node) {
+  is NetInitNode -> NetInitExecutor(node, panel)
+  is NetTrainNode -> NetTrainExecutor(node, panel)
+  is NetEvalNode -> NetEvalExecutor(node, panel)
+  is DatasetNode -> DatasetExecutor(node, panel)
+  is AlertNode -> AlertExecutor(node, panel)
   else -> throw IllegalStateException("Not supported node")
 }

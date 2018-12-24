@@ -25,6 +25,15 @@
   }
 }
 
+.log-section {
+  height: 2rem;
+
+  &__icon {
+    width: 2rem;
+    height: 100%;
+  }
+}
+
 .editor_input {
   min-width: 2rem;
 }
@@ -35,4 +44,16 @@
 
 #popover-select-pretrained {
   max-width: 100rem;
+}
+
+.execution-state-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.complete-and-log {
+  display: flex;
+  justify-content: space-between;
 }

@@ -1,16 +1,19 @@
 package com.se.wmeditor.home.diagram.editor
 
-import com.se.wmeditor.home.diagram.nodes.executors.ComputationGraph
+import com.se.wmeditor.home.diagram.editor.nodes.panel.diagramPanel
 import com.se.wmeditor.home.neighbors
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import kotlinx.coroutines.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.events.Event
 import react.*
 import react.dom.button
 import react.dom.div
 
-class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
+class DiagramEditor : RComponent<DiagramEditor.Props, DiagramEditor.State>() {
+
+  override fun State.init() {
+    execution = false
+  }
 
   private fun selectClicked(e: Event) {
     props.selectedNodes[0].selectAllNodes()
@@ -24,52 +27,58 @@ class DiagramEditor : RComponent<DiagramEditor.Props, RState>() {
     return nearNodes.plus(this).plus(nearNodes.flatMap { it.selectAllNodes() }).distinctBy { it.getID() }
   }
 
-
-  private fun executeDiagram(e: Event) {
+  private fun startExecution(e: Event) {
     e.preventDefault()
     e.stopPropagation()
-
-    val allNodes = props.selectedNodes.flatMap { it.selectAllNodes() }
-    val computationGraph = ComputationGraph(allNodes)
-    GlobalScope.launch {
-      props.blockScene(true)
-      computationGraph.execute {
-        props.blockScene(false)
-      }
+    setState {
+      execution = true
     }
   }
 
   override fun RBuilder.render() {
-    div("configurer-props") {
-      div("configurer-props__group") {
-        button(classes = "editor_button btn-primary") {
-          attrs {
-            onClickFunction = ::selectClicked
-          }
-          +"Select"
-        }
-        div {
-          +"Select diagram"
+    if (state.execution) {
+      diagramPanel {
+        attrs {
+          this.blockScene = props.blockScene
+          this.selectedNodes = props.selectedNodes
         }
       }
-      div("configurer-props__group") {
-        button(classes = "editor_button btn-success") {
-          attrs {
-            onClickFunction = ::executeDiagram
+    } else {
+      div("configurer-props") {
+        div("configurer-props__group") {
+          button(classes = "editor_button btn-primary") {
+            attrs {
+              onClickFunction = ::selectClicked
+            }
+            +"Select"
           }
-          +"Run"
+          div {
+            +"Select diagram"
+          }
         }
-        div {
-          +"Execute diagram"
+        div("configurer-props__group") {
+          button(classes = "editor_button btn-success") {
+            attrs {
+              onClickFunction = ::startExecution
+            }
+            +"Run"
+          }
+          div {
+            +"Execute diagram"
+          }
         }
       }
     }
+  }
 
+  interface State : RState {
+    var execution: Boolean
   }
 
   interface Props : RProps {
     var selectedNodes: List<NodeModel>
     var blockScene: (Boolean) -> Unit
+    var blocked: Boolean
   }
 }
 

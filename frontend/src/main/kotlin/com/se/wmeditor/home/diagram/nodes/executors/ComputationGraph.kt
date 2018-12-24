@@ -1,23 +1,24 @@
 package com.se.wmeditor.home.diagram.nodes.executors
 
+//import kotlinx.coroutines.experimental.async
 import com.se.wmeditor.common.ContextHolder
+import com.se.wmeditor.home.diagram.editor.nodes.panel.DiagramExecutionPanel
 import com.se.wmeditor.home.inPort
 import com.se.wmeditor.home.outLinks
 import com.se.wmeditor.utils.get
 import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
-import kotlinx.coroutines.*
-import kotlinx.serialization.*
-//import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JSON as KJSON
 
-class ComputationGraph(val nodes: List<NodeModel>) {
+class ComputationGraph(val nodes: List<NodeModel>, panel: DiagramExecutionPanel) {
 
   private val executors: List<AbstractNodeExecutor>
 
   init {
     nodes.forEach { it.setSelected(false) }
-    val executorMap = nodes.map { it.getID() to createExecutor(it) }.toMap()
+    val executorMap = nodes.map { it.getID() to createExecutor(it, panel) }.toMap()
     nodes.forEach { sourceNode ->
       sourceNode.outLinks().forEach {
         val targetPort = it.inPort()
@@ -32,12 +33,11 @@ class ComputationGraph(val nodes: List<NodeModel>) {
 
   suspend fun execute(callback: () -> Unit) {
     val contextId = getContextId()
-
     try {
-      executors.forEach {
+      executors.map {
         it.contextId = contextId
         GlobalScope.launch { it.tryExecute() }
-      }
+      }.forEach { it.join() }
 
     } finally {
       removeContext(contextId)
