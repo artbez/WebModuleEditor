@@ -1,5 +1,6 @@
 package com.se.wmeditor.service.net
 
+import com.se.wmeditor.service.net.api.ws.TrainWSHandler
 import com.se.wmeditor.service.net.core.NetActionService
 import com.se.wmeditor.service.net.core.NetContextHolder
 import com.se.wmeditor.service.net.dataset.DatasetService
@@ -16,5 +17,6 @@ class BeansInitializer : ApplicationContextInitializer<GenericApplicationContext
       bean<DatasetService>()
       bean { NetContextHolder(ref()) }
       bean { NetActionService(ref()) }
+      bean { TrainWSHandler(ref()) }
     }.initialize(ctx)
 }

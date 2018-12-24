@@ -4,10 +4,12 @@ import com.se.wmeditor.common.*
 import com.se.wmeditor.home.diagram.nodes.NetTrainNode
 import com.se.wmeditor.home.diagram.nodes.ports.ValueHolderPort
 import com.se.wmeditor.home.outLinks
-import com.se.wmeditor.utils.post
 import com.se.wmeditor.wrappers.react.diagrams.models.PortModel
-import kotlinx.serialization.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
+import org.w3c.dom.WebSocket
 
 class NetTrainExecutor(nodeModel: NetTrainNode) : AbstractNodeExecutor(nodeModel) {
 
@@ -30,12 +32,33 @@ class NetTrainExecutor(nodeModel: NetTrainNode) : AbstractNodeExecutor(nodeModel
     val datasetMeta = inDataset.getValue()!!
     val trainedNetMeta = inNet.getValue()!!
     val netTrainRequest = NetTrainRequest(contextId, trainedNetMeta, datasetMeta)
-    val ans = JSON.parse(
-      NetTrainResponse.serializer(),
-      post("/api/net/actions/train", JSON.stringify(NetTrainRequest.serializer(), netTrainRequest))
-    )
-    node.setSelected(false)
-    node.outLinks().forEach { it.setSelected(false) }
-    outNet.setValue(ans.trainedNetMeta)
+    val clientWebSocket = WebSocket("ws://localhost:9000/api/ws/net/train")
+    clientWebSocket.onopen = {
+      clientWebSocket.send(JSON.stringify(NetTrainRequest.serializer(), netTrainRequest))
+    }
+    clientWebSocket.onerror = {
+      clientWebSocket.close()
+    }
+    clientWebSocket.onmessage = {
+      val data = it.asDynamic().data
+      val type = JSON.nonstrict.parse(ResponseTypeWrapper.serializer(), data).type
+      when (type) {
+
+        "progress" -> console.log(data)
+
+        "final" -> GlobalScope.launch {
+          val ans = JSON.parse(NetTrainResponse.serializer(), data)
+          node.setSelected(false)
+          node.outLinks().forEach { it.setSelected(false) }
+          outNet.setValue(ans.trainedNetMeta)
+          clientWebSocket.close()
+        }
+
+        else -> TODO()
+      }
+    }
   }
 }
+
+@Serializable
+class ResponseTypeWrapper(val type: String)

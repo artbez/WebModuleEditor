@@ -5,16 +5,17 @@ import com.se.wmeditor.service.net.model.NetModelService
 import org.deeplearning4j.datasets.fetchers.DataSetType
 import org.deeplearning4j.datasets.iterator.impl.CifarDataSetIterator
 import org.deeplearning4j.datasets.iterator.impl.TinyImageNetDataSetIterator
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener
+import org.deeplearning4j.optimize.api.BaseTrainingListener
 import org.deeplearning4j.zoo.model.VGG16
 import org.nd4j.evaluation.classification.Evaluation
 import org.slf4j.LoggerFactory
+import reactor.core.publisher.Mono
 
 
 class NetActionService(private val netModelService: NetModelService) {
 
   private val logger = LoggerFactory.getLogger(NetActionService::class.java)
-  private val batchSize = 64
+  private val batchSize = 1
 
   fun createNet(trainedNetMeta: TrainedNetMeta) {
     val netType = trainedNetMeta.netMeta.type
@@ -39,7 +40,12 @@ class NetActionService(private val netModelService: NetModelService) {
     netModelService.save(trainedNetMeta, model)
   }
 
-  fun trainNet(trainedNetMeta: TrainedNetMeta, datasetMeta: DatasetMeta): TrainedNetMeta {
+  fun trainNet(
+    trainedNetMeta: TrainedNetMeta,
+    datasetMeta: DatasetMeta,
+    listeners: List<BaseTrainingListener> = emptyList()
+  ): TrainedNetMeta {
+
     val newMeta = trainedNetMeta.copy(datasets = trainedNetMeta.datasets.plus(datasetMeta))
     netModelService.find(newMeta)?.let { return newMeta }
 
@@ -54,10 +60,22 @@ class NetActionService(private val netModelService: NetModelService) {
 
       else -> throw IllegalArgumentException("No such datasetType")
     }
-    oldNet.setListeners(ScoreIterationListener(10))
-    oldNet.fit(datasetIterator)
 
+//    var iternum = 0
+//    while (datasetIterator.hasNext()) {
+//      iternum++
+//      datasetIterator.next()
+//    }
+//    datasetIterator.reset()
+
+    listeners.forEach {
+      oldNet.addListeners(it)
+    }
+
+
+    oldNet.fit(datasetIterator)
     netModelService.save(newMeta, oldNet)
+
     return newMeta
   }
 
@@ -88,3 +106,8 @@ class NetActionService(private val netModelService: NetModelService) {
     return evaluate.toString()
   }
 }
+
+data class TrainNetServiceResponse(
+  val iterationLength: Int,
+  val netMetaMono: Mono<TrainedNetMeta>
+)

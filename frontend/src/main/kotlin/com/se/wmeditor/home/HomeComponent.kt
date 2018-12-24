@@ -12,59 +12,59 @@ import react.dom.div
 
 class HomeComponent : RComponent<RProps, HomeComponent.State>() {
 
-    private lateinit var engine: DiagramEngine
-    private lateinit var paletteSceneTransferObject: PaletteSceneTransferObject
+  private lateinit var engine: DiagramEngine
+  private lateinit var paletteSceneTransferObject: PaletteSceneTransferObject
 
-    companion object {
-        init {
-            kotlinext.js.require("styles/home.scss")
+  companion object {
+    init {
+      kotlinext.js.require("styles/home.scss")
+    }
+  }
+
+  override fun componentWillMount() {
+    paletteSceneTransferObject = PaletteSceneTransferObject()
+    engine = DiagramEngine().setup()
+  }
+
+  private fun setSceneBlocked(blocked: Boolean) {
+    setState {
+      this.blocked = blocked
+    }
+  }
+
+  override fun RBuilder.render() {
+    header
+    div("row home-all") {
+      div("col-md-2") {
+        mainEditor {
+          attrs {
+            engine = this@HomeComponent.engine
+            updateDiagram = { forceUpdate {} }
+            blockScene = { blocked -> setSceneBlocked(blocked) }
+          }
         }
-    }
-
-    override fun componentWillMount() {
-        paletteSceneTransferObject = PaletteSceneTransferObject()
-        engine = DiagramEngine().setup()
-    }
-
-    private fun setSceneBlocked(blocked: Boolean) {
-        setState {
-            this.blocked = blocked
+      }
+      div("col-md-7 blocked__${state.blocked}") {
+        scene {
+          attrs {
+            paletteSceneTransfer = paletteSceneTransferObject
+            engine = this@HomeComponent.engine
+            updateDiagram = { forceUpdate {} }
+          }
         }
-    }
-
-    override fun RBuilder.render() {
-        header
-        div("row home-all") {
-            div("col-md-2") {
-                mainEditor {
-                    attrs {
-                        engine = this@HomeComponent.engine
-                        updateDiagram = { forceUpdate {} }
-                        blockScene = { blocked -> setSceneBlocked(blocked) }
-                    }
-                }
-            }
-            div("col-md-7 blocked__${state.blocked}") {
-                scene {
-                    attrs {
-                        paletteSceneTransfer = paletteSceneTransferObject
-                        engine = this@HomeComponent.engine
-                        updateDiagram = { forceUpdate {} }
-                    }
-                }
-            }
-            div("col-md-3") {
-                palette {
-                    attrs {
-                        paletteSceneTransfer = paletteSceneTransferObject
-                    }
-                }
-
-            }
+      }
+      div("col-md-3") {
+        palette {
+          attrs {
+            paletteSceneTransfer = paletteSceneTransferObject
+          }
         }
-    }
 
-    interface State : RState {
-        var blocked: Boolean
+      }
     }
+  }
+
+  interface State : RState {
+    var blocked: Boolean
+  }
 }

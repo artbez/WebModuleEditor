@@ -5,10 +5,7 @@ import com.se.wmeditor.wrappers.react.diagrams.DiagramEngine
 import com.se.wmeditor.wrappers.react.diagrams.models.NodeModel
 import kotlinext.js.invoke
 import react.*
-import react.dom.div
-import react.dom.h4
-import react.dom.h5
-import react.dom.hr
+import react.dom.*
 
 class MainEditor : RComponent<MainEditor.Props, RState>() {
 
@@ -22,9 +19,6 @@ class MainEditor : RComponent<MainEditor.Props, RState>() {
 
   override fun componentWillReceiveProps(nextProps: Props) {
     selectedNodes = nextProps.engine.getDiagramModel().getNodes().toMap().values.filter { it.isSelected() }
-    console.log(nextProps.engine.getDiagramModel().getNodes())
-    console.log(selectedNodes)
-    console.log("")
   }
 
   override fun RBuilder.render() {

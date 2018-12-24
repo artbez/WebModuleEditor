@@ -14,8 +14,8 @@ fun beans() = beans {
 
     bean<RouteLocator>("routing") {
 
-        ref<RouteLocatorBuilder>().routes().route { r ->
-            r.path("/api/net/**").uri("lb://net-service")
-        }.build()
+      ref<RouteLocatorBuilder>().routes()
+        .route { r -> r.path("/api/net/**").uri("lb://net-service") }
+        .route { r -> r.path("/api/ws/net/**").uri("lb:ws://net-service") }.build()
     }
 }

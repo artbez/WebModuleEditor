@@ -1,17 +1,12 @@
 package com.se.wmeditor.home.diagram.editor.nodes
 
-import com.se.wmeditor.home.diagram.nodes.NetEvalNode
-import com.se.wmeditor.home.diagram.nodes.NetInitNode
-import com.se.wmeditor.home.diagram.nodes.NetTrainNode
+import com.se.wmeditor.home.diagram.nodes.*
 import com.se.wmeditor.utils.toMap
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
-import react.dom.b
-import react.dom.div
-import react.dom.input
-import react.dom.span
+import react.dom.*
 
 class NetEvalEditor : RComponent<NetEvalEditor.Props, RState>() {
 

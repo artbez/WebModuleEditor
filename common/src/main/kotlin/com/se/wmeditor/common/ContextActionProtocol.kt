@@ -18,19 +18,6 @@ data class NetInitResponse(
 )
 
 @Serializable
-data class NetTrainRequest(
-  val contextId: String,
-  val trainedNetMeta: TrainedNetMeta,
-  val datasetMeta: DatasetMeta
-)
-
-@Serializable
-data class NetTrainResponse(
-  val contextId: String,
-  val trainedNetMeta: TrainedNetMeta
-)
-
-@Serializable
 data class NetEvalRequest(
   val contextId: String,
   val trainedNetMeta: TrainedNetMeta,
